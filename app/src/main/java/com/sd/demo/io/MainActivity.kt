@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val helloFile = File(cacheDir, "hello.txt")
         helloFile.writeText("hello world!!!")
 
-        val copyFile = File(filesDir, "copy.txt")
+        val copyFile = File(filesDir, "helloCopy.txt")
         FFileUtils.copyFile(helloFile, copyFile)
 
         val deepDir = File(cacheDir, "deep")
@@ -30,5 +30,14 @@ class MainActivity : AppCompatActivity() {
         deepFile.writeText("deep content")
 
         FFileUtils.copy(cacheDir, File(filesDir, "cacheCopy"))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val cacheDir = FFileUtils.getCacheDir("my_cache", this)
+        val filesDir = FFileUtils.getFilesDir("my_files", this)
+
+        FFileUtils.delete(cacheDir)
+        FFileUtils.delete(filesDir)
     }
 }
