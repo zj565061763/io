@@ -62,14 +62,16 @@ object FFileUtils {
      * 拷贝文件
      */
     @JvmStatic
-    fun copyFile(fileFrom: File?, fileTo: File?): Boolean {
-        if (fileFrom == null || !fileFrom.exists()) return false
-        if (fileTo == null) return false
+    fun copyFile(source: File?, target: File?): Boolean {
+        if (source == null || !source.exists()) return false
+        if (target == null) return false
 
-        val fileTemp = File(fileTo.absolutePath + ".temp")
+        val fileTemp = File(target.absolutePath + ".temp")
+        delete(fileTemp)
+
         return try {
-            fileFrom.copyTo(fileTemp, overwrite = true)
-            return moveFile(fileTemp, fileTo)
+            source.copyTo(fileTemp, overwrite = true)
+            return moveFile(fileTemp, target)
         } catch (e: Exception) {
             e.printStackTrace()
             false
@@ -80,15 +82,15 @@ object FFileUtils {
      * 移动文件
      */
     @JvmStatic
-    fun moveFile(fileFrom: File?, fileTo: File?): Boolean {
-        if (fileFrom == null || !fileFrom.exists()) return false
-        if (fileTo == null) return false
+    fun moveFile(source: File?, target: File?): Boolean {
+        if (source == null || !source.exists()) return false
+        if (target == null) return false
 
-        delete(fileTo)
-        if (!checkDir(fileTo.parentFile)) return false
+        delete(target)
+        if (!checkDir(target.parentFile)) return false
 
         return try {
-            fileFrom.renameTo(fileTo)
+            source.renameTo(target)
         } catch (e: Exception) {
             e.printStackTrace()
             false
