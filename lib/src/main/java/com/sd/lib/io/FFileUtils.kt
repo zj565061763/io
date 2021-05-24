@@ -59,6 +59,19 @@ object FFileUtils {
     }
 
     /**
+     * 删除文件或者目录
+     */
+    fun delete(file: File?): Boolean {
+        if (file == null) return false
+        return try {
+            file.deleteRecursively()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+    }
+
+    /**
      * 检查文件夹是否存在，如果不存在则尝试创建
      */
     @JvmStatic
