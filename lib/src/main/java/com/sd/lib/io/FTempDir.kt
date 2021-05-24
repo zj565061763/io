@@ -28,6 +28,16 @@ object FTempDir {
     }
 
     /**
+     * 缓存文件夹大小（字节）
+     */
+    @JvmStatic
+    @Synchronized
+    fun totalSize(context: Context): Long {
+        val dir = getTempDir(context)
+        return FByteSizeUtils.getFileSize(dir)
+    }
+
+    /**
      * 返回临时目录
      */
     private fun getTempDir(context: Context): File? {
