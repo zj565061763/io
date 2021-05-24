@@ -7,17 +7,6 @@ import java.io.OutputStream
 
 object FIOUtils {
     /**
-     * 从[inputStream]中读取byte数组
-     */
-    @JvmStatic
-    @Throws(IOException::class)
-    fun readBytes(inputStream: InputStream): ByteArray {
-        return inputStream.use {
-            it.readBytes()
-        }
-    }
-
-    /**
      * [inputStream]拷贝到[outputStream]
      */
     @JvmStatic
