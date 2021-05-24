@@ -24,9 +24,14 @@ class ExampleInstrumentedTest {
     @Test
     fun testExt() {
         assertEquals("exe", FExtUtils.getExt("WeChatSetup.exe"))
-        assertEquals("exe", FExtUtils.getExt(".exe"))
+        assertEquals("mp3", FExtUtils.getExt(".mp3"))
+
         assertEquals("", FExtUtils.getExt("exe"))
         assertEquals("", FExtUtils.getExt(null))
         assertEquals("", FExtUtils.getExt(""))
+
+        assertEquals(".mp4", FExtUtils.completeExt("mp4"))
+        assertEquals("", FExtUtils.completeExt(null))
+        assertEquals("", FExtUtils.completeExt(""))
     }
 }
