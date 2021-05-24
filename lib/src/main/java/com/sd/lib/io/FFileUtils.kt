@@ -59,8 +59,46 @@ object FFileUtils {
     }
 
     /**
+     * 拷贝文件
+     */
+    @JvmStatic
+    fun copyFile(fileFrom: File?, fileTo: File?): Boolean {
+        if (fileFrom == null || !fileFrom.exists()) return false
+        if (fileTo == null) return false
+
+        val fileTemp = File(fileTo.absolutePath + ".temp")
+        return try {
+            fileFrom.copyTo(fileTemp, overwrite = true)
+            return moveFile(fileTemp, fileTo)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    /**
+     * 移动文件
+     */
+    @JvmStatic
+    fun moveFile(fileFrom: File?, fileTo: File?): Boolean {
+        if (fileFrom == null || !fileFrom.exists()) return false
+        if (fileTo == null) return false
+
+        delete(fileTo)
+        if (!checkDir(fileTo.parentFile)) return false
+
+        return try {
+            fileFrom.renameTo(fileTo)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    /**
      * 删除文件或者目录
      */
+    @JvmStatic
     fun delete(file: File?): Boolean {
         if (file == null) return false
         return try {
