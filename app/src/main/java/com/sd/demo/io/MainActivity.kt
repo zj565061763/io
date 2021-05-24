@@ -23,5 +23,12 @@ class MainActivity : AppCompatActivity() {
 
         val copyFile = File(filesDir, "copy.txt")
         FFileUtils.copyFile(helloFile, copyFile)
+
+        val deepDir = File(cacheDir, "deep")
+        FFileUtils.checkDir(deepDir)
+        val deepFile = File(deepDir, "deep.txt")
+        deepFile.writeText("deep content")
+
+        FFileUtils.copy(cacheDir, File(filesDir, "cacheCopy"))
     }
 }
