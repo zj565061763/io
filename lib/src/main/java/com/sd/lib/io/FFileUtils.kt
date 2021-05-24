@@ -59,12 +59,28 @@ object FFileUtils {
     }
 
     /**
+     * 拷贝
+     */
+    @JvmStatic
+    fun copy(source: File?, target: File?): Boolean {
+        if (source == null || !source.exists()) return false
+        if (target == null) return false
+        return try {
+            source.copyRecursively(target, overwrite = true)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    /**
      * 拷贝文件
      */
     @JvmStatic
     fun copyFile(source: File?, target: File?): Boolean {
         if (source == null || !source.exists()) return false
         if (target == null) return false
+        if (source.isDirectory) throw IllegalArgumentException("source must not be a directory")
 
         val fileTemp = File(target.absolutePath + ".temp")
         delete(fileTemp)
