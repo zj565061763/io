@@ -1,12 +1,11 @@
 package com.sd.demo.io
 
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
+import androidx.test.platform.app.InstrumentationRegistry
+import com.sd.lib.io.FExtUtils
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -20,5 +19,14 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.sd.demo.io", appContext.packageName)
+    }
+
+    @Test
+    fun testExt() {
+        assertEquals("ext", FExtUtils.getExt("WeChatSetup.exe"))
+        assertEquals("ext", FExtUtils.getExt(".exe"))
+        assertEquals("", FExtUtils.getExt("exe"))
+        assertEquals("", FExtUtils.getExt(null))
+        assertEquals("", FExtUtils.getExt(""))
     }
 }
