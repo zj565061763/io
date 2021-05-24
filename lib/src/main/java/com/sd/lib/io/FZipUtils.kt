@@ -1,7 +1,9 @@
 package com.sd.lib.io
 
 import java.io.*
+import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
 object FZipUtils {
     /**
@@ -62,5 +64,21 @@ object FZipUtils {
             FIOUtils.closeQuietly(fileOutputStream)
         }
         return false
+    }
+
+    @Throws(IOException::class)
+    private fun compressFile(file: File, filename: String, outputStream: ZipOutputStream) {
+        if (file.isDirectory) {
+            outputStream.putNextEntry(ZipEntry(filename + File.separator))
+            val files = file.listFiles()
+            files?.forEach { item ->
+                compressFile(item, filename + File.separator + item.name, outputStream)
+            }
+        } else {
+            outputStream.putNextEntry(ZipEntry(filename))
+            file.inputStream().use { inputStream ->
+                FIOUtils.copy(inputStream, outputStream)
+            }
+        }
     }
 }
