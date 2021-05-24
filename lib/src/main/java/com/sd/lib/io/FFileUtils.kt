@@ -41,7 +41,7 @@ object FFileUtils {
      * 在文件夹下[dir]下创建一个扩展名为[ext]的文件
      */
     @JvmStatic
-    fun newFileUnderDir(dir: File?, ext: String): File? {
+    fun newFileUnderDir(dir: File?, ext: String?): File? {
         if (!checkDir(dir)) return null
 
         val finalExt = FExtUtils.completeExt(ext)

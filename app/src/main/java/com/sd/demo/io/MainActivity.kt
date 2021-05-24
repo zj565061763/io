@@ -3,6 +3,7 @@ package com.sd.demo.io
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.sd.lib.io.FFileUtils
+import com.sd.lib.io.FTempDir
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +31,11 @@ class MainActivity : AppCompatActivity() {
         deepFile.writeText("deep content")
 
         FFileUtils.copy(cacheDir, File(filesDir, "cacheCopy"))
+
+        FTempDir.newFile("mp3", this)
+        FTempDir.newFile("mp3", this)
+        FTempDir.newFile("mp4", this)
+        FTempDir.newFile(null, this)
     }
 
     override fun onDestroy() {
@@ -39,5 +45,6 @@ class MainActivity : AppCompatActivity() {
 
         FFileUtils.delete(cacheDir)
         FFileUtils.delete(filesDir)
+        FTempDir.delete(this)
     }
 }

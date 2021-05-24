@@ -14,7 +14,7 @@ object FTempDir {
     @Synchronized
     fun newFile(ext: String?, context: Context): File? {
         val dir = getTempDir(context)
-        return newFileUnderDir(dir, ext!!)
+        return newFileUnderDir(dir, ext)
     }
 
     /**
