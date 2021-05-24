@@ -1,11 +1,27 @@
 package com.sd.demo.io
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.sd.lib.io.FFileUtils
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
+    val TAG = MainActivity::class.java.simpleName
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val cacheDir = FFileUtils.getCacheDir("my_cache", this)
+        val filesDir = FFileUtils.getFilesDir("my_files", this)
+
+        FFileUtils.checkFile(File(cacheDir, "checkFile"))
+        FFileUtils.checkFile(File(filesDir, "checkFile"))
+
+        val helloFile = File(cacheDir, "hello.txt")
+        helloFile.writeText("hello world!!!")
+
+        val copyFile = File(filesDir, "copy.txt")
+        FFileUtils.copyFile(helloFile, copyFile)
     }
 }
