@@ -1,9 +1,6 @@
 package com.sd.lib.io
 
 import android.content.Context
-import com.sd.lib.io.FFileUtils.delete
-import com.sd.lib.io.FFileUtils.getFilesDir
-import com.sd.lib.io.FFileUtils.newFileUnderDir
 import java.io.File
 
 object FTempDir {
@@ -14,7 +11,7 @@ object FTempDir {
     @Synchronized
     fun newFile(ext: String?, context: Context): File? {
         val dir = getTempDir(context)
-        return newFileUnderDir(dir, ext)
+        return FFileUtils.newFileUnderDir(dir, ext)
     }
 
     /**
@@ -24,7 +21,7 @@ object FTempDir {
     @Synchronized
     fun delete(context: Context) {
         val dir = getTempDir(context)
-        delete(dir)
+        FFileUtils.delete(dir)
     }
 
     /**
@@ -41,6 +38,6 @@ object FTempDir {
      * 返回临时目录
      */
     private fun getTempDir(context: Context): File? {
-        return getFilesDir("f_temp_dir", context)
+        return FFileUtils.getFilesDir("f_temp_dir", context)
     }
 }
