@@ -29,28 +29,27 @@ object FZipUtils {
         if (dir.exists() && dir.isFile) throw IllegalArgumentException("file should be a directory")
 
         val zipInputStream = if (inputStream is ZipInputStream) inputStream else ZipInputStream(inputStream)
-        var fileOutputStream: FileOutputStream? = null
         try {
             var zipEntry = zipInputStream.nextEntry
             while (zipEntry != null) {
-                val file = File(dir, zipEntry.name)
+                val target = File(dir, zipEntry.name)
                 if (zipEntry.isDirectory) {
                     // 文件夹
-                    if (file.exists() && file.isFile) {
-                        if (!file.delete()) return false
+                    if (target.exists() && target.isFile) {
+                        if (!target.delete()) return false
                     }
-                    if (!file.exists() && !file.mkdirs()) {
+                    if (!target.exists() && !target.mkdirs()) {
                         return false
                     }
                 } else {
                     // 文件
-                    val parentFile = file.parentFile
+                    val parentFile = target.parentFile
                     if (parentFile != null && !parentFile.exists()) {
                         if (!parentFile.mkdirs()) return false
                     }
-                    fileOutputStream = FileOutputStream(file)
-                    FIOUtils.copy(zipInputStream, fileOutputStream)
-                    fileOutputStream.close()
+                    target.outputStream().use { outputStream ->
+                        FIOUtils.copy(zipInputStream, outputStream)
+                    }
                 }
 
                 zipInputStream.closeEntry()
@@ -61,7 +60,6 @@ object FZipUtils {
             e.printStackTrace()
         } finally {
             FIOUtils.closeQuietly(zipInputStream)
-            FIOUtils.closeQuietly(fileOutputStream)
         }
         return false
     }
