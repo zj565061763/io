@@ -1,5 +1,6 @@
 package com.sd.lib.io
 
+import java.io.Closeable
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -35,6 +36,14 @@ object FIOUtils {
             bytes = inputStream.read(buffer)
         }
         return bytesCopied
+    }
+
+    @JvmStatic
+    fun closeQuietly(closeable: Closeable?) {
+        try {
+            closeable?.close()
+        } catch (ignored: Throwable) {
+        }
     }
 
     fun interface CopyCallback {
