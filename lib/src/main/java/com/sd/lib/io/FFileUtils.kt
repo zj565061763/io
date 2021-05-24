@@ -156,4 +156,15 @@ object FFileUtils {
             false
         }
     }
+
+    /**
+     * 返回[file]的大小
+     */
+    @JvmStatic
+    fun getSize(file: File?): Long {
+        if (file == null || !file.exists()) return 0
+        return file.walkBottomUp().fold(0) { acc, it ->
+            if (it.isFile) it.length() else 0
+        }
+    }
 }
