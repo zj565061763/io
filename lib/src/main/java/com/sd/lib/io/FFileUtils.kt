@@ -76,6 +76,7 @@ object FFileUtils {
     /**
      * 检查文件是否存在，不存在则尝试创建
      */
+    @JvmStatic
     fun checkFile(file: File?): Boolean {
         if (file == null) return false
         if (file.exists()) return true
