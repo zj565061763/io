@@ -1,6 +1,7 @@
 package com.sd.demo.io
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.FTempDir
@@ -30,7 +31,9 @@ class MainActivity : AppCompatActivity() {
         val deepFile = File(deepDir, "deep.txt")
         deepFile.writeText("deep content")
 
-        FFileUtils.copy(cacheDir, File(filesDir, "cacheCopy"))
+        val cacheCopyDir = File(filesDir, "cacheCopy")
+        FFileUtils.copy(cacheDir, cacheCopyDir)
+        Log.i(TAG, "cacheCopy size:${FFileUtils.getSize(cacheCopyDir)}")
 
         FTempDir.newFile("mp3", this)
         FTempDir.newFile("mp3", this)

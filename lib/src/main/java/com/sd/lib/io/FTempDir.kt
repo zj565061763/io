@@ -29,9 +29,9 @@ object FTempDir {
      */
     @JvmStatic
     @Synchronized
-    fun totalSize(context: Context): Long {
+    fun size(context: Context): Long {
         val dir = getTempDir(context)
-        return FByteSizeUtils.getFileSize(dir)
+        return FFileUtils.getSize(dir)
     }
 
     /**
