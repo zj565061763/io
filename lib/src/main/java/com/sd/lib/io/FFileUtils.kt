@@ -80,7 +80,7 @@ object FFileUtils {
     fun copyFile(source: File?, target: File?): Boolean {
         if (source == null || !source.exists()) return false
         if (target == null) return false
-        if (source.isDirectory) throw IllegalArgumentException("source must not be a directory")
+        if (source.isDirectory) throw IllegalArgumentException("source should not be a directory")
 
         val fileTemp = File(target.absolutePath + ".temp")
         delete(fileTemp)
