@@ -25,7 +25,7 @@ class TestFileActivity : AppCompatActivity() {
 
         val cacheZip = File(filesDir, "cacheZip.zip")
         FZipUtils.zip(cacheDir, cacheZip)
-        FZipUtils.unzip(cacheZip, File(filesDir, "cacheUnzip"))
+        FZipUtils.unzip(cacheZip, filesDir)
     }
 
     override fun onDestroy() {
