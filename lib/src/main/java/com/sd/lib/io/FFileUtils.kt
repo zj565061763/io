@@ -53,7 +53,7 @@ object FFileUtils {
                 current++
                 continue
             } else {
-                return if (checkFile(file)) file else null
+                return if (createFile(file)) file else null
             }
         }
     }
@@ -147,7 +147,7 @@ object FFileUtils {
      * 检查文件是否存在，不存在则尝试创建
      */
     @JvmStatic
-    fun checkFile(file: File?): Boolean {
+    fun createFile(file: File?): Boolean {
         if (file == null) return false
         if (file.exists()) return true
         return try {

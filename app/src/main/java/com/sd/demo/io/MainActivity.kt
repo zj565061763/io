@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity() {
         val cacheDir = FFileUtils.getCacheDir("my_cache", this)
         val filesDir = FFileUtils.getFilesDir("my_files", this)
 
-        FFileUtils.checkFile(File(cacheDir, "checkFile"))
-        FFileUtils.checkFile(File(filesDir, "checkFile"))
+        FFileUtils.createFile(File(cacheDir, "createFile"))
+        FFileUtils.createFile(File(filesDir, "createFile"))
 
         val helloFile = File(cacheDir, "hello.txt")
         helloFile.writeText("hello world!!!")
