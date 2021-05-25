@@ -4,9 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.FFileUtils
-import com.sd.lib.io.FTempDir
-import com.sd.lib.io.uri.FFileProvider
-import com.sd.lib.io.uri.FUriUtils
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -95,30 +92,6 @@ class ExampleInstrumentedTest {
 
         assertEquals(true, copyResult)
         assertEquals(true, copyFile.exists())
-        assertEquals("hello world", copyFile.readText())
-    }
-
-    @Test
-    fun testUri() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-
-        val dirName = "my_uri"
-        val cacheDir = FFileUtils.getCacheDir(dirName, context)!!
-
-        val filename = "urifile.txt"
-        val file = File(cacheDir, filename).apply {
-            this.writeText("hello world")
-        }
-        val fileUri = FUriUtils.fileToUri(file, context)
-
-        val expectedString = "content://${context.packageName}.${FFileProvider::class.java.simpleName.toLowerCase()}/external_path" +
-                "/Android/data/${context.packageName}/cache/${dirName}/${filename}"
-        assertEquals(expectedString, fileUri.toString())
-        assertEquals(filename, FUriUtils.getName(fileUri, context))
-
-        val tempDir = FTempDir.get(context)
-        val copyFile = FUriUtils.saveToDir(fileUri, tempDir, context)
-        assertEquals(true, copyFile!!.exists())
         assertEquals("hello world", copyFile.readText())
     }
 }
