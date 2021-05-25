@@ -46,11 +46,6 @@ class MainActivity : AppCompatActivity() {
         val cacheCopyDirSize = FFileUtils.getSize(cacheCopyDir)
         Log.i(TAG, "cacheCopy size:${cacheCopyDirSize} format:${FFileUtils.formatSize(cacheCopyDirSize)}")
 
-        FTempDir.newFile("mp3", this)
-        FTempDir.newFile("mp3", this)
-        FTempDir.newFile("mp4", this)
-        FTempDir.newFile(null, this)
-
         val cacheZipFile = File(filesDir, "cacheZip.zip")
         FZipUtils.zip(cacheDir, cacheZipFile)
         FZipUtils.unzip(cacheZipFile, File(filesDir, "cacheUnzip"))
