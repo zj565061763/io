@@ -91,7 +91,6 @@ class ExampleInstrumentedTest {
         val copyFile = File(File(copyDir, "deep"), "deep.txt")
 
         assertEquals(true, copyResult)
-        assertEquals(true, copyDir.exists())
         assertEquals(true, copyFile.exists())
         assertEquals("hello world", copyFile.readText())
     }
