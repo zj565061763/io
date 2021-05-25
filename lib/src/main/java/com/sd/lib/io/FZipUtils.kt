@@ -48,7 +48,7 @@ object FZipUtils {
                         if (!parentFile.mkdirs()) return false
                     }
                     target.outputStream().use { outputStream ->
-                        FIOUtils.copy(zipInputStream, outputStream)
+                        zipInputStream.copyTo(outputStream)
                     }
                 }
 
@@ -109,7 +109,7 @@ object FZipUtils {
         } else {
             outputStream.putNextEntry(ZipEntry(filename))
             file.inputStream().use { inputStream ->
-                FIOUtils.copy(inputStream, outputStream)
+                inputStream.copyTo(outputStream)
             }
         }
     }
