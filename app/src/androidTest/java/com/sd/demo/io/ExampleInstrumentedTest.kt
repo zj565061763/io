@@ -67,6 +67,7 @@ class ExampleInstrumentedTest {
         val moveResult = FFileUtils.moveFile(file, moveFile)
 
         assertEquals(true, moveResult)
+        assertEquals(false, file.exists())
         assertEquals(true, moveFile.exists())
         assertEquals("hello world", moveFile.readText())
     }
