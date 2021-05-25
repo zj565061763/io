@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.FIOUtils
 import com.sd.lib.io.FTempDir
+import com.sd.lib.io.FZipUtils
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -60,6 +61,10 @@ class MainActivity : AppCompatActivity() {
         FTempDir.newFile("mp3", this)
         FTempDir.newFile("mp4", this)
         FTempDir.newFile(null, this)
+
+        val cacheZipFile = File(filesDir, "cacheZip.zip")
+        FZipUtils.zip(cacheDir, cacheZipFile)
+        FZipUtils.unzip(cacheZipFile, File(filesDir, "cacheUnzip"))
     }
 
     override fun onDestroy() {
