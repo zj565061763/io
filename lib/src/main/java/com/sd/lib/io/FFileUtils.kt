@@ -63,8 +63,8 @@ object FFileUtils {
      */
     @JvmStatic
     fun copy(source: File?, target: File?): Boolean {
-        if (source == null || !source.exists()) return false
-        if (target == null) return false
+        if (source == null || target == null) return false
+        if (source == target) return true
         return try {
             source.copyRecursively(target, overwrite = true)
         } catch (e: Exception) {
