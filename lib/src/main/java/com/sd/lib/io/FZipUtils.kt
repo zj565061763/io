@@ -67,6 +67,14 @@ object FZipUtils {
     /**
      * 压缩文件
      */
+    fun zip(source: File?, zip: File?): Boolean {
+        if (source == null || !source.exists()) return false
+        return zip(arrayOf(source), zip)
+    }
+
+    /**
+     * 压缩文件
+     */
     fun zip(files: Array<File?>?, zip: File?): Boolean {
         if (files == null || files.isEmpty()) return false
         if (zip == null) return false
