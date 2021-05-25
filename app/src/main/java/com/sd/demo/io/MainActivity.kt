@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.sd.lib.io.FFileUtils
+import com.sd.lib.io.FIOUtils
 import com.sd.lib.io.FTempDir
 import java.io.File
 
@@ -25,6 +26,15 @@ class MainActivity : AppCompatActivity() {
 
         val copyFile = File(filesDir, "helloCopy.txt")
         FFileUtils.copyFile(helloFile, copyFile)
+
+        helloFile.inputStream().use { fis ->
+            File(filesDir, "ioHelloCopy.txt").outputStream().use { fos ->
+                FIOUtils.copy(fis, fos) {
+                    Log.i(TAG, "onBytesCopied:${it}")
+                    false
+                }
+            }
+        }
 
         val deepDir = File(cacheDir, "deep")
         FFileUtils.checkDir(deepDir)
