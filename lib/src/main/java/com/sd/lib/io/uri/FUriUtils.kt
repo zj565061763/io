@@ -14,7 +14,8 @@ object FUriUtils {
      * [File]转[Uri]
      */
     @JvmStatic
-    fun fileToUri(file: File, context: Context): Uri {
+    fun fileToUri(file: File?, context: Context): Uri? {
+        if (file == null) return null
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             FileProvider.getUriForFile(context, FFileProvider.getAuthority(context), file)
         } else {
