@@ -64,6 +64,32 @@ object FZipUtils {
         return false
     }
 
+    /**
+     * 压缩文件
+     */
+    fun zip(files: Array<File?>?, zip: File?): Boolean {
+        if (files == null || files.isEmpty()) return false
+        if (zip == null) return false
+
+        if (zip.exists()) {
+            if (zip.isDirectory) throw IllegalArgumentException("zip should not be a directory")
+            if (!zip.delete()) return false
+        }
+
+        val fileParent = zip.parentFile
+        if (fileParent != null && !fileParent.exists()) {
+            if (!fileParent.mkdirs()) return false
+        }
+
+        ZipOutputStream(zip.outputStream()).use { output ->
+            for (item in files) {
+                if (item == null || !item.exists()) return false
+                compressFile(item, item.name, output)
+            }
+        }
+        return true
+    }
+
     @Throws(IOException::class)
     private fun compressFile(file: File, filename: String, outputStream: ZipOutputStream) {
         if (file.isDirectory) {
