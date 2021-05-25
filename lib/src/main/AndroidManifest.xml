@@ -2,4 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sd.lib.io">
 
+    <application>
+        <provider
+            android:name=".uri.FFileProvider"
+            android:authorities="${applicationId}.ffileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/lib_io_file_paths" />
+        </provider>
+
+    </application>
+
 </manifest>
