@@ -4,6 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.FFileUtils
+import com.sd.lib.io.uri.FFileProvider
+import com.sd.lib.io.uri.FUriUtils
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -93,5 +95,21 @@ class ExampleInstrumentedTest {
         assertEquals(true, copyResult)
         assertEquals(true, copyFile.exists())
         assertEquals("hello world", copyFile.readText())
+    }
+
+    @Test
+    fun testUri() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+
+        val cacheDir = FFileUtils.getCacheDir("my_cache", context)!!
+
+        val file = File(cacheDir, "urifile.txt").apply {
+            this.writeText("hello world")
+        }
+        val fileUri = FUriUtils.fileToUri(file, context)
+
+        val expectedString = "content://${context.packageName}.${FFileProvider::class.java.simpleName.toLowerCase()}/external_path" +
+                "/Android/data/${context.packageName}/cache/my_cache/urifile.txt"
+        assertEquals(expectedString, fileUri.toString())
     }
 }
