@@ -17,13 +17,6 @@ import java.io.File
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.sd.demo.io", appContext.packageName)
-    }
-
-    @Test
     fun testExt() {
         assertEquals("exe", FExtUtils.getExt("WeChatSetup.exe"))
         assertEquals("mp3", FExtUtils.getExt(".mp3"))
@@ -42,8 +35,10 @@ class ExampleInstrumentedTest {
     fun testCopyFile() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-        val cacheDir = FFileUtils.getCacheDir("my_cache", context)
-        val filesDir = FFileUtils.getFilesDir("my_files", context)
+        val cacheDir = FFileUtils.getCacheDir("my_cache", context)!!
+        val filesDir = FFileUtils.getFilesDir("my_files", context)!!
+        assertEquals(true, cacheDir.exists())
+        assertEquals(true, filesDir.exists())
 
         val file = File(cacheDir, "hello.txt").apply {
             this.writeText("hello world")
@@ -60,17 +55,43 @@ class ExampleInstrumentedTest {
     fun testMoveFile() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-        val cacheDir = FFileUtils.getCacheDir("my_cache", context)
-        val filesDir = FFileUtils.getFilesDir("my_files", context)
+        val cacheDir = FFileUtils.getCacheDir("my_cache", context)!!
+        val filesDir = FFileUtils.getFilesDir("my_files", context)!!
+        assertEquals(true, cacheDir.exists())
+        assertEquals(true, filesDir.exists())
 
         val file = File(cacheDir, "move.txt").apply {
-            this.writeText("move")
+            this.writeText("hello world")
         }
         val moveFile = File(filesDir, "moved.txt")
         val moveResult = FFileUtils.moveFile(file, moveFile)
 
         assertEquals(true, moveResult)
         assertEquals(true, moveFile.exists())
-        assertEquals("move", moveFile.readText())
+        assertEquals("hello world", moveFile.readText())
+    }
+
+    @Test
+    fun testCopyDir() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+
+        val cacheDir = FFileUtils.getCacheDir("my_cache", context)!!
+        val filesDir = FFileUtils.getFilesDir("my_files", context)!!
+        assertEquals(true, cacheDir.exists())
+        assertEquals(true, filesDir.exists())
+
+        File(File(cacheDir, "deep"), "deep.txt").apply {
+            FFileUtils.checkParentDir(this)
+            this.writeText("hello world")
+        }
+
+        val copyDir = File(filesDir, "cacheCopy")
+        val copyResult = FFileUtils.copy(cacheDir, copyDir)
+        val copyFile = File(File(copyDir, "deep"), "deep.txt")
+
+        assertEquals(true, copyResult)
+        assertEquals(true, copyDir.exists())
+        assertEquals(true, copyFile.exists())
+        assertEquals("hello world", copyFile.readText())
     }
 }
