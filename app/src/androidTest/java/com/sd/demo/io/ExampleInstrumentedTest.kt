@@ -3,9 +3,11 @@ package com.sd.demo.io
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.FExtUtils
+import com.sd.lib.io.FFileUtils
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -19,6 +21,24 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.sd.demo.io", appContext.packageName)
+    }
+
+    @Test
+    fun testCopyFile() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+
+        val cacheDir = FFileUtils.getCacheDir("my_cache", context)
+        val filesDir = FFileUtils.getFilesDir("my_files", context)
+
+        val helloFile = File(cacheDir, "hello.txt").apply {
+            this.writeText("hello world!!!")
+        }
+        val copyFile = File(filesDir, "helloCopy.txt")
+        val copyResult = FFileUtils.copyFile(helloFile, copyFile)
+
+        assertEquals(true, copyResult)
+        assertEquals(true, copyFile.exists())
+        assertEquals("hello world!!!", copyFile.readText())
     }
 
     @Test
