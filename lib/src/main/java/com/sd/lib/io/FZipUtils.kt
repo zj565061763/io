@@ -67,6 +67,7 @@ object FZipUtils {
     /**
      * 压缩文件
      */
+    @JvmStatic
     fun zip(source: File?, zip: File?): Boolean {
         if (source == null || !source.exists()) return false
         return zip(arrayOf(source), zip)
@@ -75,6 +76,7 @@ object FZipUtils {
     /**
      * 压缩文件
      */
+    @JvmStatic
     fun zip(files: Array<File?>?, zip: File?): Boolean {
         if (files == null || files.isEmpty()) return false
         if (zip == null) return false
@@ -98,6 +100,7 @@ object FZipUtils {
         return true
     }
 
+    @JvmStatic
     @Throws(IOException::class)
     private fun compressFile(file: File, filename: String, outputStream: ZipOutputStream) {
         if (file.isDirectory) {
