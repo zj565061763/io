@@ -101,15 +101,18 @@ class ExampleInstrumentedTest {
     fun testUri() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-        val cacheDir = FFileUtils.getCacheDir("my_cache", context)!!
+        val dirName = "my_uri"
+        val cacheDir = FFileUtils.getCacheDir(dirName, context)!!
 
-        val file = File(cacheDir, "urifile.txt").apply {
+        val filename = "urifile.txt"
+        val file = File(cacheDir, filename).apply {
             this.writeText("hello world")
         }
         val fileUri = FUriUtils.fileToUri(file, context)
 
         val expectedString = "content://${context.packageName}.${FFileProvider::class.java.simpleName.toLowerCase()}/external_path" +
-                "/Android/data/${context.packageName}/cache/my_cache/urifile.txt"
+                "/Android/data/${context.packageName}/cache/${dirName}/${filename}"
         assertEquals(expectedString, fileUri.toString())
+        assertEquals(filename, FUriUtils.getName(fileUri, context))
     }
 }
