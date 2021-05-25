@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.FFileUtils
+import com.sd.lib.io.FTempDir
 import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.FUriUtils
 import org.junit.Assert.assertEquals
@@ -114,5 +115,10 @@ class ExampleInstrumentedTest {
                 "/Android/data/${context.packageName}/cache/${dirName}/${filename}"
         assertEquals(expectedString, fileUri.toString())
         assertEquals(filename, FUriUtils.getName(fileUri, context))
+
+        val tempDir = FTempDir.get(context)
+        val copyFile = FUriUtils.saveToDir(fileUri, tempDir, context)
+        assertEquals(true, copyFile!!.exists())
+        assertEquals("hello world", copyFile.readText())
     }
 }
