@@ -28,7 +28,7 @@ object FIOUtils {
     }
 
     @JvmStatic
-    fun closeQuietly(closeable: Closeable?) {
+    fun close(closeable: Closeable?) {
         try {
             closeable?.close()
         } catch (ignored: Throwable) {
