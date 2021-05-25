@@ -14,7 +14,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        testFile()
+    }
+
+    private fun testFile() {
         val cacheDir = FFileUtils.getCacheDir("my_cache", this)
         val filesDir = FFileUtils.getFilesDir("my_files", this)
 
