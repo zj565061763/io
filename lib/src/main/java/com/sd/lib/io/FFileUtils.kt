@@ -91,13 +91,14 @@ object FFileUtils {
         val temp = File(target.absolutePath + ".temp")
         delete(temp)
 
-        return try {
+        try {
             source.copyTo(temp, overwrite = true)
-            return moveFile(temp, target)
         } catch (e: Exception) {
             e.printStackTrace()
-            false
+            return false
         }
+
+        return moveFile(temp, target)
     }
 
     /**
