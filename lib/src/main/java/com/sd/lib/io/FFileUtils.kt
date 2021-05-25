@@ -81,13 +81,14 @@ object FFileUtils {
         if (source == null || !source.exists()) return false
         if (target == null) return false
         if (source.isDirectory) throw IllegalArgumentException("source should not be a directory")
+        if (source == target) return true
 
-        val fileTemp = File(target.absolutePath + ".temp")
-        delete(fileTemp)
+        val temp = File(target.absolutePath + ".temp")
+        delete(temp)
 
         return try {
-            source.copyTo(fileTemp, overwrite = true)
-            return moveFile(fileTemp, target)
+            source.copyTo(temp, overwrite = true)
+            return moveFile(temp, target)
         } catch (e: Exception) {
             e.printStackTrace()
             false
