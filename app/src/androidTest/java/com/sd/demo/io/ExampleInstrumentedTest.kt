@@ -73,7 +73,7 @@ class ExampleInstrumentedTest {
     }
 
     @Test
-    fun testCopyDir() {
+    fun testCopyToDir() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
         val cacheDir = FFileUtils.getCacheDir("my_cache", context)!!
@@ -87,7 +87,7 @@ class ExampleInstrumentedTest {
         }
 
         val copyDir = File(filesDir, "cacheCopy")
-        val copyResult = FFileUtils.copy(cacheDir, copyDir)
+        val copyResult = FFileUtils.copyToDir(cacheDir, copyDir)
         val copyFile = File(File(copyDir, "deep"), "deep.txt")
 
         assertEquals(true, copyResult)

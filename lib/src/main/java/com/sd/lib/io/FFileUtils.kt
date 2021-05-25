@@ -64,14 +64,14 @@ object FFileUtils {
     }
 
     /**
-     * 拷贝
+     * 拷贝[source]到指定[dir]目录下
      */
     @JvmStatic
-    fun copy(source: File?, target: File?): Boolean {
-        if (source == null || target == null) return false
-        if (source == target) return true
+    fun copyToDir(source: File?, dir: File?): Boolean {
+        if (source == null || dir == null) return false
+        if (source == dir) return true
         return try {
-            source.copyRecursively(target, overwrite = true)
+            source.copyRecursively(dir, overwrite = true)
         } catch (e: Exception) {
             e.printStackTrace()
             false
