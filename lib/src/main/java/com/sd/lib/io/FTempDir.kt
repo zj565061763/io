@@ -5,12 +5,20 @@ import java.io.File
 
 object FTempDir {
     /**
+     * 返回临时目录
+     */
+    @JvmStatic
+    fun get(context: Context): File? {
+        return FFileUtils.getFilesDir("f_temp_dir", context)
+    }
+
+    /**
      * 创建临时文件
      */
     @JvmStatic
     @Synchronized
     fun newFile(ext: String?, context: Context): File? {
-        val dir = getTempDir(context)
+        val dir = get(context)
         return FFileUtils.newFileUnderDir(dir, ext)
     }
 
@@ -20,7 +28,7 @@ object FTempDir {
     @JvmStatic
     @Synchronized
     fun delete(context: Context) {
-        val dir = getTempDir(context)
+        val dir = get(context)
         FFileUtils.delete(dir)
     }
 
@@ -30,14 +38,7 @@ object FTempDir {
     @JvmStatic
     @Synchronized
     fun getSize(context: Context): Long {
-        val dir = getTempDir(context)
+        val dir = get(context)
         return FFileUtils.getSize(dir)
-    }
-
-    /**
-     * 返回临时目录
-     */
-    private fun getTempDir(context: Context): File? {
-        return FFileUtils.getFilesDir("f_temp_dir", context)
     }
 }
