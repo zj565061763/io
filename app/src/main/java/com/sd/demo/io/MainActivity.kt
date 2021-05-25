@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
 
         val copyFile = File(filesDir, "helloCopy.txt")
         FFileUtils.copyFile(helloFile, copyFile)
-
         helloFile.inputStream().use { fis ->
             File(filesDir, "ioHelloCopy.txt").outputStream().use { fos ->
                 FIOUtils.copy(fis, fos) {
@@ -36,6 +35,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val moveFile = File(cacheDir, "move.txt")
+        moveFile.writeText("move!!!")
+        FFileUtils.moveFile(moveFile, File(filesDir, "moved.txt"))
+
         val deepDir = File(cacheDir, "deep")
         FFileUtils.checkDir(deepDir)
         val deepFile = File(deepDir, "deep.txt")
@@ -43,7 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         val cacheCopyDir = File(filesDir, "cacheCopy")
         FFileUtils.copy(cacheDir, cacheCopyDir)
-        Log.i(TAG, "cacheCopy size:${FFileUtils.getSize(cacheCopyDir)}")
+        val cacheCopyDirSize = FFileUtils.getSize(cacheCopyDir)
+        Log.i(TAG, "cacheCopy size:${cacheCopyDirSize} format:${FFileUtils.formatSize(cacheCopyDirSize)}")
 
         FTempDir.newFile("mp3", this)
         FTempDir.newFile("mp3", this)
