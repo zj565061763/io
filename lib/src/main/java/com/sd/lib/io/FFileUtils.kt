@@ -150,6 +150,15 @@ object FFileUtils {
     }
 
     /**
+     * 检查文件的父文件夹是否存在，如果不存在则尝试创建
+     */
+    fun checkParentDir(file: File?): Boolean {
+        if (file == null) return false
+        val parent = file.parentFile ?: return true
+        return checkDir(parent)
+    }
+
+    /**
      * 检查文件是否存在，不存在则尝试创建
      */
     @JvmStatic
