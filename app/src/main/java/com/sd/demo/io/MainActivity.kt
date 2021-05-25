@@ -26,31 +26,20 @@ class MainActivity : AppCompatActivity() {
         val cacheDir = FFileUtils.getCacheDir("my_cache", this)
         val filesDir = FFileUtils.getFilesDir("my_files", this)
 
-        FFileUtils.createFile(File(cacheDir, "createFile"))
-        FFileUtils.createFile(File(filesDir, "createFile"))
-
-        val helloFile = File(cacheDir, "hello.txt")
-        helloFile.writeText("hello world!!!")
-
+        val helloFile = File(cacheDir, "hello.txt").apply {
+            this.writeText("hello world!!!")
+        }
         val copyFile = File(filesDir, "helloCopy.txt")
         FFileUtils.copyFile(helloFile, copyFile)
-        helloFile.inputStream().use { fis ->
-            File(filesDir, "ioHelloCopy.txt").outputStream().use { fos ->
-                FIOUtils.copy(fis, fos) {
-                    Log.i(TAG, "onBytesCopied:${it}")
-                    false
-                }
-            }
-        }
 
-        val moveFile = File(cacheDir, "move.txt")
-        moveFile.writeText("move!!!")
+        val moveFile = File(cacheDir, "move.txt").apply {
+            this.writeText("move!!!")
+        }
         FFileUtils.moveFile(moveFile, File(filesDir, "moved.txt"))
 
-        val deepDir = File(cacheDir, "deep")
-        FFileUtils.checkDir(deepDir)
-        val deepFile = File(deepDir, "deep.txt")
-        deepFile.writeText("deep content")
+        File(File(cacheDir, "deep"), "deep.txt").apply {
+            this.writeText("deep content")
+        }
 
         val cacheCopyDir = File(filesDir, "cacheCopy")
         FFileUtils.copy(cacheDir, cacheCopyDir)
