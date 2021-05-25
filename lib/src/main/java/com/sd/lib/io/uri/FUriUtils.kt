@@ -37,7 +37,7 @@ object FUriUtils {
      * 把[uri]对应的文件，拷贝到指定的目录[dir]
      */
     @JvmStatic
-    fun saveToDir(uri: Uri?, dir: File, context: Context): File? {
+    fun saveToDir(uri: Uri?, dir: File?, context: Context): File? {
         if (uri == null) return null
         if (!FFileUtils.checkDir(dir)) return null
 
