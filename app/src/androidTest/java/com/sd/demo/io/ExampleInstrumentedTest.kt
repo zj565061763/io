@@ -95,7 +95,7 @@ class ExampleInstrumentedTest {
             this.writeText("hello world")
         }
 
-        val copyDir = File(filesDir, "cacheCopy")
+        val copyDir = File(filesDir, "copyToDir")
         val copyResult = FFileUtils.copyToDir(cacheDir, copyDir)
         val copyFile = File(File(copyDir, "deep"), "deep.txt")
 
