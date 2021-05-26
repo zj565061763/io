@@ -52,7 +52,7 @@ class ExampleInstrumentedTest {
         val file = File(cacheDir, "hello.txt").apply {
             this.writeText("hello world")
         }
-        val copyFile = File(File(filesDir, "copy"), "hello.txt")
+        val copyFile = File(File(filesDir, "copyFile"), "hello.txt")
         val copyResult = FFileUtils.copyFile(file, copyFile)
 
         assertEquals(true, copyResult)
@@ -72,7 +72,7 @@ class ExampleInstrumentedTest {
         val file = File(cacheDir, "move.txt").apply {
             this.writeText("hello world")
         }
-        val moveFile = File(filesDir, "moved.txt")
+        val moveFile = File(File(filesDir, "moveFile"), "move.txt")
         val moveResult = FFileUtils.moveFile(file, moveFile)
 
         assertEquals(true, moveResult)
