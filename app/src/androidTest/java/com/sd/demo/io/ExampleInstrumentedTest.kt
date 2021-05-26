@@ -21,10 +21,9 @@ import java.io.File
 class ExampleInstrumentedTest {
     @Test
     fun testExt() {
-        assertEquals("exe", FExtUtils.getExt("WeChatSetup.exe"))
+        assertEquals("mp3", FExtUtils.getExt("hello.mp3"))
         assertEquals("mp3", FExtUtils.getExt(".mp3"))
-
-        assertEquals("", FExtUtils.getExt("exe"))
+        assertEquals("", FExtUtils.getExt("mp3"))
         assertEquals("", FExtUtils.getExt(null))
         assertEquals("", FExtUtils.getExt(""))
 
