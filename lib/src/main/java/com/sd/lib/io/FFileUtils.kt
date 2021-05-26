@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Environment
 import java.io.File
 import java.text.DecimalFormat
+import java.util.*
 
 object FFileUtils {
     const val KB = 1024L
@@ -50,12 +51,10 @@ object FFileUtils {
         if (!checkDir(dir)) return null
 
         val fullExt = FExtUtils.fullExt(ext)
-        var current = System.currentTimeMillis()
         while (true) {
-            val filename = current.toString() + fullExt
+            val filename = UUID.randomUUID().toString() + fullExt
             val file = File(dir, filename)
             if (file.exists()) {
-                current++
                 continue
             } else {
                 return if (createFile(file)) file else null
