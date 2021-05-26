@@ -38,7 +38,7 @@ object FExtUtils {
      * 完整扩展名
      */
     @JvmStatic
-    fun completeExt(ext: String?): String {
+    fun fullExt(ext: String?): String {
         return if (ext == null || ext.isEmpty()) {
             ""
         } else {

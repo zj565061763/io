@@ -49,10 +49,10 @@ object FFileUtils {
     fun newFileUnderDir(dir: File?, ext: String?): File? {
         if (!checkDir(dir)) return null
 
-        val finalExt = FExtUtils.completeExt(ext)
+        val fullExt = FExtUtils.fullExt(ext)
         var current = System.currentTimeMillis()
         while (true) {
-            val filename = current.toString() + finalExt
+            val filename = current.toString() + fullExt
             val file = File(dir, filename)
             if (file.exists()) {
                 current++
