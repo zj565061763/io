@@ -1,9 +1,6 @@
 package com.sd.lib.io
 
-import java.io.Closeable
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import java.io.*
 
 object FIOUtils {
     /**
@@ -32,6 +29,35 @@ object FIOUtils {
         try {
             closeable?.close()
         } catch (ignored: Throwable) {
+        }
+    }
+
+    //---------- ext ----------
+
+    /**
+     * 写入字符串
+     */
+    fun writeText(content: String?, file: File?): Boolean {
+        if (file == null) return false
+        return try {
+            file.writeText(content ?: "")
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    /**
+     * 读取字符串
+     */
+    fun readText(file: File?): String? {
+        if (file == null) return null
+        return try {
+            file.readText()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 
