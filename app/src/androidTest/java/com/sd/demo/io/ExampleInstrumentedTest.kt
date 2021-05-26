@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.FFileUtils
+import com.sd.lib.io.FIOUtils
 import com.sd.lib.io.FTempDir
 import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.FUriUtils
@@ -126,5 +127,29 @@ class ExampleInstrumentedTest {
         val copyFile = FUriUtils.saveToDir(fileUri, tempDir, context)
         assertEquals(true, copyFile!!.exists())
         assertEquals("hello world", copyFile.readText())
+    }
+
+    @Test
+    fun testWriteText() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val dir = FFileUtils.getCacheDir("test_write", context)!!
+        val file = File(dir, "string.txt")
+
+        file.run {
+            assertEquals(true, FIOUtils.writeText("hello", this))
+            assertEquals("hello", readText())
+        }
+        file.run {
+            assertEquals(true, FIOUtils.writeText("", this))
+            assertEquals("", readText())
+        }
+        file.run {
+            assertEquals(true, FIOUtils.writeText("world", this))
+            assertEquals("world", readText())
+        }
+        file.run {
+            assertEquals(true, FIOUtils.writeText(null, this))
+            assertEquals("", readText())
+        }
     }
 }
