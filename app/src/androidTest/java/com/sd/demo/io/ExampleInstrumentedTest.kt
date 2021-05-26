@@ -42,6 +42,15 @@ class ExampleInstrumentedTest {
     }
 
     @Test
+    fun testTempDir() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        assertEquals(true, FTempDir.newFile("mp3", context)!!.exists())
+        assertEquals(true, FTempDir.newFile(".mp3", context)!!.exists())
+        assertEquals(true, FTempDir.newFile(null, context)!!.exists())
+        assertEquals(true, FTempDir.newFile("", context)!!.exists())
+    }
+
+    @Test
     fun testCopyFile() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
