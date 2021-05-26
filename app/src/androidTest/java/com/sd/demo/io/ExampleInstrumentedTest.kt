@@ -23,9 +23,15 @@ class ExampleInstrumentedTest {
     fun testExt() {
         assertEquals("mp3", FExtUtils.getExt("hello.mp3"))
         assertEquals("mp3", FExtUtils.getExt(".mp3"))
+
         assertEquals("", FExtUtils.getExt("mp3"))
         assertEquals("", FExtUtils.getExt(null))
         assertEquals("", FExtUtils.getExt(""))
+
+        assertEquals("", FExtUtils.getExt("mp3", null))
+        assertEquals("", FExtUtils.getExt(null, ""))
+        assertEquals("mp3", FExtUtils.getExt("", "mp3"))
+        assertEquals("mp3", FExtUtils.getExt("", ".mp3"))
 
         assertEquals(".mp4", FExtUtils.completeExt("mp4"))
         assertEquals(".mp3", FExtUtils.completeExt(".mp3"))
