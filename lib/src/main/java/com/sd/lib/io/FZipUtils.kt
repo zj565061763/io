@@ -7,7 +7,7 @@ import java.util.zip.ZipOutputStream
 
 object FZipUtils {
     /**
-     * 解压[zip]压缩包到[dir]目录下
+     * 把[zip]压缩包解压到[dir]目录下
      */
     @JvmStatic
     fun unzip(zip: File?, dir: File?): Boolean {
