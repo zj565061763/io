@@ -190,9 +190,9 @@ object FFileUtils {
      */
     @JvmStatic
     @JvmOverloads
-    fun formatSize(byteSize: Long, df: DecimalFormat = DecimalFormat("#.00")): String {
+    fun formatSize(byteSize: Long, df: DecimalFormat = DecimalFormat("#.0")): String {
         return if (byteSize <= 0) {
-            "0.00B"
+            "0.0B"
         } else if (byteSize < KB) {
             df.format(byteSize.toDouble()) + "B"
         } else if (byteSize < MB) {
