@@ -132,7 +132,7 @@ class ExampleInstrumentedTest {
     @Test
     fun testWriteText() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val dir = FFileUtils.getCacheDir("test_write", context)!!
+        val dir = FFileUtils.getCacheDir("test_write_text", context)!!
         val file = File(dir, "string.txt")
 
         file.run {
@@ -147,9 +147,25 @@ class ExampleInstrumentedTest {
             assertEquals(true, FIOUtils.writeText("world", this))
             assertEquals("world", readText())
         }
+    }
+
+    @Test
+    fun testReadText() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val dir = FFileUtils.getCacheDir("test_read_text", context)!!
+        val file = File(dir, "string.txt")
+
         file.run {
-            assertEquals(true, FIOUtils.writeText(null, this))
-            assertEquals("", readText())
+            writeText("hello")
+            assertEquals("hello", FIOUtils.readText(this))
+        }
+        file.run {
+            writeText("")
+            assertEquals("", FIOUtils.readText(this))
+        }
+        file.run {
+            writeText("world")
+            assertEquals("world", FIOUtils.readText(this))
         }
     }
 }
