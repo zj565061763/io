@@ -52,7 +52,7 @@ class ExampleInstrumentedTest {
         val file = File(cacheDir, "hello.txt").apply {
             this.writeText("hello world")
         }
-        val copyFile = File(filesDir, "helloCopy.txt")
+        val copyFile = File(File(filesDir, "copy"), "hello.txt")
         val copyResult = FFileUtils.copyFile(file, copyFile)
 
         assertEquals(true, copyResult)
