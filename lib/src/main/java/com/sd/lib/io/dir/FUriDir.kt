@@ -35,9 +35,10 @@ object FUriDir {
      * 保存[uri]到目录下
      */
     @JvmStatic
-    @Synchronized
     fun saveUri(uri: Uri?, context: Context): File? {
-        val dir = get(context)
-        return FUriUtils.saveToDir(uri, dir, context)
+        synchronized(FUriDir::class.java) {
+            val dir = get(context)
+            return FUriUtils.saveToDir(uri, dir, context)
+        }
     }
 }
