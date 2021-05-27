@@ -25,8 +25,8 @@ class FDir {
      * 删除目录
      */
     fun delete(context: Context) {
+        val dir = get(context)
         lock {
-            val dir = get(context)
             FFileUtils.delete(dir)
         }
     }
