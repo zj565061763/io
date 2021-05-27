@@ -6,8 +6,8 @@ import android.os.Build
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import com.sd.lib.io.FFileUtils
+import com.sd.lib.io.LibUtils
 import java.io.File
-import java.security.MessageDigest
 
 object FUriUtils {
     /**
@@ -43,7 +43,7 @@ object FUriUtils {
 
         val name = getName(uri, context)
         val suffix = if (name.isEmpty()) "" else "_${name}"
-        val filename = md5(uri.toString()) + suffix
+        val filename = LibUtils.md5(uri.toString()) + suffix
 
         val file = File(dir, filename)
         val resolver = context.contentResolver
@@ -59,22 +59,5 @@ object FUriUtils {
             e.printStackTrace()
             return null
         }
-    }
-
-    @JvmStatic
-    private fun md5(value: String): String {
-        val bytes = MessageDigest.getInstance("MD5").apply {
-            this.update(value.toByteArray())
-        }.digest()
-
-        val builder = StringBuilder()
-        for (i in bytes.indices) {
-            val hex = Integer.toHexString(0xFF and bytes[i].toInt())
-            if (hex.length == 1) {
-                builder.append('0')
-            }
-            builder.append(hex)
-        }
-        return builder.toString()
     }
 }
