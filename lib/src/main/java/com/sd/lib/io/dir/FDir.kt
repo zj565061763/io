@@ -8,7 +8,7 @@ internal class FDir {
     private val _dir: String
 
     constructor(dir: String) {
-        require(dir.isNotEmpty()) { "dir is empty" }
+        if (dir.isEmpty()) throw IllegalArgumentException("dir is empty")
         _dir = dir
     }
 
