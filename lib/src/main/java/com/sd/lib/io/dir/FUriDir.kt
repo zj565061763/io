@@ -21,16 +21,6 @@ object FUriDir {
     }
 
     /**
-     * 保存[uri]到目录下
-     */
-    @JvmStatic
-    @Synchronized
-    fun saveUri(uri: Uri?, context: Context): File? {
-        val dir = get(context)
-        return FUriUtils.saveToDir(uri, dir, context)
-    }
-
-    /**
      * 删除目录
      */
     @JvmStatic
@@ -39,5 +29,15 @@ object FUriDir {
             val dir = get(context)
             FFileUtils.delete(dir)
         }
+    }
+
+    /**
+     * 保存[uri]到目录下
+     */
+    @JvmStatic
+    @Synchronized
+    fun saveUri(uri: Uri?, context: Context): File? {
+        val dir = get(context)
+        return FUriUtils.saveToDir(uri, dir, context)
     }
 }
