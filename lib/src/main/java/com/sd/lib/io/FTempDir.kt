@@ -11,6 +11,7 @@ object FTempDir {
      * 返回目录
      */
     @JvmStatic
+    @Synchronized
     fun get(context: Context): File? {
         return FFileUtils.getFilesDir("f_temp_dir", context)
     }
@@ -19,7 +20,6 @@ object FTempDir {
      * 创建文件
      */
     @JvmStatic
-    @Synchronized
     fun newFile(ext: String?, context: Context): File? {
         val dir = get(context)
         return FFileUtils.newFileUnderDir(dir, ext)
