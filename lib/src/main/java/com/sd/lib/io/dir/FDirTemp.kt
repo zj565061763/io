@@ -9,11 +9,6 @@ import java.io.File
 object FDirTemp {
     private val DIR by lazy { FDir("f_dir_temp") }
 
-    @JvmStatic
-    private fun get(context: Context): File? {
-        return DIR.get(context)
-    }
-
     /**
      * 删除目录
      */

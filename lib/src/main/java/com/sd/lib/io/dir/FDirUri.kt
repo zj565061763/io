@@ -11,11 +11,6 @@ import java.io.File
 object FDirUri {
     private val DIR by lazy { FDir("f_dir_uri") }
 
-    @JvmStatic
-    private fun get(context: Context): File? {
-        return DIR.get(context)
-    }
-
     /**
      * 删除目录
      */
@@ -30,7 +25,7 @@ object FDirUri {
     @JvmStatic
     fun saveUri(uri: Uri?, context: Context): File? {
         return DIR.lock {
-            val dir = get(context)
+            val dir = DIR.get(context)
             FUriUtils.saveToDir(uri, dir, context)
         }
     }
