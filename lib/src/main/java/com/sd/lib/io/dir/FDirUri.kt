@@ -27,9 +27,13 @@ object FDirUri {
     fun saveUri(uri: Uri?, context: Context): File? {
         if (uri == null) return null
         return DIR.lock {
-            val dir = DIR.get(context) ?: return@lock null
-            val file = newUriFile(uri, dir, context)
-            saveUriToFile(uri, file, context)
+            val dir = DIR.get(context)
+            if (dir != null) {
+                val file = newUriFile(uri, dir, context)
+                saveUriToFile(uri, file, context)
+            } else {
+                null
+            }
         }
     }
 
