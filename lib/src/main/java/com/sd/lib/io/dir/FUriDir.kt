@@ -2,7 +2,6 @@ package com.sd.lib.io.dir
 
 import android.content.Context
 import android.net.Uri
-import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.uri.FUriUtils
 import java.io.File
 
@@ -10,16 +9,14 @@ import java.io.File
  * [Uri]文件保存目录
  */
 object FUriDir {
-    private val LOCK = FUriDir::class.java
+    private val DIR by lazy { FDir("f_uri_dir") }
 
     /**
      * 返回目录
      */
     @JvmStatic
     private fun get(context: Context): File? {
-        synchronized(LOCK) {
-            return FFileUtils.getFilesDir("f_uri_dir", context)
-        }
+        return DIR.get(context)
     }
 
     /**
@@ -27,10 +24,7 @@ object FUriDir {
      */
     @JvmStatic
     fun delete(context: Context) {
-        synchronized(LOCK) {
-            val dir = get(context)
-            FFileUtils.delete(dir)
-        }
+        DIR.delete(context)
     }
 
     /**
@@ -38,9 +32,9 @@ object FUriDir {
      */
     @JvmStatic
     fun saveUri(uri: Uri?, context: Context): File? {
-        synchronized(LOCK) {
+        return DIR.lock {
             val dir = get(context)
-            return FUriUtils.saveToDir(uri, dir, context)
+            FUriUtils.saveToDir(uri, dir, context)
         }
     }
 }
