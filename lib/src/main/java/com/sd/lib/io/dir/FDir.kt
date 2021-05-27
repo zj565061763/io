@@ -13,15 +13,6 @@ internal class FDir {
     }
 
     /**
-     * 同步操作
-     */
-    fun <R> lock(block: () -> R): R {
-        synchronized(_dir) {
-            return block()
-        }
-    }
-
-    /**
      * 返回目录
      */
     fun get(context: Context): File? {
@@ -37,6 +28,15 @@ internal class FDir {
         lock {
             val dir = get(context)
             FFileUtils.delete(dir)
+        }
+    }
+
+    /**
+     * 同步操作
+     */
+    fun <R> lock(block: () -> R): R {
+        synchronized(_dir) {
+            return block()
         }
     }
 }
