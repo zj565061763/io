@@ -1,7 +1,6 @@
 package com.sd.lib.io.dir
 
 import android.content.Context
-import com.sd.lib.io.FFileUtils
 import java.io.File
 
 /**
@@ -28,7 +27,6 @@ object FDirTemp {
      */
     @JvmStatic
     fun newFile(ext: String?, context: Context): File? {
-        val dir = get(context)
-        return FFileUtils.newFileUnderDir(dir, ext)
+        return DIR.newFile(ext, context)
     }
 }
