@@ -133,9 +133,9 @@ class ExampleInstrumentedTest {
         assertEquals(expectedString, fileUri.toString())
         assertEquals(filename, FUriUtils.getName(fileUri, context))
 
-        val copyFile = FDirUri.saveUri(fileUri, context)
-        assertEquals(true, copyFile!!.exists())
-        assertEquals("hello world", copyFile.readText())
+        val saveFile = FDirUri.saveUri(fileUri, context)
+        assertEquals(true, saveFile!!.exists())
+        assertEquals("hello world", saveFile.readText())
     }
 
     @Test
