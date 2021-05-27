@@ -27,7 +27,7 @@ object FTempDir {
     }
 
     /**
-     * 删除文件目录
+     * 删除目录
      */
     @JvmStatic
     fun delete(context: Context) {
