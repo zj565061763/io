@@ -10,6 +10,16 @@ import java.io.File
  */
 object FUriDir {
     /**
+     * 返回目录
+     */
+    @JvmStatic
+    private fun get(context: Context): File? {
+        synchronized(FUriDir::class.java) {
+            return FFileUtils.getFilesDir("f_uri_dir", context)
+        }
+    }
+
+    /**
      * 保存[uri]到目录下
      */
     @JvmStatic
@@ -23,17 +33,10 @@ object FUriDir {
      * 删除目录
      */
     @JvmStatic
-    @Synchronized
     fun delete(context: Context) {
-        val dir = get(context)
-        FFileUtils.delete(dir)
-    }
-
-    /**
-     * 返回目录
-     */
-    @JvmStatic
-    private fun get(context: Context): File? {
-        return FFileUtils.getFilesDir("f_uri_dir", context)
+        synchronized(FUriDir::class.java) {
+            val dir = get(context)
+            FFileUtils.delete(dir)
+        }
     }
 }
