@@ -10,12 +10,14 @@ import java.io.File
  * [Uri]文件保存目录
  */
 object FUriDir {
+    val LOCK = FUriDir::class.java
+
     /**
      * 返回目录
      */
     @JvmStatic
     private fun get(context: Context): File? {
-        synchronized(FUriDir::class.java) {
+        synchronized(LOCK) {
             return FFileUtils.getFilesDir("f_uri_dir", context)
         }
     }
@@ -25,7 +27,7 @@ object FUriDir {
      */
     @JvmStatic
     fun delete(context: Context) {
-        synchronized(FUriDir::class.java) {
+        synchronized(LOCK) {
             val dir = get(context)
             FFileUtils.delete(dir)
         }
@@ -36,7 +38,7 @@ object FUriDir {
      */
     @JvmStatic
     fun saveUri(uri: Uri?, context: Context): File? {
-        synchronized(FUriDir::class.java) {
+        synchronized(LOCK) {
             val dir = get(context)
             return FUriUtils.saveToDir(uri, dir, context)
         }
