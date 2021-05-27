@@ -10,7 +10,7 @@ import java.io.File
  * [Uri]文件保存目录
  */
 object FUriDir {
-    val LOCK = FUriDir::class.java
+    private val LOCK = FUriDir::class.java
 
     /**
      * 返回目录
