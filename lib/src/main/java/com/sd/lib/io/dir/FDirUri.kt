@@ -8,8 +8,8 @@ import java.io.File
 /**
  * [Uri]文件保存目录
  */
-object FUriDir {
-    private val DIR by lazy { FDir("f_uri_dir") }
+object FDirUri {
+    private val DIR by lazy { FDir("f_dir_uri") }
 
     /**
      * 返回目录
