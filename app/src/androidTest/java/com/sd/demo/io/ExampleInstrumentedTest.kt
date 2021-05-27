@@ -5,7 +5,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.FIOUtils
-import com.sd.lib.io.FTempDir
+import com.sd.lib.io.dir.FDirTemp
+import com.sd.lib.io.dir.FDirUri
 import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.FUriUtils
 import org.junit.Assert.assertEquals
@@ -44,10 +45,10 @@ class ExampleInstrumentedTest {
     @Test
     fun testTempDir() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals(true, FTempDir.newFile("mp3", context)!!.exists())
-        assertEquals(true, FTempDir.newFile(".mp3", context)!!.exists())
-        assertEquals(true, FTempDir.newFile(null, context)!!.exists())
-        assertEquals(true, FTempDir.newFile("", context)!!.exists())
+        assertEquals(true, FDirTemp.newFile("mp3", context)!!.exists())
+        assertEquals(true, FDirTemp.newFile(".mp3", context)!!.exists())
+        assertEquals(true, FDirTemp.newFile(null, context)!!.exists())
+        assertEquals(true, FDirTemp.newFile("", context)!!.exists())
     }
 
     @Test
@@ -132,8 +133,7 @@ class ExampleInstrumentedTest {
         assertEquals(expectedString, fileUri.toString())
         assertEquals(filename, FUriUtils.getName(fileUri, context))
 
-        val tempDir = FTempDir.get(context)
-        val copyFile = FUriUtils.saveToDir(fileUri, tempDir, context)
+        val copyFile = FDirUri.saveUri(fileUri, context)
         assertEquals(true, copyFile!!.exists())
         assertEquals("hello world", copyFile.readText())
     }
