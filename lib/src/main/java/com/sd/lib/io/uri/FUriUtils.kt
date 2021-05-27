@@ -5,8 +5,6 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
-import com.sd.lib.io.FFileUtils
-import com.sd.lib.io.LibUtils
 import java.io.File
 
 object FUriUtils {
@@ -31,33 +29,5 @@ object FUriUtils {
         if (uri == null) return ""
         val documentFile = DocumentFile.fromSingleUri(context, uri) ?: return ""
         return documentFile.name ?: ""
-    }
-
-    /**
-     * 把[uri]对应的文件，拷贝到指定的目录[dir]
-     */
-    @JvmStatic
-    fun saveToDir(uri: Uri?, dir: File?, context: Context): File? {
-        if (uri == null) return null
-        if (!FFileUtils.checkDir(dir)) return null
-
-        val name = getName(uri, context)
-        val suffix = if (name.isEmpty()) "" else "_${name}"
-        val filename = LibUtils.md5(uri.toString()) + suffix
-
-        val file = File(dir, filename)
-        val resolver = context.contentResolver
-
-        try {
-            resolver.openInputStream(uri).use { input ->
-                file.outputStream().use { output ->
-                    input!!.copyTo(output)
-                    return file
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return null
-        }
     }
 }
