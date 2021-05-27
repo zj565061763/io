@@ -16,8 +16,8 @@ class FDir {
      * 返回目录
      */
     fun get(context: Context): File? {
-        return lock {
-            FFileUtils.getFilesDir(_dir, context)
+        synchronized(_dir) {
+            return FFileUtils.getFilesDir(_dir, context)
         }
     }
 
@@ -26,7 +26,7 @@ class FDir {
      */
     fun delete(context: Context) {
         val dir = get(context)
-        lock {
+        synchronized(_dir) {
             FFileUtils.delete(dir)
         }
     }
