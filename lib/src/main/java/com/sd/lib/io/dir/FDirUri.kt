@@ -11,9 +11,6 @@ import java.io.File
 object FDirUri {
     private val DIR by lazy { FDir("f_dir_uri") }
 
-    /**
-     * 返回目录
-     */
     @JvmStatic
     private fun get(context: Context): File? {
         return DIR.get(context)
