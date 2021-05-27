@@ -3,9 +3,12 @@ package com.sd.lib.io
 import android.content.Context
 import java.io.File
 
+/**
+ * 临时缓存目录
+ */
 object FTempDir {
     /**
-     * 返回临时目录
+     * 返回目录
      */
     @JvmStatic
     fun get(context: Context): File? {
@@ -13,7 +16,7 @@ object FTempDir {
     }
 
     /**
-     * 创建临时文件
+     * 创建文件
      */
     @JvmStatic
     @Synchronized
@@ -23,7 +26,7 @@ object FTempDir {
     }
 
     /**
-     * 删除临时文件目录
+     * 删除文件目录
      */
     @JvmStatic
     @Synchronized
@@ -33,7 +36,7 @@ object FTempDir {
     }
 
     /**
-     * 缓存文件夹大小（字节）
+     * 文件夹大小（字节）
      */
     @JvmStatic
     @Synchronized
