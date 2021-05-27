@@ -4,7 +4,7 @@ import android.content.Context
 import com.sd.lib.io.FFileUtils
 import java.io.File
 
-internal class FDir {
+class FDir {
     private val _dir: String
 
     constructor(dir: String) {
