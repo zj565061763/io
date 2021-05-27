@@ -43,7 +43,7 @@ class ExampleInstrumentedTest {
     }
 
     @Test
-    fun testTempDir() {
+    fun testDirTemp() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals(true, FDirTemp.newFile("mp3", context)!!.exists())
         assertEquals(true, FDirTemp.newFile(".mp3", context)!!.exists())
