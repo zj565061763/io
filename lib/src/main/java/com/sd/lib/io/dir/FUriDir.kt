@@ -1,8 +1,9 @@
-package com.sd.lib.io.uri
+package com.sd.lib.io.dir
 
 import android.content.Context
 import android.net.Uri
 import com.sd.lib.io.FFileUtils
+import com.sd.lib.io.uri.FUriUtils
 import java.io.File
 
 /**
