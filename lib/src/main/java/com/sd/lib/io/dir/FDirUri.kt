@@ -28,13 +28,13 @@ object FDirUri {
         if (uri == null) return null
         return DIR.lock {
             val dir = DIR.get(context) ?: return@lock null
-            val file = getUriFile(uri, dir, context)
+            val file = newUriFile(uri, dir, context)
             saveUriToFile(uri, file, context)
         }
     }
 
     @JvmStatic
-    private fun getUriFile(uri: Uri, dir: File, context: Context): File {
+    private fun newUriFile(uri: Uri, dir: File, context: Context): File {
         val md5 = LibUtils.md5(uri.toString())
         val name = FUriUtils.getName(uri, context)
         return File(dir, "${md5}_${name}")
