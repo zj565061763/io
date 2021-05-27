@@ -32,6 +32,14 @@ class FDir {
     }
 
     /**
+     * 创建文件
+     */
+    fun newFile(ext: String?, context: Context): File? {
+        val dir = get(context)
+        return FFileUtils.newFileUnderDir(dir, ext)
+    }
+
+    /**
      * 同步操作
      */
     fun <R> lock(block: () -> R): R {
