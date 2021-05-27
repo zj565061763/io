@@ -24,6 +24,7 @@ object FDirUri {
      */
     @JvmStatic
     fun saveUri(uri: Uri?, context: Context): File? {
+        if (uri == null) return null
         val dir = DIR.get(context) ?: return null
         return DIR.lock {
             FUriUtils.saveToDir(uri, dir, context)
