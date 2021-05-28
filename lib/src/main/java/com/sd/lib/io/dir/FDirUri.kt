@@ -2,6 +2,7 @@ package com.sd.lib.io.dir
 
 import android.content.Context
 import android.net.Uri
+import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.LibUtils
 import com.sd.lib.io.uri.FUriUtils
 import java.io.File
@@ -40,8 +41,9 @@ object FDirUri {
     @JvmStatic
     private fun newUriFile(uri: Uri, dir: File, context: Context): File {
         val md5 = LibUtils.md5(uri.toString())
-        val name = FUriUtils.getName(uri, context)
-        return File(dir, "${md5}_${name}")
+        val ext = FExtUtils.getExt(FUriUtils.getName(uri, context))
+        val fullExt = FExtUtils.fullExt(ext)
+        return File(dir, md5 + fullExt)
     }
 
     @JvmStatic
