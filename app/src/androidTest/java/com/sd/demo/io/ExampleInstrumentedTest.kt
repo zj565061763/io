@@ -55,9 +55,8 @@ class ExampleInstrumentedTest {
     @Test
     fun testCopyFile() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-
-        val cacheDir = FFileUtils.getCacheDir("my_cache", context)!!
-        val filesDir = FFileUtils.getFilesDir("my_files", context)!!
+        val cacheDir = FFileUtils.getCacheDir("my_cache", context)
+        val filesDir = FFileUtils.getFilesDir("my_files", context)
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
