@@ -3,10 +3,10 @@ package com.sd.lib.io.dir.ext
 import android.content.Context
 import android.net.Uri
 import com.sd.lib.io.FExtUtils
-import com.sd.lib.io.LibUtils
 import com.sd.lib.io.dir.FFilesDir
 import com.sd.lib.io.uri.FUriUtils
 import java.io.File
+import java.security.MessageDigest
 
 /**
  * [Uri]文件保存目录
@@ -36,7 +36,7 @@ object FDirUri {
     }
 
     private fun newUriFile(uri: Uri, dir: File, context: Context): File {
-        val md5 = LibUtils.md5(uri.toString())
+        val md5 = md5(uri.toString())
         val ext = FExtUtils.getExt(FUriUtils.getName(uri, context))
         val fullExt = FExtUtils.fullExt(ext)
         return File(dir, md5 + fullExt)
@@ -54,5 +54,10 @@ object FDirUri {
             e.printStackTrace()
             null
         }
+    }
+
+    private fun md5(value: String): String {
+        val bytes = MessageDigest.getInstance("MD5").digest(value.toByteArray())
+        return bytes.joinToString("") { "%02X".format(it) }
     }
 }
