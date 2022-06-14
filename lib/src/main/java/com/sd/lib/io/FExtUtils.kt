@@ -37,7 +37,7 @@ object FExtUtils {
      */
     @JvmStatic
     fun fullExt(ext: String?): String {
-        return if (ext == null || ext.isEmpty()) {
+        return if (ext.isNullOrEmpty()) {
             ""
         } else {
             if (ext.startsWith(".")) ext else ".$ext"
