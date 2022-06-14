@@ -35,6 +35,7 @@ class ExampleInstrumentedTest {
         assertEquals("", FExtUtils.getExt(null, "."))
         assertEquals("mp3", FExtUtils.getExt("", "mp3"))
         assertEquals("mp3", FExtUtils.getExt("", ".mp3"))
+        assertEquals("mp3", FExtUtils.getExt("", "...mp3"))
 
         assertEquals(".mp4", FExtUtils.fullExt("mp4"))
         assertEquals(".mp3", FExtUtils.fullExt(".mp3"))
