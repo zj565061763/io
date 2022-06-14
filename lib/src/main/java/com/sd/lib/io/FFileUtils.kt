@@ -163,9 +163,8 @@ object FFileUtils {
     @JvmStatic
     fun createFile(file: File?): Boolean {
         if (file == null) return false
-        if (file.exists()) return true
         return try {
-            file.createNewFile()
+            if (file.exists()) true else file.createNewFile()
         } catch (e: Exception) {
             e.printStackTrace()
             false
