@@ -105,7 +105,6 @@ object FZipUtils {
         return true
     }
 
-    @JvmStatic
     @Throws(IOException::class)
     private fun compressFile(file: File, filename: String, outputStream: ZipOutputStream) {
         if (file.isDirectory) {
