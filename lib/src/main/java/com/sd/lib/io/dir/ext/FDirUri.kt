@@ -1,9 +1,10 @@
-package com.sd.lib.io.dir
+package com.sd.lib.io.dir.ext
 
 import android.content.Context
 import android.net.Uri
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.LibUtils
+import com.sd.lib.io.dir.FFilesDir
 import com.sd.lib.io.uri.FUriUtils
 import java.io.File
 

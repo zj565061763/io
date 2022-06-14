@@ -1,6 +1,7 @@
-package com.sd.lib.io.dir
+package com.sd.lib.io.dir.ext
 
 import android.content.Context
+import com.sd.lib.io.dir.FFilesDir
 import java.io.File
 
 /**

@@ -5,8 +5,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.FIOUtils
-import com.sd.lib.io.dir.FDirTemp
-import com.sd.lib.io.dir.FDirUri
+import com.sd.lib.io.dir.ext.FDirTemp
+import com.sd.lib.io.dir.ext.FDirUri
 import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.FUriUtils
 import org.junit.Assert.assertEquals
