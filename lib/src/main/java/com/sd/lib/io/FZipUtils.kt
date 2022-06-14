@@ -26,7 +26,7 @@ object FZipUtils {
     @JvmStatic
     fun unzip(inputStream: InputStream, dir: File?): Boolean {
         if (dir == null) return false
-        if (dir.exists() && dir.isFile) throw IllegalArgumentException("file should be a directory")
+        if (dir.exists() && dir.isFile) throw IllegalArgumentException("dir should be a directory")
 
         val zipInputStream = if (inputStream is ZipInputStream) inputStream else ZipInputStream(inputStream)
         try {
