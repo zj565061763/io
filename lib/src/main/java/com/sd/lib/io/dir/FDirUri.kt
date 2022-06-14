@@ -11,14 +11,14 @@ import java.io.File
  * [Uri]文件保存目录
  */
 object FDirUri {
-    private val DIR by lazy { FDir("f_dir_uri") }
+    private val dir = FDir("f_dir_uri")
 
     /**
      * 删除目录
      */
     @JvmStatic
     fun delete(context: Context) {
-        DIR.delete(context)
+        dir.delete(context)
     }
 
     /**
@@ -27,8 +27,8 @@ object FDirUri {
     @JvmStatic
     fun saveUri(uri: Uri?, context: Context): File? {
         if (uri == null) return null
-        return DIR.lock {
-            val dir = DIR.get(context)
+        return dir.lock {
+            val dir = dir.get(context)
             if (dir != null) {
                 val file = newUriFile(uri, dir, context)
                 saveUriToFile(uri, file, context)
