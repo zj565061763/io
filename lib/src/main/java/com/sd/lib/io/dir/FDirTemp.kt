@@ -7,7 +7,7 @@ import java.io.File
  * 临时缓存目录
  */
 object FDirTemp {
-    private val dir = FDir("f_dir_temp")
+    private val dir = FFilesDir("f_dir_temp")
 
     /**
      * 删除目录

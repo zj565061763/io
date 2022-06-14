@@ -11,7 +11,7 @@ import java.io.File
  * [Uri]文件保存目录
  */
 object FDirUri {
-    private val dir = FDir("f_dir_uri")
+    private val dir = FFilesDir("f_dir_uri")
 
     /**
      * 删除目录
