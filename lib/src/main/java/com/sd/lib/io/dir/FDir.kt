@@ -14,7 +14,7 @@ class FDir(dir: String) {
     /**
      * 返回目录
      */
-    fun get(context: Context): File? {
+    fun get(context: Context): File {
         synchronized(_dir) {
             return FFileUtils.getFilesDir(_dir, context)
         }
