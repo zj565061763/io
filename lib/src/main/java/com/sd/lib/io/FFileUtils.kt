@@ -140,9 +140,8 @@ object FFileUtils {
     @JvmStatic
     fun checkDir(file: File?): Boolean {
         if (file == null) return false
-        if (file.exists()) return true
         return try {
-            file.mkdirs()
+            if (file.exists()) true else file.mkdirs()
         } catch (e: Exception) {
             e.printStackTrace()
             false
