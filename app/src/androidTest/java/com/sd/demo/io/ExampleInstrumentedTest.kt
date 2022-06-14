@@ -13,6 +13,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
+import java.security.MessageDigest
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -177,5 +178,16 @@ class ExampleInstrumentedTest {
             writeText("world")
             assertEquals("world", FIOUtils.readText(this))
         }
+    }
+
+    @Test
+    fun testMd5() {
+        val content = "hello world!"
+        assertEquals(md5(content), "FC3FF98E8C6A0D3087D515C0473F8677")
+    }
+
+    private fun md5(value: String): String {
+        val bytes = MessageDigest.getInstance("MD5").digest(value.toByteArray())
+        return bytes.joinToString("") { "%02X".format(it) }
     }
 }
