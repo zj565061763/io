@@ -15,7 +15,8 @@ object FUriUtils {
     fun fileToUri(file: File?, context: Context): Uri? {
         if (file == null) return null
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            FileProvider.getUriForFile(context, FFileProvider.getAuthority(context), file)
+            val authority = FFileProvider.getAuthority(context)
+            FileProvider.getUriForFile(context, authority, file)
         } else {
             Uri.fromFile(file)
         }
