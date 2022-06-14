@@ -32,15 +32,15 @@ object FFileUtils {
     }
 
     /**
-     * 获得files下的[name]目录
+     * 优先获取外部files下的[name]目录，如果获取失败则获取内部files下的[name]目录
      */
     @JvmStatic
     fun getFilesDir(name: String, context: Context): File? {
         val externalDir = context.getExternalFilesDir(name)
         if (checkDir(externalDir)) return externalDir
-
-        val dir = File(context.filesDir, name)
-        return if (checkDir(dir)) dir else null
+        return File(context.filesDir, name).also {
+            checkDir(it)
+        }
     }
 
     /**
