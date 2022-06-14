@@ -34,8 +34,10 @@ class FDir(dir: String) {
      * 创建文件
      */
     fun newFile(ext: String?, context: Context): File? {
-        val dir = get(context)
-        return FFileUtils.newFileUnderDir(dir, ext)
+        synchronized(_dir) {
+            val dir = get(context)
+            return FFileUtils.newFileUnderDir(dir, ext)
+        }
     }
 
     /**
