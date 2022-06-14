@@ -22,7 +22,7 @@ object FDirTemp {
      * 创建文件
      */
     @JvmStatic
-    fun newFile(ext: String?, context: Context): File? {
+    fun newFile(ext: String?, context: Context): File {
         return dir.newFile(ext, context)
     }
 }
