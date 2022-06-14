@@ -65,7 +65,7 @@ object FZipUtils {
     }
 
     /**
-     * 压缩文件
+     * 把[source]压缩为[zip]
      */
     @JvmStatic
     fun zip(source: File?, zip: File?): Boolean {
