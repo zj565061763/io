@@ -7,7 +7,7 @@ class FFileProvider : FileProvider() {
     companion object {
         @JvmStatic
         fun getAuthority(context: Context): String {
-            return "${context.packageName}.${FFileProvider::class.java.simpleName.lowercase()}"
+            return "${context.packageName}.f-provider-lib-io}"
         }
     }
 }

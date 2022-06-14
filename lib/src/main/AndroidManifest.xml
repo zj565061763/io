@@ -5,7 +5,7 @@
     <application>
         <provider
             android:name=".uri.FFileProvider"
-            android:authorities="${applicationId}.ffileprovider"
+            android:authorities="${applicationId}.f-provider-lib-io"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
