@@ -4,7 +4,7 @@ import android.content.Context
 import com.sd.lib.io.FFileUtils
 import java.io.File
 
-internal open class FDir(
+open class FDir(
     dirName: String,
     isCacheDir: Boolean = false,
 ) {
