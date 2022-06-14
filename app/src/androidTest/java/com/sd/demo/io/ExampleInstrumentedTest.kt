@@ -126,10 +126,11 @@ class ExampleInstrumentedTest {
         val file = File(cacheDir, filename).apply {
             this.writeText("hello world")
         }
-        val fileUri = FUriUtils.fileToUri(file, context)
 
-        val expectedString = "content://${context.packageName}.${FFileProvider::class.java.simpleName.toLowerCase()}/external_path" +
+        val fileUri = FUriUtils.fileToUri(file, context)
+        val expectedString = "content://${FFileProvider.getAuthority(context)}/external_path" +
                 "/Android/data/${context.packageName}/cache/${dirName}/${filename}"
+
         assertEquals(expectedString, fileUri.toString())
         assertEquals(filename, FUriUtils.getName(fileUri, context))
 
