@@ -7,14 +7,14 @@ import java.io.File
  * 临时缓存目录
  */
 object FDirTemp {
-    private val DIR by lazy { FDir("f_dir_temp") }
+    private val dir = FDir("f_dir_temp")
 
     /**
      * 删除目录
      */
     @JvmStatic
     fun delete(context: Context) {
-        DIR.delete(context)
+        dir.delete(context)
     }
 
     /**
@@ -22,6 +22,6 @@ object FDirTemp {
      */
     @JvmStatic
     fun newFile(ext: String?, context: Context): File? {
-        return DIR.newFile(ext, context)
+        return dir.newFile(ext, context)
     }
 }
