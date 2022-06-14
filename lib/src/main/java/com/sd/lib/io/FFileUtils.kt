@@ -63,7 +63,8 @@ object FFileUtils {
     }
 
     /**
-     * 拷贝[source]到指定[dir]目录下
+     * 如果[source]是文件，则拷贝到[dir]目录下，
+     * 如果[source]是目录，则拷贝目录下的所有文件到[dir]目录下
      */
     @JvmStatic
     fun copyToDir(source: File?, dir: File?): Boolean {
