@@ -4,12 +4,11 @@ import android.content.Context
 import com.sd.lib.io.FFileUtils
 import java.io.File
 
-class FDir {
-    private val _dir: String
+class FDir(dir: String) {
+    private val _dir = dir
 
-    constructor(dir: String) {
-        if (dir.isEmpty()) throw IllegalArgumentException("dir is empty")
-        _dir = dir
+    init {
+        require(dir.isNotEmpty()) { "dir is empty" }
     }
 
     /**
