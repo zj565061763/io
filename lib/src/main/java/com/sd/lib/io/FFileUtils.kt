@@ -74,7 +74,12 @@ object FFileUtils {
             delete(dir)
         }
         return try {
-            source.copyRecursively(dir, overwrite = true)
+            if (source.isDirectory) {
+                source.copyRecursively(dir, overwrite = true)
+            } else {
+                val targetFile = File(dir, source.name)
+                copyFile(source, targetFile)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             false
