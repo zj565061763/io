@@ -30,12 +30,8 @@ object FDirUri {
         if (uri == null) return null
         return dir.lock {
             val dir = dir.get(context)
-            if (dir != null) {
-                val file = newUriFile(uri, dir, context)
-                saveUriToFile(uri, file, context)
-            } else {
-                null
-            }
+            val file = newUriFile(uri, dir, context)
+            saveUriToFile(uri, file, context)
         }
     }
 
