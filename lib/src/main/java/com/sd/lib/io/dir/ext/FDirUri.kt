@@ -35,7 +35,6 @@ object FDirUri {
         }
     }
 
-    @JvmStatic
     private fun newUriFile(uri: Uri, dir: File, context: Context): File {
         val md5 = LibUtils.md5(uri.toString())
         val ext = FExtUtils.getExt(FUriUtils.getName(uri, context))
@@ -43,10 +42,9 @@ object FDirUri {
         return File(dir, md5 + fullExt)
     }
 
-    @JvmStatic
     private fun saveUriToFile(uri: Uri, file: File, context: Context): File? {
         return try {
-            context.contentResolver.openInputStream(uri)!!.use { input ->
+            context.contentResolver.openInputStream(uri)?.use { input ->
                 file.outputStream().use { output ->
                     input.copyTo(output)
                     file
