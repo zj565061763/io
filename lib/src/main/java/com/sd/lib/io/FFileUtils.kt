@@ -69,7 +69,9 @@ object FFileUtils {
     fun copyToDir(source: File?, dir: File?): Boolean {
         if (source == null || dir == null) return false
         if (source == dir) return true
-        if (dir.exists() && !dir.isDirectory) throw IllegalArgumentException("dir should be a directory")
+        if (dir.exists() && !dir.isDirectory) {
+            delete(dir)
+        }
         return try {
             source.copyRecursively(dir, overwrite = true)
         } catch (e: Exception) {
