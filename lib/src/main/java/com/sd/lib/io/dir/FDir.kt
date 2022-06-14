@@ -24,8 +24,8 @@ class FDir(dir: String) {
      * 删除目录
      */
     fun delete(context: Context) {
-        val dir = get(context)
         synchronized(_dir) {
+            val dir = get(context)
             FFileUtils.delete(dir)
         }
     }
