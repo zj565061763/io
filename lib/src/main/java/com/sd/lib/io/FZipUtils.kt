@@ -94,7 +94,12 @@ object FZipUtils {
         ZipOutputStream(zip.outputStream()).use { output ->
             for (item in files) {
                 if (item == null || !item.exists()) return false
-                compressFile(item, item.name, output)
+                try {
+                    compressFile(item, item.name, output)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    return false
+                }
             }
         }
         return true
