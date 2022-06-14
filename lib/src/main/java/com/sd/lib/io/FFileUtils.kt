@@ -20,15 +20,15 @@ object FFileUtils {
     }
 
     /**
-     * 获得cache下的[name]目录
+     * 优先获取外部cache下的[name]目录，如果获取失败则获取内部cache下的[name]目录
      */
     @JvmStatic
-    fun getCacheDir(name: String, context: Context): File? {
+    fun getCacheDir(name: String, context: Context): File {
         val externalDir = File(context.externalCacheDir, name)
         if (checkDir(externalDir)) return externalDir
-
-        val dir = File(context.cacheDir, name)
-        return if (checkDir(dir)) dir else null
+        return File(context.cacheDir, name).also {
+            checkDir(it)
+        }
     }
 
     /**
