@@ -4,28 +4,33 @@ import android.webkit.MimeTypeMap
 
 object FExtUtils {
     /**
-     * 获取扩展名
+     * 获取扩展名，不包括"."，
+     * 例如：png
      */
     @JvmStatic
     @JvmOverloads
     fun getExt(url: String?, defaultExt: String? = null): String {
-        val defaultExtFormat = if (defaultExt == null || defaultExt.isEmpty()) {
+        val defaultExtFormat = if (defaultExt.isNullOrEmpty()) {
             ""
         } else {
-            if (defaultExt.startsWith(".")) defaultExt.substring(1) else defaultExt
+            var ext: String = defaultExt
+            while (ext.startsWith(".")) {
+                ext = ext.removePrefix(".")
+            }
+            ext
         }
 
-        if (url == null || url.isEmpty()) {
+        if (url.isNullOrEmpty()) {
             return defaultExtFormat
         }
 
         var ext = MimeTypeMap.getFileExtensionFromUrl(url)
-        if (ext == null || ext.isEmpty()) {
+        if (ext.isNullOrEmpty()) {
             val lastIndex = url.lastIndexOf(".")
             if (lastIndex >= 0) ext = url.substring(lastIndex + 1)
         }
 
-        return if (ext == null || ext.isEmpty()) {
+        return if (ext.isNullOrEmpty()) {
             defaultExtFormat
         } else {
             ext
