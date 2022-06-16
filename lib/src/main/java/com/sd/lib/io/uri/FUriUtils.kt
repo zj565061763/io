@@ -1,6 +1,5 @@
 package com.sd.lib.io.uri
 
-import android.content.Context
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.FileProvider
@@ -12,10 +11,11 @@ object FUriUtils {
      * [File]转[Uri]
      */
     @JvmStatic
-    fun fileToUri(file: File?, context: Context): Uri? {
+    fun fileToUri(file: File?): Uri? {
         if (file == null) return null
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val authority = FFileProvider.getAuthority(context)
+            val context = FFileProvider.savedContext
+            val authority = FFileProvider.getAuthority()
             FileProvider.getUriForFile(context, authority, file)
         } else {
             Uri.fromFile(file)
@@ -26,8 +26,9 @@ object FUriUtils {
      * [uri]文件名
      */
     @JvmStatic
-    fun getName(uri: Uri?, context: Context): String {
+    fun getName(uri: Uri?): String {
         if (uri == null) return ""
+        val context = FFileProvider.savedContext
         val documentFile = DocumentFile.fromSingleUri(context, uri) ?: return ""
         return documentFile.name ?: ""
     }

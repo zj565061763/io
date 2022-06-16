@@ -1,6 +1,5 @@
 package com.sd.lib.io.dir.ext
 
-import android.content.Context
 import com.sd.lib.io.dir.FFilesDir
 import java.io.File
 
@@ -14,15 +13,15 @@ object FDirTemp {
      * 删除目录
      */
     @JvmStatic
-    fun delete(context: Context) {
-        dir.delete(context)
+    fun delete() {
+        dir.delete()
     }
 
     /**
      * 创建文件
      */
     @JvmStatic
-    fun newFile(ext: String?, context: Context): File {
-        return dir.newFile(ext, context)
+    fun newFile(ext: String?): File {
+        return dir.newFile(ext)
     }
 }

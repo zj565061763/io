@@ -1,7 +1,7 @@
 package com.sd.lib.io
 
-import android.content.Context
 import android.os.Environment
+import com.sd.lib.io.uri.FFileProvider
 import java.io.File
 import java.text.DecimalFormat
 import java.util.*
@@ -23,7 +23,8 @@ object FFileUtils {
      * 优先获取外部cache下的[name]目录，如果获取失败则获取内部cache下的[name]目录
      */
     @JvmStatic
-    fun getCacheDir(name: String, context: Context): File {
+    fun getCacheDir(name: String): File {
+        val context = FFileProvider.savedContext
         val externalDir = File(context.externalCacheDir, name)
         if (checkDir(externalDir)) return externalDir
         return File(context.cacheDir, name).also {
@@ -35,7 +36,8 @@ object FFileUtils {
      * 优先获取外部files下的[name]目录，如果获取失败则获取内部files下的[name]目录
      */
     @JvmStatic
-    fun getFilesDir(name: String, context: Context): File {
+    fun getFilesDir(name: String): File {
+        val context = FFileProvider.savedContext
         val externalDir = context.getExternalFilesDir(name)
         if (checkDir(externalDir)) return externalDir!!
         return File(context.filesDir, name).also {

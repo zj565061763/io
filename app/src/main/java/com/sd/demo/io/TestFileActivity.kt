@@ -20,8 +20,8 @@ class TestFileActivity : AppCompatActivity() {
     }
 
     private fun testFile() {
-        val cacheDir = FFileUtils.getCacheDir("my_cache", this)
-        val filesDir = FFileUtils.getFilesDir("my_files", this)
+        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val filesDir = FFileUtils.getFilesDir("my_files")
 
         val cacheZip = File(filesDir, "cacheZip.zip")
         FZipUtils.zip(cacheDir, cacheZip)
@@ -30,8 +30,8 @@ class TestFileActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        val cacheDir = FFileUtils.getCacheDir("my_cache", this)
-        val filesDir = FFileUtils.getFilesDir("my_files", this)
+        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val filesDir = FFileUtils.getFilesDir("my_files")
 
         FFileUtils.delete(cacheDir)
         FFileUtils.delete(filesDir)

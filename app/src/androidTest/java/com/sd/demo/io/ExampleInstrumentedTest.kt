@@ -46,18 +46,16 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testDirTemp() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals(true, FDirTemp.newFile("mp3", context).exists())
-        assertEquals(true, FDirTemp.newFile(".mp3", context).exists())
-        assertEquals(true, FDirTemp.newFile(null, context).exists())
-        assertEquals(true, FDirTemp.newFile("", context).exists())
+        assertEquals(true, FDirTemp.newFile("mp3").exists())
+        assertEquals(true, FDirTemp.newFile(".mp3").exists())
+        assertEquals(true, FDirTemp.newFile(null).exists())
+        assertEquals(true, FDirTemp.newFile("").exists())
     }
 
     @Test
     fun testCopyFile() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val cacheDir = FFileUtils.getCacheDir("my_cache", context)
-        val filesDir = FFileUtils.getFilesDir("my_files", context)
+        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val filesDir = FFileUtils.getFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
@@ -74,10 +72,8 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testMoveFile() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-
-        val cacheDir = FFileUtils.getCacheDir("my_cache", context)!!
-        val filesDir = FFileUtils.getFilesDir("my_files", context)!!
+        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val filesDir = FFileUtils.getFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
@@ -95,10 +91,8 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testCopyToDir() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-
-        val cacheDir = FFileUtils.getCacheDir("my_cache", context)!!
-        val filesDir = FFileUtils.getFilesDir("my_files", context)!!
+        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val filesDir = FFileUtils.getFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
@@ -121,29 +115,28 @@ class ExampleInstrumentedTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
         val dirName = "my_uri"
-        val cacheDir = FFileUtils.getCacheDir(dirName, context)!!
+        val cacheDir = FFileUtils.getCacheDir(dirName)
 
         val filename = "urifile.txt"
         val file = File(cacheDir, filename).apply {
             this.writeText("hello world")
         }
 
-        val fileUri = FUriUtils.fileToUri(file, context)
-        val expectedString = "content://${FFileProvider.getAuthority(context)}/external_path" +
+        val fileUri = FUriUtils.fileToUri(file)
+        val expectedString = "content://${FFileProvider.getAuthority()}/external_path" +
                 "/Android/data/${context.packageName}/cache/${dirName}/${filename}"
 
         assertEquals(expectedString, fileUri.toString())
-        assertEquals(filename, FUriUtils.getName(fileUri, context))
+        assertEquals(filename, FUriUtils.getName(fileUri))
 
-        val saveFile = FDirUri.saveUri(fileUri, context)
+        val saveFile = FDirUri.saveUri(fileUri)
         assertEquals(true, saveFile!!.exists())
         assertEquals("hello world", saveFile.readText())
     }
 
     @Test
     fun testWriteText() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val dir = FFileUtils.getCacheDir("test_write_text", context)!!
+        val dir = FFileUtils.getCacheDir("test_write_text")
         val file = File(dir, "string.txt")
 
         file.run {
@@ -162,8 +155,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testReadText() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val dir = FFileUtils.getCacheDir("test_read_text", context)!!
+        val dir = FFileUtils.getCacheDir("test_read_text")
         val file = File(dir, "string.txt")
 
         file.run {

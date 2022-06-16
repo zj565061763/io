@@ -1,9 +1,9 @@
 package com.sd.lib.io.dir.ext
 
-import android.content.Context
 import android.net.Uri
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.dir.FFilesDir
+import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.FUriUtils
 import java.io.File
 import java.security.MessageDigest
@@ -18,32 +18,27 @@ object FDirUri {
      * 删除目录
      */
     @JvmStatic
-    fun delete(context: Context) {
-        dir.delete(context)
+    fun delete() {
+        dir.delete()
     }
 
     /**
      * 保存[uri]到目录下
      */
     @JvmStatic
-    fun saveUri(uri: Uri?, context: Context): File? {
+    fun saveUri(uri: Uri?): File? {
         if (uri == null) return null
         return dir.lock {
-            val dir = dir.get(context)
-            val file = newUriFile(uri, dir, context)
-            saveUriToFile(uri, file, context)
+            val md5Name = md5(uri.toString())
+            val ext = FExtUtils.getExt(FUriUtils.getName(uri))
+            val fullExt = FExtUtils.fullExt(ext)
+            saveUriToFile(uri, File(it, md5Name + fullExt))
         }
     }
 
-    private fun newUriFile(uri: Uri, dir: File, context: Context): File {
-        val md5 = md5(uri.toString())
-        val ext = FExtUtils.getExt(FUriUtils.getName(uri, context))
-        val fullExt = FExtUtils.fullExt(ext)
-        return File(dir, md5 + fullExt)
-    }
-
-    private fun saveUriToFile(uri: Uri, file: File, context: Context): File? {
+    private fun saveUriToFile(uri: Uri, file: File): File? {
         return try {
+            val context = FFileProvider.savedContext
             context.contentResolver.openInputStream(uri)?.use { input ->
                 file.outputStream().use { output ->
                     input.copyTo(output)
