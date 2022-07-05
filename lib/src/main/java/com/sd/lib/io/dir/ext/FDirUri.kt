@@ -29,25 +29,26 @@ object FDirUri {
     fun saveUri(uri: Uri?): File? {
         if (uri == null) return null
         return dir.lock {
-            val md5Name = md5(uri.toString())
-            val ext = FExtUtils.getExt(FUriUtils.getName(uri))
-            val fullExt = FExtUtils.fullExt(ext)
-            saveUriToFile(uri, File(it, md5Name + fullExt))
+            try {
+                val md5Name = md5(uri.toString())
+                val ext = FExtUtils.getExt(FUriUtils.getName(uri))
+                val fullExt = FExtUtils.fullExt(ext)
+                val file = File(it, md5Name + fullExt)
+                saveUriToFile(uri, file)
+                if (file.exists()) file else null
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
         }
     }
 
-    private fun saveUriToFile(uri: Uri, file: File): File? {
-        return try {
-            val context = FFileProvider.savedContext
-            context.contentResolver.openInputStream(uri)?.use { input ->
-                file.outputStream().use { output ->
-                    input.copyTo(output)
-                    file
-                }
+    private fun saveUriToFile(uri: Uri, file: File) {
+        val context = FFileProvider.savedContext
+        context.contentResolver.openInputStream(uri)?.use { input ->
+            file.outputStream().buffered().use { output ->
+                input.copyTo(output)
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
         }
     }
 
