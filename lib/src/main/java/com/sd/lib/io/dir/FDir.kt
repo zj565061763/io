@@ -3,7 +3,7 @@ package com.sd.lib.io.dir
 import com.sd.lib.io.FFileUtils
 import java.io.File
 
-open class FDir(
+open class FDir internal constructor(
     dirName: String,
     isCacheDir: Boolean = false,
 ) {
