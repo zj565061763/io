@@ -55,13 +55,13 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testCheckDir() {
-        val file = File(_context.externalCacheDir, "my_txt")
+        val file = File(File(_context.externalCacheDir, "my_dir"), "aaa")
 
-        file.fDelete()
-        assertEquals(false, file.exists())
+        assertEquals(true, file.fCheckFile())
+        assertEquals(true, file.exists() && file.isFile)
 
         assertEquals(true, file.fCheckDir())
-        assertEquals(true, file.exists())
+        assertEquals(true, file.exists() && file.isDirectory)
 
         file.fDelete()
         assertEquals(false, file.exists())
@@ -69,13 +69,13 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testCheckFile() {
-        val file = File(File(_context.externalCacheDir, "my_txt"), "aaa.txt")
+        val file = File(File(_context.externalCacheDir, "my_dir"), "aaa")
 
-        file.fDelete()
-        assertEquals(false, file.exists())
+        assertEquals(true, file.fCheckDir())
+        assertEquals(true, file.exists() && file.isDirectory)
 
         assertEquals(true, file.fCheckFile())
-        assertEquals(true, file.exists())
+        assertEquals(true, file.exists() && file.isFile)
 
         file.fDelete()
         assertEquals(false, file.exists())
