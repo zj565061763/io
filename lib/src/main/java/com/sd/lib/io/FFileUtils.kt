@@ -20,7 +20,7 @@ object FFileUtils {
         if (target == null) return false
 
         target.fDelete()
-        if (!checkDir(target.parentFile)) return false
+        if (!target.parentFile.fCheckDir()) return false
 
         return try {
             source.renameTo(target)
@@ -28,29 +28,6 @@ object FFileUtils {
             e.printStackTrace()
             false
         }
-    }
-
-    /**
-     * 检查文件夹是否存在，如果不存在则尝试创建
-     */
-    @JvmStatic
-    fun checkDir(file: File?): Boolean {
-        if (file == null) return false
-        return try {
-            if (file.exists()) true else file.mkdirs()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    /**
-     * 检查文件的父文件夹是否存在，如果不存在则尝试创建
-     */
-    fun checkParentDir(file: File?): Boolean {
-        if (file == null) return false
-        val parent = file.parentFile ?: return true
-        return checkDir(parent)
     }
 
     /**
@@ -137,7 +114,6 @@ fun File.fNewFile(ext: String?): File {
         }
     }
 }
-
 
 /**
  * 检查文件夹是否存在，如果不存在则尝试创建

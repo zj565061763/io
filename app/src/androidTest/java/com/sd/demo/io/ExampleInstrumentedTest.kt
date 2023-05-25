@@ -6,6 +6,7 @@ import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.dir.ext.FDirTemp
 import com.sd.lib.io.dir.ext.FDirUri
 import com.sd.lib.io.fCacheDir
+import com.sd.lib.io.fCheckDir
 import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
 import com.sd.lib.io.fFilesDir
@@ -101,7 +102,7 @@ class ExampleInstrumentedTest {
         assertEquals(true, filesDir.exists())
 
         File(File(cacheDir, "deep"), "deep.txt").apply {
-            FFileUtils.checkParentDir(this)
+            this.parentFile.fCheckDir()
             this.writeText("hello world")
         }
 
