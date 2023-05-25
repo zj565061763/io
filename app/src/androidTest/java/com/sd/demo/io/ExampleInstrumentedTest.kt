@@ -5,6 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.dir.ext.FDirTemp
 import com.sd.lib.io.dir.ext.FDirUri
+import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fFullExt
 import com.sd.lib.io.fGetExt
 import com.sd.lib.io.uri.FFileProvider
@@ -54,7 +55,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testCopyFile() {
-        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val cacheDir = fCacheDir("my_cache")
         val filesDir = FFileUtils.getFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
@@ -72,7 +73,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testMoveFile() {
-        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val cacheDir = fCacheDir("my_cache")
         val filesDir = FFileUtils.getFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
@@ -91,7 +92,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testCopyToDir() {
-        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val cacheDir = fCacheDir("my_cache")
         val filesDir = FFileUtils.getFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
@@ -115,7 +116,7 @@ class ExampleInstrumentedTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
         val dirName = "my_uri"
-        val cacheDir = FFileUtils.getCacheDir(dirName)
+        val cacheDir = fCacheDir(dirName)
 
         val filename = "urifile.txt"
         val file = File(cacheDir, filename).apply {

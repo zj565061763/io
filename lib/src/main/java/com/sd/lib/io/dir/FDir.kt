@@ -1,6 +1,7 @@
 package com.sd.lib.io.dir
 
 import com.sd.lib.io.FFileUtils
+import com.sd.lib.io.fCacheDir
 import java.io.File
 
 open class FDir internal constructor(
@@ -20,7 +21,7 @@ open class FDir internal constructor(
     fun get(): File {
         synchronized(_dirName) {
             return if (_isCacheDir) {
-                FFileUtils.getCacheDir(_dirName)
+                fCacheDir(_dirName)
             } else {
                 FFileUtils.getFilesDir(_dirName)
             }

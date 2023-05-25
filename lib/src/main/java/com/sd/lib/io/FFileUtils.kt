@@ -1,5 +1,6 @@
 package com.sd.lib.io
 
+import android.content.Context
 import android.os.Environment
 import com.sd.lib.ctx.fContext
 import java.io.File
@@ -17,19 +18,6 @@ object FFileUtils {
     @JvmStatic
     fun isExternalStorageMounted(): Boolean {
         return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
-    }
-
-    /**
-     * 优先获取外部cache下的[name]目录，如果获取失败则获取内部cache下的[name]目录
-     */
-    @JvmStatic
-    fun getCacheDir(name: String): File {
-        val context = fContext
-        val externalDir = File(context.externalCacheDir, name)
-        if (checkDir(externalDir)) return externalDir
-        return File(context.cacheDir, name).also {
-            checkDir(it)
-        }
     }
 
     /**
@@ -209,5 +197,39 @@ object FFileUtils {
         } else {
             df.format(byteSize.toDouble() / GB) + "GB"
         }
+    }
+}
+
+/**
+ * 获取缓存目录下的[name]目录，如果name为空则获取缓存目录，
+ * 缓存目录优先获取[Context.getExternalCacheDir]，如果不存在则获取[Context.getCacheDir]
+ */
+@JvmOverloads
+fun fCacheDir(name: String? = null): File {
+    val context = fContext
+    val dir = context.externalCacheDir ?: context.cacheDir
+    val ret = if (name.isNullOrEmpty()) {
+        dir
+    } else {
+        File(dir, name)
+    }
+    return ret.also {
+        it.checkDir()
+    }
+}
+
+/**
+ * 检查文件夹是否存在，如果不存在则尝试创建
+ */
+fun File?.checkDir(): Boolean {
+    if (this == null) return false
+    try {
+        if (!this.exists()) return this.mkdirs()
+        if (this.isDirectory) return true
+        this.delete()
+        return this.mkdirs()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return false
     }
 }

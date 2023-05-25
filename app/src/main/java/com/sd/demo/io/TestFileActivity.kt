@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.sd.demo.io.ui.theme.AppTheme
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.FZipUtils
+import com.sd.lib.io.fCacheDir
 import java.io.File
 
 class TestFileActivity : ComponentActivity() {
@@ -36,7 +37,7 @@ class TestFileActivity : ComponentActivity() {
     }
 
     private fun testZip() {
-        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val cacheDir = fCacheDir("my_cache")
         val filesDir = FFileUtils.getFilesDir("my_files")
 
         val cacheZip = File(filesDir, "cacheZip.zip")
@@ -45,7 +46,7 @@ class TestFileActivity : ComponentActivity() {
     }
 
     private fun deleteFile() {
-        val cacheDir = FFileUtils.getCacheDir("my_cache")
+        val cacheDir = fCacheDir("my_cache")
         val filesDir = FFileUtils.getFilesDir("my_files")
 
         FFileUtils.delete(cacheDir)
