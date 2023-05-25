@@ -12,17 +12,6 @@ object FFileUtils {
     const val GB = 1024 * MB
 
     /**
-     * 返回[file]的大小（字节）
-     */
-    @JvmStatic
-    fun getSize(file: File?): Long {
-        if (file == null || !file.exists()) return 0
-        return file.walkBottomUp().fold(0) { acc, it ->
-            acc + (if (it.isFile) it.length() else 0)
-        }
-    }
-
-    /**
      * 返回格式化的字符串
      */
     @JvmStatic
@@ -204,5 +193,19 @@ fun File?.fDelete() {
         }
     } catch (e: Exception) {
         e.printStackTrace()
+    }
+}
+
+/**
+ * 返回文件或者文件夹的大小（字节）
+ */
+fun File?.fSize(): Long {
+    if (this == null || !this.exists()) return 0
+    return if (this.isFile) {
+        this.length()
+    } else {
+        this.walkBottomUp().fold(0) { acc, it ->
+            acc + (if (it.isFile) it.length() else 0)
+        }
     }
 }
