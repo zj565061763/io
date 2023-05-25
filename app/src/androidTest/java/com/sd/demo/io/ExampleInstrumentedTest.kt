@@ -2,7 +2,6 @@ package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.dir.ext.FDirTemp
 import com.sd.lib.io.dir.ext.FDirUri
 import com.sd.lib.io.fCacheDir
@@ -14,6 +13,7 @@ import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fFullExt
 import com.sd.lib.io.fGetExt
+import com.sd.lib.io.fMoveToFile
 import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.FUriUtils
 import org.junit.Assert.assertEquals
@@ -118,7 +118,7 @@ class ExampleInstrumentedTest {
             this.writeText("hello world")
         }
         val moveFile = File(File(filesDir, "moveFile"), "move.txt")
-        val moveResult = FFileUtils.moveFile(file, moveFile)
+        val moveResult = file.fMoveToFile(moveFile)
 
         assertEquals(true, moveResult)
         assertEquals(false, file.exists())
