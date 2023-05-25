@@ -1,9 +1,9 @@
 package com.sd.lib.io.dir.ext
 
 import android.net.Uri
+import com.sd.lib.ctx.fContext
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.dir.FFilesDir
-import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.FUriUtils
 import java.io.File
 import java.security.MessageDigest
@@ -44,7 +44,7 @@ object FDirUri {
     }
 
     private fun saveUriToFile(uri: Uri, file: File) {
-        val context = FFileProvider.savedContext
+        val context = fContext
         context.contentResolver.openInputStream(uri)?.use { input ->
             file.outputStream().buffered().use { output ->
                 input.copyTo(output)

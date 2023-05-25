@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sd.lib.io">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
         <provider
             android:name=".uri.FFileProvider"
-            android:authorities="${applicationId}.f-f-provider-lib-io"
+            android:authorities="${applicationId}.f-fp-lib-io"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

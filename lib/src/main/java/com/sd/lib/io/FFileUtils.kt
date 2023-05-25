@@ -1,10 +1,10 @@
 package com.sd.lib.io
 
 import android.os.Environment
-import com.sd.lib.io.uri.FFileProvider
+import com.sd.lib.ctx.fContext
 import java.io.File
 import java.text.DecimalFormat
-import java.util.*
+import java.util.UUID
 
 object FFileUtils {
     const val KB = 1024L
@@ -24,7 +24,7 @@ object FFileUtils {
      */
     @JvmStatic
     fun getCacheDir(name: String): File {
-        val context = FFileProvider.savedContext
+        val context = fContext
         val externalDir = File(context.externalCacheDir, name)
         if (checkDir(externalDir)) return externalDir
         return File(context.cacheDir, name).also {
@@ -37,7 +37,7 @@ object FFileUtils {
      */
     @JvmStatic
     fun getFilesDir(name: String): File {
-        val context = FFileProvider.savedContext
+        val context = fContext
         val externalDir = context.getExternalFilesDir(name)
         if (checkDir(externalDir)) return externalDir!!
         return File(context.filesDir, name).also {
