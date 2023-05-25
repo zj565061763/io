@@ -200,6 +200,7 @@ fun Long.fFormatByteSize(df: DecimalFormat = DecimalFormat("#.0")): String {
         this < FByteKB -> df.format(this.toDouble()) + "B"
         this < FByteMB -> df.format(this.toDouble() / FByteKB) + "KB"
         this < FByteGB -> df.format(this.toDouble() / FByteMB) + "MB"
-        else -> df.format(this.toDouble() / FByteGB) + "GB"
+        this < FByteTB -> df.format(this.toDouble() / FByteGB) + "GB"
+        else -> df.format(this.toDouble() / FByteTB) + "TB"
     }
 }
