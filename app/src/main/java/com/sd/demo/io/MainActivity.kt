@@ -2,6 +2,7 @@ package com.sd.demo.io
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -46,4 +47,8 @@ private fun Content(
             Text(text = "button")
         }
     }
+}
+
+inline fun logMsg(block: () -> String) {
+    Log.i("io-demo", block())
 }
