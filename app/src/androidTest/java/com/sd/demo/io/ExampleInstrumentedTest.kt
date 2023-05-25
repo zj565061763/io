@@ -9,6 +9,7 @@ import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCheckDir
 import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
+import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fFullExt
 import com.sd.lib.io.fGetExt
@@ -27,6 +28,8 @@ import java.security.MessageDigest
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+    private val _context get() = InstrumentationRegistry.getInstrumentation().targetContext
+
     @Test
     fun testExt() {
         assertEquals("mp3", "hello.mp3".fGetExt())
@@ -47,6 +50,16 @@ class ExampleInstrumentedTest {
         assertEquals(".mp3", ".mp3".fFullExt())
         assertEquals("", null.fFullExt())
         assertEquals("", "".fFullExt())
+    }
+
+    @Test
+    fun testCheckDir() {
+        val dir = File(_context.externalCacheDir, "txt")
+        assertEquals(true, dir.fCheckDir())
+        assertEquals(true, dir.exists())
+
+        dir.fDelete()
+        assertEquals(false, dir.exists())
     }
 
     @Test
