@@ -197,6 +197,7 @@ fun File.fNewFile(ext: String?): File {
 
 /**
  * 检查文件夹是否存在，如果不存在则尝试创建
+ * @return true-文件夹已经存在，或者创建成功
  */
 fun File?.fCheckDir(): Boolean {
     try {
@@ -213,6 +214,7 @@ fun File?.fCheckDir(): Boolean {
 
 /**
  * 检查文件是否存在，如果不存在则尝试创建
+ * @return true-文件已经存在，或者创建成功
  */
 fun File?.fCheckFile(): Boolean {
     return try {
@@ -229,6 +231,7 @@ fun File?.fCheckFile(): Boolean {
 
 /**
  * 删除文件或者目录
+ * @return true-文件或者文件夹删除成功
  */
 fun File?.fDelete(): Boolean {
     if (this == null) return false
