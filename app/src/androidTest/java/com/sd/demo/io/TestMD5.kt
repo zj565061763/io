@@ -15,12 +15,12 @@ import java.security.MessageDigest
 class TestMD5 {
     @Test
     fun testMd5() {
-        val content = "hello world!"
-        assertEquals(md5(content), "FC3FF98E8C6A0D3087D515C0473F8677")
+        val md5 = md5("hello world!")
+        assertEquals("FC3FF98E8C6A0D3087D515C0473F8677", md5)
     }
+}
 
-    private fun md5(value: String): String {
-        val bytes = MessageDigest.getInstance("MD5").digest(value.toByteArray())
-        return bytes.joinToString("") { "%02X".format(it) }
-    }
+private fun md5(value: String): String {
+    val bytes = MessageDigest.getInstance("MD5").digest(value.toByteArray())
+    return bytes.joinToString("") { "%02X".format(it) }
 }
