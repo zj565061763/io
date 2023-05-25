@@ -188,6 +188,23 @@ fun File?.fCopyToFile(file: File?): Boolean {
 }
 
 /**
+ * 移动文件
+ */
+fun File?.fMoveToFile(file: File?): Boolean {
+    if (this == null || file == null) return false
+    if (!this.exists()) return false
+    if (this.isDirectory) error("this should not be a directory")
+    if (!file.fCheckFile()) return false
+    if (this == file) return true
+    return try {
+        this.renameTo(file)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
+    }
+}
+
+/**
  * 删除文件或者目录
  */
 fun File?.fDelete() {
