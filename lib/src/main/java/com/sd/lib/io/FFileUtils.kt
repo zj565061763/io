@@ -6,11 +6,10 @@ import java.io.File
 import java.text.DecimalFormat
 import java.util.UUID
 
-object FFileUtils {
-    const val KB = 1024L
-    const val MB = 1024 * KB
-    const val GB = 1024 * MB
-}
+const val FByteKB = 1024L
+const val FByteMB = 1024 * FByteKB
+const val FByteGB = 1024 * FByteMB
+const val FByteTB = 1024 * FByteGB
 
 /**
  * 获取缓存目录下的[name]目录，如果name为空则获取缓存目录，
@@ -198,9 +197,9 @@ fun File?.fSize(): Long {
 fun Long.fFormatByteSize(df: DecimalFormat = DecimalFormat("#.0")): String {
     return when {
         this <= 0 -> df.format(0.0) + "B"
-        this < FFileUtils.KB -> df.format(this.toDouble()) + "B"
-        this < FFileUtils.MB -> df.format(this.toDouble() / FFileUtils.KB) + "KB"
-        this < FFileUtils.GB -> df.format(this.toDouble() / FFileUtils.MB) + "MB"
-        else -> df.format(this.toDouble() / FFileUtils.GB) + "GB"
+        this < FByteKB -> df.format(this.toDouble()) + "B"
+        this < FByteMB -> df.format(this.toDouble() / FByteKB) + "KB"
+        this < FByteGB -> df.format(this.toDouble() / FByteMB) + "MB"
+        else -> df.format(this.toDouble() / FByteGB) + "GB"
     }
 }
