@@ -4,7 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.FFileUtils
-import com.sd.lib.io.FIOUtils
 import com.sd.lib.io.dir.ext.FDirTemp
 import com.sd.lib.io.dir.ext.FDirUri
 import com.sd.lib.io.uri.FFileProvider
@@ -132,44 +131,6 @@ class ExampleInstrumentedTest {
         val saveFile = FDirUri.saveUri(fileUri)
         assertEquals(true, saveFile!!.exists())
         assertEquals("hello world", saveFile.readText())
-    }
-
-    @Test
-    fun testWriteText() {
-        val dir = FFileUtils.getCacheDir("test_write_text")
-        val file = File(dir, "string.txt")
-
-        file.run {
-            assertEquals(true, FIOUtils.writeText("hello", this))
-            assertEquals("hello", readText())
-        }
-        file.run {
-            assertEquals(true, FIOUtils.writeText("", this))
-            assertEquals("", readText())
-        }
-        file.run {
-            assertEquals(true, FIOUtils.writeText("world", this))
-            assertEquals("world", readText())
-        }
-    }
-
-    @Test
-    fun testReadText() {
-        val dir = FFileUtils.getCacheDir("test_read_text")
-        val file = File(dir, "string.txt")
-
-        file.run {
-            writeText("hello")
-            assertEquals("hello", FIOUtils.readText(this))
-        }
-        file.run {
-            writeText("")
-            assertEquals("", FIOUtils.readText(this))
-        }
-        file.run {
-            writeText("world")
-            assertEquals("world", FIOUtils.readText(this))
-        }
     }
 
     @Test

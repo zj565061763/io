@@ -9,7 +9,11 @@ object FIOUtils {
     @JvmStatic
     @JvmOverloads
     @Throws(IOException::class)
-    fun copy(inputStream: InputStream, outputStream: OutputStream, callback: CopyCallback? = null): Long {
+    fun copy(
+        inputStream: InputStream,
+        outputStream: OutputStream,
+        callback: CopyCallback? = null,
+    ): Long {
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
         var bytesCopied: Long = 0
         var bytes = inputStream.read(buffer)
@@ -29,35 +33,6 @@ object FIOUtils {
         try {
             closeable?.close()
         } catch (ignored: Throwable) {
-        }
-    }
-
-    //---------- ext ----------
-
-    /**
-     * 写入字符串
-     */
-    fun writeText(content: String?, file: File?): Boolean {
-        if (file == null) return false
-        return try {
-            file.writeText(content ?: "")
-            true
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    /**
-     * 读取字符串
-     */
-    fun readText(file: File?): String? {
-        if (file == null) return null
-        return try {
-            file.readText()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
         }
     }
 
