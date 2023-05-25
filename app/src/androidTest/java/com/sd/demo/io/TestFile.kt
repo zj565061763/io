@@ -25,7 +25,7 @@ import java.io.File
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class TestFile {
     private val _context get() = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
