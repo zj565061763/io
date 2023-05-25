@@ -231,12 +231,11 @@ fun File?.fCheckFile(): Boolean {
 
 /**
  * 删除文件或者目录
- * @return true-文件或者文件夹删除成功
  */
-fun File?.fDelete(): Boolean {
-    if (this == null) return false
-    return try {
-        if (!this.exists()) return false
+fun File?.fDelete() {
+    if (this == null) return
+    try {
+        if (!this.exists()) return
         if (this.isFile) {
             this.delete()
         } else {
@@ -244,6 +243,5 @@ fun File?.fDelete(): Boolean {
         }
     } catch (e: Exception) {
         e.printStackTrace()
-        return false
     }
 }
