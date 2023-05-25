@@ -10,25 +10,6 @@ object FFileUtils {
     const val KB = 1024L
     const val MB = 1024 * KB
     const val GB = 1024 * MB
-
-    /**
-     * 返回格式化的字符串
-     */
-    @JvmStatic
-    @JvmOverloads
-    fun formatSize(byteSize: Long, df: DecimalFormat = DecimalFormat("#.0")): String {
-        return if (byteSize <= 0) {
-            "0.0B"
-        } else if (byteSize < KB) {
-            df.format(byteSize.toDouble()) + "B"
-        } else if (byteSize < MB) {
-            df.format(byteSize.toDouble() / KB) + "KB"
-        } else if (byteSize < GB) {
-            df.format(byteSize.toDouble() / MB) + "MB"
-        } else {
-            df.format(byteSize.toDouble() / GB) + "GB"
-        }
-    }
 }
 
 /**
@@ -207,5 +188,19 @@ fun File?.fSize(): Long {
         this.walkBottomUp().fold(0) { acc, it ->
             acc + (if (it.isFile) it.length() else 0)
         }
+    }
+}
+
+/**
+ * 返回格式化的字符串
+ */
+@JvmOverloads
+fun Long.fFormatByteSize(df: DecimalFormat = DecimalFormat("#.0")): String {
+    return when {
+        this <= 0 -> df.format(0.0) + "B"
+        this < FFileUtils.KB -> df.format(this.toDouble()) + "B"
+        this < FFileUtils.MB -> df.format(this.toDouble() / FFileUtils.KB) + "KB"
+        this < FFileUtils.GB -> df.format(this.toDouble() / FFileUtils.MB) + "MB"
+        else -> df.format(this.toDouble() / FFileUtils.GB) + "GB"
     }
 }
