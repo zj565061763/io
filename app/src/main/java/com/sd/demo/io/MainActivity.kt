@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
             AppTheme {
                 Content(
                     onClick = {
-                        startActivity(Intent(this, TestFileActivity::class.java))
+                        startActivity(Intent(this, ZipActivity::class.java))
                     },
                 )
             }
@@ -44,7 +44,7 @@ private fun Content(
         Button(
             onClick = onClick
         ) {
-            Text(text = "button")
+            Text(text = "zip")
         }
     }
 }

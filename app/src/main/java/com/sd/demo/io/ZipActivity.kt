@@ -19,7 +19,7 @@ import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
 import java.io.File
 
-class TestFileActivity : ComponentActivity() {
+class ZipActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

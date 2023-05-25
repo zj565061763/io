@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".TestFileActivity" />
+        <activity android:name=".ZipActivity" />
 
     </application>
 
