@@ -2,50 +2,52 @@ package com.sd.lib.io
 
 import android.webkit.MimeTypeMap
 
-object FExtUtils {
-    /**
-     * 获取扩展名，不包括"."，
-     * 例如：png
-     */
-    @JvmStatic
-    @JvmOverloads
-    fun getExt(url: String?, defaultExt: String? = null): String {
-        val defaultExtFormat = if (defaultExt.isNullOrEmpty()) {
-            ""
-        } else {
-            var ext: String = defaultExt
-            while (ext.startsWith(".")) {
-                ext = ext.removePrefix(".")
-            }
-            ext
-        }
-
-        if (url.isNullOrEmpty()) {
-            return defaultExtFormat
-        }
-
-        var ext = MimeTypeMap.getFileExtensionFromUrl(url)
-        if (ext.isNullOrEmpty()) {
-            val lastIndex = url.lastIndexOf(".")
-            if (lastIndex >= 0) ext = url.substring(lastIndex + 1)
-        }
-
-        return if (ext.isNullOrEmpty()) {
-            defaultExtFormat
-        } else {
-            ext
-        }
+/**
+ * 获取扩展名，不包括"."，
+ * 例如：png
+ */
+@JvmOverloads
+fun String?.fGetExt(defaultExt: String? = null): String {
+    if (this.isNullOrEmpty()) {
+        return formatDefaultExt(defaultExt)
     }
 
-    /**
-     * 完整扩展名
-     */
-    @JvmStatic
-    fun fullExt(ext: String?): String {
-        return if (ext.isNullOrEmpty()) {
-            ""
-        } else {
-            if (ext.startsWith(".")) ext else ".$ext"
-        }
+    var ext = MimeTypeMap.getFileExtensionFromUrl(this)
+    if (ext.isNullOrEmpty()) {
+        val lastIndex = this.lastIndexOf(".")
+        if (lastIndex >= 0) ext = this.substring(lastIndex + 1)
     }
+
+    return if (ext.isNullOrEmpty()) {
+        formatDefaultExt(defaultExt)
+    } else {
+        removePrefixDot(ext)
+    }
+}
+
+/**
+ * 完整扩展名
+ */
+fun String?.fFullExt(): String {
+    return if (this.isNullOrEmpty()) {
+        ""
+    } else {
+        if (this.startsWith(".")) this else ".$this"
+    }
+}
+
+private fun formatDefaultExt(defaultExt: String?): String {
+    return if (defaultExt.isNullOrEmpty()) {
+        ""
+    } else {
+        removePrefixDot(defaultExt)
+    }
+}
+
+private fun removePrefixDot(input: String): String {
+    var ret = input
+    while (ret.startsWith(".")) {
+        ret = ret.removePrefix(".")
+    }
+    return ret
 }

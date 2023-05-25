@@ -51,7 +51,7 @@ object FFileUtils {
     @JvmStatic
     fun newFileUnderDir(dir: File, ext: String?): File {
         checkDir(dir)
-        val fullExt = FExtUtils.fullExt(ext)
+        val fullExt = ext.fFullExt()
         while (true) {
             val filename = UUID.randomUUID().toString() + fullExt
             val file = File(dir, filename)

@@ -59,7 +59,7 @@ object FZipUtils {
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
-            FIOUtils.close(zipInputStream)
+            zipInputStream.fClose()
         }
         return false
     }

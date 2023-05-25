@@ -1,42 +1,32 @@
 package com.sd.lib.io
 
-import java.io.*
+import java.io.Closeable
+import java.io.InputStream
+import java.io.OutputStream
 
-object FIOUtils {
-    /**
-     * [inputStream]拷贝到[outputStream]
-     */
-    @JvmStatic
-    @JvmOverloads
-    @Throws(IOException::class)
-    fun copy(
-        inputStream: InputStream,
-        outputStream: OutputStream,
-        callback: CopyCallback? = null,
-    ): Long {
-        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-        var bytesCopied: Long = 0
-        var bytes = inputStream.read(buffer)
-        while (bytes >= 0) {
-            outputStream.write(buffer, 0, bytes)
+@JvmOverloads
+fun InputStream.fCopyTo(
+    out: OutputStream,
+    bufferSize: Int = DEFAULT_BUFFER_SIZE,
+    callback: ((count: Long) -> Boolean)? = null,
+): Long {
+    var bytesCopied: Long = 0
+    val buffer = ByteArray(bufferSize)
+    var bytes = read(buffer)
+    while (bytes >= 0) {
+        out.write(buffer, 0, bytes)
 
-            bytesCopied += bytes
-            if (callback != null && callback.onBytesCopied(bytesCopied)) break
+        bytesCopied += bytes
+        if (callback?.invoke(bytesCopied) == true) break
 
-            bytes = inputStream.read(buffer)
-        }
-        return bytesCopied
+        bytes = read(buffer)
     }
+    return bytesCopied
+}
 
-    @JvmStatic
-    fun close(closeable: Closeable?) {
-        try {
-            closeable?.close()
-        } catch (ignored: Throwable) {
-        }
-    }
-
-    fun interface CopyCallback {
-        fun onBytesCopied(count: Long): Boolean
+fun Closeable?.fClose() {
+    try {
+        this?.close()
+    } catch (ignored: Throwable) {
     }
 }

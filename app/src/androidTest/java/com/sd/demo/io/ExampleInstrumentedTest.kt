@@ -2,10 +2,11 @@ package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.dir.ext.FDirTemp
 import com.sd.lib.io.dir.ext.FDirUri
+import com.sd.lib.io.fFullExt
+import com.sd.lib.io.fGetExt
 import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.FUriUtils
 import org.junit.Assert.assertEquals
@@ -23,24 +24,24 @@ import java.security.MessageDigest
 class ExampleInstrumentedTest {
     @Test
     fun testExt() {
-        assertEquals("mp3", FExtUtils.getExt("hello.mp3"))
-        assertEquals("mp3", FExtUtils.getExt(".mp3"))
+        assertEquals("mp3", "hello.mp3".fGetExt())
+        assertEquals("mp3", ".mp3".fGetExt())
 
-        assertEquals("", FExtUtils.getExt("mp3"))
-        assertEquals("", FExtUtils.getExt(null))
-        assertEquals("", FExtUtils.getExt(""))
+        assertEquals("", "mp3".fGetExt())
+        assertEquals("", null.fGetExt())
+        assertEquals("", "".fGetExt())
 
-        assertEquals("", FExtUtils.getExt("mp3", null))
-        assertEquals("", FExtUtils.getExt(null, ""))
-        assertEquals("", FExtUtils.getExt(null, "."))
-        assertEquals("mp3", FExtUtils.getExt("", "mp3"))
-        assertEquals("mp3", FExtUtils.getExt("", ".mp3"))
-        assertEquals("mp3", FExtUtils.getExt("", "...mp3"))
+        assertEquals("", "mp3".fGetExt(null))
+        assertEquals("", null.fGetExt(""))
+        assertEquals("", null.fGetExt("."))
+        assertEquals("mp3", "".fGetExt("mp3"))
+        assertEquals("mp3", "".fGetExt(".mp3"))
+        assertEquals("mp3", "".fGetExt("...mp3"))
 
-        assertEquals(".mp4", FExtUtils.fullExt("mp4"))
-        assertEquals(".mp3", FExtUtils.fullExt(".mp3"))
-        assertEquals("", FExtUtils.fullExt(null))
-        assertEquals("", FExtUtils.fullExt(""))
+        assertEquals(".mp4", "mp4".fFullExt())
+        assertEquals(".mp3", ".mp3".fFullExt())
+        assertEquals("", null.fFullExt())
+        assertEquals("", "".fFullExt())
     }
 
     @Test

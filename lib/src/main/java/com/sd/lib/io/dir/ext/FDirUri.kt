@@ -2,8 +2,9 @@ package com.sd.lib.io.dir.ext
 
 import android.net.Uri
 import com.sd.lib.ctx.fContext
-import com.sd.lib.io.FExtUtils
 import com.sd.lib.io.dir.FFilesDir
+import com.sd.lib.io.fFullExt
+import com.sd.lib.io.fGetExt
 import com.sd.lib.io.uri.FUriUtils
 import java.io.File
 import java.security.MessageDigest
@@ -31,9 +32,8 @@ object FDirUri {
         return dir.lock {
             try {
                 val md5Name = md5(uri.toString())
-                val ext = FExtUtils.getExt(FUriUtils.getName(uri))
-                val fullExt = FExtUtils.fullExt(ext)
-                val file = File(it, md5Name + fullExt)
+                val ext = FUriUtils.getName(uri).fGetExt().fFullExt()
+                val file = File(it, md5Name + ext)
                 saveUriToFile(uri, file)
                 if (file.exists()) file else null
             } catch (e: Exception) {
