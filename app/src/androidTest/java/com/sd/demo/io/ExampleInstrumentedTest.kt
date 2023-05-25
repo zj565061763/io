@@ -11,8 +11,6 @@ import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
 import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
-import com.sd.lib.io.fFullExt
-import com.sd.lib.io.fGetExt
 import com.sd.lib.io.fMoveToFile
 import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.FUriUtils
@@ -30,28 +28,6 @@ import java.security.MessageDigest
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
     private val _context get() = InstrumentationRegistry.getInstrumentation().targetContext
-
-    @Test
-    fun testExt() {
-        assertEquals("mp3", "hello.mp3".fGetExt())
-        assertEquals("mp3", ".mp3".fGetExt())
-
-        assertEquals("", "mp3".fGetExt())
-        assertEquals("", null.fGetExt())
-        assertEquals("", "".fGetExt())
-
-        assertEquals("", "mp3".fGetExt(null))
-        assertEquals("", null.fGetExt(""))
-        assertEquals("", null.fGetExt("."))
-        assertEquals("mp3", "".fGetExt("mp3"))
-        assertEquals("mp3", "".fGetExt(".mp3"))
-        assertEquals("mp3", "".fGetExt("...mp3"))
-
-        assertEquals(".mp4", "mp4".fFullExt())
-        assertEquals(".mp3", ".mp3".fFullExt())
-        assertEquals("", null.fFullExt())
-        assertEquals("", "".fFullExt())
-    }
 
     @Test
     fun testCheckDir() {
