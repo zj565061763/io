@@ -163,6 +163,7 @@ fun File?.fCopyToFile(file: File?): Boolean {
     if (!this.exists()) return false
     if (this.isDirectory) error("this should not be a directory")
     if (this == file) return true
+    if (!file.fCheckFile()) return false
     return try {
         this.copyTo(file, overwrite = true)
         true
