@@ -12,25 +12,6 @@ object FFileUtils {
     const val GB = 1024 * MB
 
     /**
-     * 移动文件
-     */
-    @JvmStatic
-    fun moveFile(source: File?, target: File?): Boolean {
-        if (source == null || !source.exists()) return false
-        if (target == null) return false
-
-        target.fDelete()
-        if (!target.parentFile.fCheckDir()) return false
-
-        return try {
-            source.renameTo(target)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    /**
      * 返回[file]的大小（字节）
      */
     @JvmStatic
@@ -198,8 +179,8 @@ fun File?.fMoveToFile(file: File?): Boolean {
     if (this == null || file == null) return false
     if (!this.exists()) return false
     if (this.isDirectory) error("this should not be a directory")
-    if (!file.fCheckFile()) return false
     if (this == file) return true
+    if (!file.fCheckFile()) return false
     return try {
         this.renameTo(file)
     } catch (e: Exception) {
