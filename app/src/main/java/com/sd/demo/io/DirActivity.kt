@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.sd.demo.io.ui.theme.AppTheme
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fDelete
+import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fNewFile
 
 class DirActivity : ComponentActivity() {
@@ -39,7 +40,7 @@ class DirActivity : ComponentActivity() {
     }
 
     private val _cacheDir get() = fCacheDir("my_cache")
-    private val _filesDir get() = fCacheDir("my_files")
+    private val _filesDir get() = fFilesDir("my_files")
 
     private fun clickCache() {
         val file = _cacheDir.fNewFile("txt").apply {
