@@ -29,7 +29,7 @@ object FFileUtils {
         if (source == null || dir == null) return false
         if (source == dir) return true
         if (dir.exists() && !dir.isDirectory) {
-            delete(dir)
+            dir.fDelete()
         }
         return try {
             if (source.isDirectory) {
@@ -55,7 +55,7 @@ object FFileUtils {
         if (source == target) return true
 
         val temp = File(target.absolutePath + ".temp")
-        delete(temp)
+        temp.fDelete()
 
         try {
             source.copyTo(temp, overwrite = true)
@@ -75,7 +75,7 @@ object FFileUtils {
         if (source == null || !source.exists()) return false
         if (target == null) return false
 
-        delete(target)
+        target.fDelete()
         if (!checkDir(target.parentFile)) return false
 
         return try {
@@ -83,20 +83,6 @@ object FFileUtils {
         } catch (e: Exception) {
             e.printStackTrace()
             false
-        }
-    }
-
-    /**
-     * 删除文件或者目录
-     */
-    @JvmStatic
-    fun delete(file: File?): Boolean {
-        if (file == null) return false
-        return try {
-            file.deleteRecursively()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return false
         }
     }
 
@@ -238,5 +224,23 @@ fun File?.fCheckFile(): Boolean {
     } catch (e: Exception) {
         e.printStackTrace()
         false
+    }
+}
+
+/**
+ * 删除文件或者目录
+ */
+fun File?.fDelete(): Boolean {
+    if (this == null) return false
+    return try {
+        if (!this.exists()) return false
+        if (this.isFile) {
+            this.delete()
+        } else {
+            this.deleteRecursively()
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return false
     }
 }

@@ -1,7 +1,7 @@
 package com.sd.lib.io.dir
 
-import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.fCacheDir
+import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fNewFile
 import java.io.File
@@ -35,7 +35,7 @@ open class FDir internal constructor(
      */
     fun delete() {
         synchronized(_dirName) {
-            FFileUtils.delete(get())
+            get().fDelete()
         }
     }
 

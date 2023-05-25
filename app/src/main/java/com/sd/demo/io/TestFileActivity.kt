@@ -13,9 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sd.demo.io.ui.theme.AppTheme
-import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.FZipUtils
 import com.sd.lib.io.fCacheDir
+import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
 import java.io.File
 
@@ -47,11 +47,8 @@ class TestFileActivity : ComponentActivity() {
     }
 
     private fun deleteFile() {
-        val cacheDir = fCacheDir("my_cache")
-        val filesDir = fFilesDir("my_files")
-
-        FFileUtils.delete(cacheDir)
-        FFileUtils.delete(filesDir)
+        fCacheDir("my_cache").fDelete()
+        fFilesDir("my_files").fDelete()
     }
 
     override fun onDestroy() {
