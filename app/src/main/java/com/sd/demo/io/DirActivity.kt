@@ -13,21 +13,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sd.demo.io.ui.theme.AppTheme
-import com.sd.lib.io.FZipUtils
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fDelete
-import com.sd.lib.io.fFilesDir
-import java.io.File
+import com.sd.lib.io.fNewFile
 
-class ZipActivity : ComponentActivity() {
+class DirActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
                 Content(
-                    onClickZip = {
-                        testZip()
+                    onClickCache = {
+                        clickCache()
+                    },
+                    onClickFiles = {
+                        clickFiles()
                     },
                     onClickDelete = {
                         deleteFile()
@@ -37,18 +38,26 @@ class ZipActivity : ComponentActivity() {
         }
     }
 
-    private fun testZip() {
-        val cacheDir = fCacheDir("my_cache")
-        val filesDir = fFilesDir("my_files")
+    private val _cacheDir get() = fCacheDir("my_cache")
+    private val _filesDir get() = fCacheDir("my_files")
 
-        val cacheZip = File(filesDir, "cacheZip.zip")
-        FZipUtils.zip(cacheDir, cacheZip)
-        FZipUtils.unzip(cacheZip, filesDir)
+    private fun clickCache() {
+        val file = _cacheDir.fNewFile("txt").apply {
+            this.writeText("hello cache")
+        }
+        logMsg { "cache:${file.readText()}" }
+    }
+
+    private fun clickFiles() {
+        val file = _filesDir.fNewFile("txt").apply {
+            this.writeText("hello files")
+        }
+        logMsg { "file:${file.readText()}" }
     }
 
     private fun deleteFile() {
-        fCacheDir("my_cache").fDelete()
-        fFilesDir("my_files").fDelete()
+        _cacheDir.fDelete()
+        _filesDir.fDelete()
     }
 
     override fun onDestroy() {
@@ -59,7 +68,8 @@ class ZipActivity : ComponentActivity() {
 
 @Composable
 private fun Content(
-    onClickZip: () -> Unit,
+    onClickCache: () -> Unit,
+    onClickFiles: () -> Unit,
     onClickDelete: () -> Unit,
 ) {
     Column(
@@ -68,9 +78,15 @@ private fun Content(
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         Button(
-            onClick = onClickZip
+            onClick = onClickCache
         ) {
-            Text(text = "zip")
+            Text(text = "cache")
+        }
+
+        Button(
+            onClick = onClickFiles
+        ) {
+            Text(text = "files")
         }
 
         Button(

@@ -23,7 +23,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 Content(
-                    onClick = {
+                    onClickDir = {
+                        startActivity(Intent(this, DirActivity::class.java))
+                    },
+                    onClickZip = {
                         startActivity(Intent(this, ZipActivity::class.java))
                     },
                 )
@@ -34,7 +37,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun Content(
-    onClick: () -> Unit,
+    onClickDir: () -> Unit,
+    onClickZip: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -42,7 +46,13 @@ private fun Content(
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         Button(
-            onClick = onClick
+            onClick = onClickDir
+        ) {
+            Text(text = "dir")
+        }
+
+        Button(
+            onClick = onClickZip
         ) {
             Text(text = "zip")
         }
