@@ -16,6 +16,7 @@ import com.sd.demo.io.ui.theme.AppTheme
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.FZipUtils
 import com.sd.lib.io.fCacheDir
+import com.sd.lib.io.fFilesDir
 import java.io.File
 
 class TestFileActivity : ComponentActivity() {
@@ -38,7 +39,7 @@ class TestFileActivity : ComponentActivity() {
 
     private fun testZip() {
         val cacheDir = fCacheDir("my_cache")
-        val filesDir = FFileUtils.getFilesDir("my_files")
+        val filesDir = fFilesDir("my_files")
 
         val cacheZip = File(filesDir, "cacheZip.zip")
         FZipUtils.zip(cacheDir, cacheZip)
@@ -47,7 +48,7 @@ class TestFileActivity : ComponentActivity() {
 
     private fun deleteFile() {
         val cacheDir = fCacheDir("my_cache")
-        val filesDir = FFileUtils.getFilesDir("my_files")
+        val filesDir = fFilesDir("my_files")
 
         FFileUtils.delete(cacheDir)
         FFileUtils.delete(filesDir)

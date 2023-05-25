@@ -21,19 +21,6 @@ object FFileUtils {
     }
 
     /**
-     * 优先获取外部files下的[name]目录，如果获取失败则获取内部files下的[name]目录
-     */
-    @JvmStatic
-    fun getFilesDir(name: String): File {
-        val context = fContext
-        val externalDir = context.getExternalFilesDir(name)
-        if (checkDir(externalDir)) return externalDir!!
-        return File(context.filesDir, name).also {
-            checkDir(it)
-        }
-    }
-
-    /**
      * 在文件夹下[dir]下创建一个扩展名为[ext]的文件
      */
     @JvmStatic
@@ -208,6 +195,24 @@ object FFileUtils {
 fun fCacheDir(name: String? = null): File {
     val context = fContext
     val dir = context.externalCacheDir ?: context.cacheDir
+    val ret = if (name.isNullOrEmpty()) {
+        dir
+    } else {
+        File(dir, name)
+    }
+    return ret.also {
+        it.fCheckDir()
+    }
+}
+
+/**
+ * 获取文件目录下的[name]目录，如果name为空则获取文件目录，
+ * 文件目录优先获取[Context.getExternalFilesDir]，如果不存在则获取[Context.getFilesDir]
+ */
+@JvmOverloads
+fun fFilesDir(name: String? = null): File {
+    val context = fContext
+    val dir = context.getExternalFilesDir(null) ?: context.filesDir
     val ret = if (name.isNullOrEmpty()) {
         dir
     } else {

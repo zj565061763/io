@@ -6,6 +6,7 @@ import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.dir.ext.FDirTemp
 import com.sd.lib.io.dir.ext.FDirUri
 import com.sd.lib.io.fCacheDir
+import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fFullExt
 import com.sd.lib.io.fGetExt
 import com.sd.lib.io.uri.FFileProvider
@@ -56,7 +57,7 @@ class ExampleInstrumentedTest {
     @Test
     fun testCopyFile() {
         val cacheDir = fCacheDir("my_cache")
-        val filesDir = FFileUtils.getFilesDir("my_files")
+        val filesDir = fFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
@@ -74,7 +75,7 @@ class ExampleInstrumentedTest {
     @Test
     fun testMoveFile() {
         val cacheDir = fCacheDir("my_cache")
-        val filesDir = FFileUtils.getFilesDir("my_files")
+        val filesDir = fFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
@@ -93,7 +94,7 @@ class ExampleInstrumentedTest {
     @Test
     fun testCopyToDir() {
         val cacheDir = fCacheDir("my_cache")
-        val filesDir = FFileUtils.getFilesDir("my_files")
+        val filesDir = fFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 

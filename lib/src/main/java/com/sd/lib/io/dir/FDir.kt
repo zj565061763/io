@@ -2,6 +2,7 @@ package com.sd.lib.io.dir
 
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.fCacheDir
+import com.sd.lib.io.fFilesDir
 import java.io.File
 
 open class FDir internal constructor(
@@ -23,7 +24,7 @@ open class FDir internal constructor(
             return if (_isCacheDir) {
                 fCacheDir(_dirName)
             } else {
-                FFileUtils.getFilesDir(_dirName)
+                fFilesDir(_dirName)
             }
         }
     }
