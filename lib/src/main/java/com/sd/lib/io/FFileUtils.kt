@@ -21,25 +21,6 @@ object FFileUtils {
     }
 
     /**
-     * 在文件夹下[dir]下创建一个扩展名为[ext]的文件
-     */
-    @JvmStatic
-    fun newFileUnderDir(dir: File, ext: String?): File {
-        checkDir(dir)
-        val fullExt = ext.fFullExt()
-        while (true) {
-            val filename = UUID.randomUUID().toString() + fullExt
-            val file = File(dir, filename)
-            if (file.exists()) {
-                continue
-            } else {
-                createFile(file)
-                return file
-            }
-        }
-    }
-
-    /**
      * 如果[source]是文件，则拷贝到[dir]目录下，
      * 如果[source]是目录，则拷贝目录下的所有文件到[dir]目录下
      */
@@ -143,20 +124,6 @@ object FFileUtils {
     }
 
     /**
-     * 检查文件是否存在，不存在则尝试创建
-     */
-    @JvmStatic
-    fun createFile(file: File?): Boolean {
-        if (file == null) return false
-        return try {
-            if (file.exists()) true else file.createNewFile()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    /**
      * 返回[file]的大小（字节）
      */
     @JvmStatic
@@ -224,11 +191,30 @@ fun fFilesDir(name: String? = null): File {
 }
 
 /**
+ * 在文件夹下创建一个扩展名为[ext]的文件
+ */
+fun File.fNewFile(ext: String?): File {
+    this.fCheckDir()
+    val fullExt = ext.fFullExt()
+    while (true) {
+        val filename = UUID.randomUUID().toString() + fullExt
+        val file = File(this, filename)
+        if (file.exists()) {
+            continue
+        } else {
+            file.fCheckFile()
+            return file
+        }
+    }
+}
+
+
+/**
  * 检查文件夹是否存在，如果不存在则尝试创建
  */
 fun File?.fCheckDir(): Boolean {
-    if (this == null) return false
     try {
+        if (this == null) return false
         if (!this.exists()) return this.mkdirs()
         if (this.isDirectory) return true
         this.delete()
@@ -236,5 +222,21 @@ fun File?.fCheckDir(): Boolean {
     } catch (e: Exception) {
         e.printStackTrace()
         return false
+    }
+}
+
+/**
+ * 检查文件是否存在，如果不存在则尝试创建
+ */
+fun File?.fCheckFile(): Boolean {
+    return try {
+        if (this == null) return false
+        if (!this.exists()) return this.createNewFile()
+        if (this.isFile) return true
+        this.deleteRecursively()
+        return this.createNewFile()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
     }
 }

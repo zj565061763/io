@@ -3,6 +3,7 @@ package com.sd.lib.io.dir
 import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fFilesDir
+import com.sd.lib.io.fNewFile
 import java.io.File
 
 open class FDir internal constructor(
@@ -43,7 +44,7 @@ open class FDir internal constructor(
      */
     fun newFile(ext: String?): File {
         synchronized(_dirName) {
-            return FFileUtils.newFileUnderDir(get(), ext)
+            return get().fNewFile(ext)
         }
     }
 
