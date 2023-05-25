@@ -1,7 +1,6 @@
 package com.sd.lib.io
 
 import android.content.Context
-import android.os.Environment
 import com.sd.lib.ctx.fContext
 import java.io.File
 import java.text.DecimalFormat
@@ -11,61 +10,6 @@ object FFileUtils {
     const val KB = 1024L
     const val MB = 1024 * KB
     const val GB = 1024 * MB
-
-    /**
-     * 外部存储是否存在
-     */
-    @JvmStatic
-    fun isExternalStorageMounted(): Boolean {
-        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
-    }
-
-    /**
-     * 如果[source]是文件，则拷贝到[dir]目录下，
-     * 如果[source]是目录，则拷贝目录下的所有文件到[dir]目录下
-     */
-    @JvmStatic
-    fun copyToDir(source: File?, dir: File?): Boolean {
-        if (source == null || dir == null) return false
-        if (source == dir) return true
-        if (dir.exists() && !dir.isDirectory) {
-            dir.fDelete()
-        }
-        return try {
-            if (source.isDirectory) {
-                source.copyRecursively(dir, overwrite = true)
-            } else {
-                val targetFile = File(dir, source.name)
-                copyFile(source, targetFile)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    /**
-     * 拷贝文件
-     */
-    @JvmStatic
-    fun copyFile(source: File?, target: File?): Boolean {
-        if (source == null || !source.exists()) return false
-        if (target == null) return false
-        if (source.isDirectory) throw IllegalArgumentException("source should not be a directory")
-        if (source == target) return true
-
-        val temp = File(target.absolutePath + ".temp")
-        temp.fDelete()
-
-        try {
-            source.copyTo(temp, overwrite = true)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
-
-        return moveFile(temp, target)
-    }
 
     /**
      * 移动文件
@@ -223,6 +167,44 @@ fun File?.fCheckFile(): Boolean {
         if (this.isFile) return true
         this.deleteRecursively()
         return this.createNewFile()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
+    }
+}
+
+/**
+ * 如果是文件，则拷贝到[dir]目录下，
+ * 如果是目录，则拷贝目录下的所有文件到[dir]目录下
+ */
+fun File?.fCopyToDir(dir: File?): Boolean {
+    if (this == null || dir == null) return false
+    if (!this.exists()) return false
+    if (!dir.fCheckDir()) return false
+    if (this == dir) return true
+    return try {
+        if (this.isDirectory) {
+            this.copyRecursively(dir, overwrite = true)
+        } else {
+            this.fCopyToFile(File(dir, this.name))
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
+    }
+}
+
+/**
+ * 拷贝文件
+ */
+fun File?.fCopyToFile(file: File?): Boolean {
+    if (this == null || file == null) return false
+    if (!this.exists()) return false
+    if (this.isDirectory) error("this should not be a directory")
+    if (this == file) return true
+    return try {
+        this.copyTo(file, overwrite = true)
+        true
     } catch (e: Exception) {
         e.printStackTrace()
         false

@@ -6,6 +6,8 @@ import com.sd.lib.io.FFileUtils
 import com.sd.lib.io.dir.ext.FDirTemp
 import com.sd.lib.io.dir.ext.FDirUri
 import com.sd.lib.io.fCacheDir
+import com.sd.lib.io.fCopyToDir
+import com.sd.lib.io.fCopyToFile
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fFullExt
 import com.sd.lib.io.fGetExt
@@ -65,7 +67,7 @@ class ExampleInstrumentedTest {
             this.writeText("hello world")
         }
         val copyFile = File(File(filesDir, "copyFile"), "hello.txt")
-        val copyResult = FFileUtils.copyFile(file, copyFile)
+        val copyResult = file.fCopyToFile(copyFile)
 
         assertEquals(true, copyResult)
         assertEquals(true, copyFile.exists())
@@ -104,7 +106,7 @@ class ExampleInstrumentedTest {
         }
 
         val copyDir = File(filesDir, "copyToDir")
-        val copyResult = FFileUtils.copyToDir(cacheDir, copyDir)
+        val copyResult = cacheDir.fCopyToDir(copyDir)
         val copyFile = File(File(copyDir, "deep"), "deep.txt")
 
         assertEquals(true, copyResult)
