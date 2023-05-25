@@ -7,6 +7,7 @@ import com.sd.lib.io.dir.ext.FDirTemp
 import com.sd.lib.io.dir.ext.FDirUri
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCheckDir
+import com.sd.lib.io.fCheckFile
 import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
 import com.sd.lib.io.fDelete
@@ -54,12 +55,30 @@ class ExampleInstrumentedTest {
 
     @Test
     fun testCheckDir() {
-        val dir = File(_context.externalCacheDir, "txt")
-        assertEquals(true, dir.fCheckDir())
-        assertEquals(true, dir.exists())
+        val file = File(_context.externalCacheDir, "my_txt")
 
-        dir.fDelete()
-        assertEquals(false, dir.exists())
+        file.fDelete()
+        assertEquals(false, file.exists())
+
+        assertEquals(true, file.fCheckDir())
+        assertEquals(true, file.exists())
+
+        file.fDelete()
+        assertEquals(false, file.exists())
+    }
+
+    @Test
+    fun testCheckFile() {
+        val file = File(File(_context.externalCacheDir, "my_txt"), "aaa.txt")
+
+        file.fDelete()
+        assertEquals(false, file.exists())
+
+        assertEquals(true, file.fCheckFile())
+        assertEquals(true, file.exists())
+
+        file.fDelete()
+        assertEquals(false, file.exists())
     }
 
     @Test
