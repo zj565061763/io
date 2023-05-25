@@ -26,7 +26,8 @@ fun String?.fGetExt(defaultExt: String? = null): String {
 }
 
 /**
- * 完整扩展名
+ * 完整扩展名，
+ * 例如：png -> .png
  */
 fun String?.fFullExt(): String {
     return if (this.isNullOrEmpty()) {
