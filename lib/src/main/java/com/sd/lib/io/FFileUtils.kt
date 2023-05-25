@@ -214,14 +214,14 @@ fun fCacheDir(name: String? = null): File {
         File(dir, name)
     }
     return ret.also {
-        it.checkDir()
+        it.fCheckDir()
     }
 }
 
 /**
  * 检查文件夹是否存在，如果不存在则尝试创建
  */
-fun File?.checkDir(): Boolean {
+fun File?.fCheckDir(): Boolean {
     if (this == null) return false
     try {
         if (!this.exists()) return this.mkdirs()
