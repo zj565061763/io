@@ -90,43 +90,6 @@ class ExampleInstrumentedTest {
     }
 
     @Test
-    fun testCopyFile() {
-        val cacheDir = fCacheDir("my_cache")
-        val filesDir = fFilesDir("my_files")
-        assertEquals(true, cacheDir.exists())
-        assertEquals(true, filesDir.exists())
-
-        val file = File(cacheDir, "hello.txt").apply {
-            this.writeText("hello world")
-        }
-        val copyFile = File(File(filesDir, "copyFile"), "hello.txt")
-        val copyResult = file.fCopyToFile(copyFile)
-
-        assertEquals(true, copyResult)
-        assertEquals(true, copyFile.exists())
-        assertEquals("hello world", copyFile.readText())
-    }
-
-    @Test
-    fun testMoveFile() {
-        val cacheDir = fCacheDir("my_cache")
-        val filesDir = fFilesDir("my_files")
-        assertEquals(true, cacheDir.exists())
-        assertEquals(true, filesDir.exists())
-
-        val file = File(cacheDir, "move.txt").apply {
-            this.writeText("hello world")
-        }
-        val moveFile = File(File(filesDir, "moveFile"), "move.txt")
-        val moveResult = file.fMoveToFile(moveFile)
-
-        assertEquals(true, moveResult)
-        assertEquals(false, file.exists())
-        assertEquals(true, moveFile.exists())
-        assertEquals("hello world", moveFile.readText())
-    }
-
-    @Test
     fun testCopyToDir() {
         val cacheDir = fCacheDir("my_cache")
         val filesDir = fFilesDir("my_files")
@@ -145,6 +108,43 @@ class ExampleInstrumentedTest {
         assertEquals(true, copyResult)
         assertEquals(true, copyFile.exists())
         assertEquals("hello world", copyFile.readText())
+    }
+
+    @Test
+    fun testCopyToFile() {
+        val cacheDir = fCacheDir("my_cache")
+        val filesDir = fFilesDir("my_files")
+        assertEquals(true, cacheDir.exists())
+        assertEquals(true, filesDir.exists())
+
+        val file = File(cacheDir, "hello.txt").apply {
+            this.writeText("hello world")
+        }
+        val copyFile = File(File(filesDir, "copyFile"), "hello.txt")
+        val copyResult = file.fCopyToFile(copyFile)
+
+        assertEquals(true, copyResult)
+        assertEquals(true, copyFile.exists())
+        assertEquals("hello world", copyFile.readText())
+    }
+
+    @Test
+    fun testMoveToFile() {
+        val cacheDir = fCacheDir("my_cache")
+        val filesDir = fFilesDir("my_files")
+        assertEquals(true, cacheDir.exists())
+        assertEquals(true, filesDir.exists())
+
+        val file = File(cacheDir, "move.txt").apply {
+            this.writeText("hello world")
+        }
+        val moveFile = File(File(filesDir, "moveFile"), "move.txt")
+        val moveResult = file.fMoveToFile(moveFile)
+
+        assertEquals(true, moveResult)
+        assertEquals(false, file.exists())
+        assertEquals(true, moveFile.exists())
+        assertEquals("hello world", moveFile.readText())
     }
 
     @Test
