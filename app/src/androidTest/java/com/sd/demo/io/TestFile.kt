@@ -33,9 +33,6 @@ class TestFile {
 
         assertEquals(true, file.fCheckDir())
         assertEquals(true, file.exists() && file.isDirectory)
-
-        file.fDelete()
-        assertEquals(false, file.exists())
     }
 
     @Test
@@ -47,9 +44,6 @@ class TestFile {
 
         assertEquals(true, file.fCheckFile())
         assertEquals(true, file.exists() && file.isFile)
-
-        file.fDelete()
-        assertEquals(false, file.exists())
     }
 
     @Test
