@@ -18,7 +18,12 @@ fun fDirUri(): IDir {
 }
 
 fun fDir(dir: File): IDir {
-    return FDir(dir)
+    val finalDir = if (dir.exists()) {
+        if (dir.isDirectory) dir else dir.parentFile
+    } else {
+        dir
+    }
+    return FDir(finalDir)
 }
 
 interface IDir {
