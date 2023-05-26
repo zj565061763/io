@@ -93,6 +93,7 @@ class TestFile {
         assertEquals(true, filesDir.exists())
 
         val file = File(cacheDir, "move.txt").apply {
+            this.fCheckFile()
             this.writeText("hello world")
         }
         val moveFile = File(File(filesDir, "moveFile"), "move.txt")
