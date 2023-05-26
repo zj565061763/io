@@ -7,7 +7,6 @@ import com.sd.lib.io.fCheckDir
 import com.sd.lib.io.fCheckFile
 import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
-import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fMoveToFile
 import org.junit.Assert.assertEquals
@@ -75,6 +74,7 @@ class TestFile {
         assertEquals(true, filesDir.exists())
 
         val file = File(cacheDir, "hello.txt").apply {
+            this.fCheckFile()
             this.writeText("hello world")
         }
         val copyFile = File(File(filesDir, "copyFile"), "hello.txt")
