@@ -2,7 +2,6 @@ package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.sd.lib.io.dir.ext.FDirTemp
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCheckDir
 import com.sd.lib.io.fCheckFile
@@ -51,14 +50,6 @@ class TestFile {
 
         file.fDelete()
         assertEquals(false, file.exists())
-    }
-
-    @Test
-    fun testDirTemp() {
-        assertEquals(true, FDirTemp.newFile("mp3").exists())
-        assertEquals(true, FDirTemp.newFile(".mp3").exists())
-        assertEquals(true, FDirTemp.newFile(null).exists())
-        assertEquals(true, FDirTemp.newFile("").exists())
     }
 
     @Test
