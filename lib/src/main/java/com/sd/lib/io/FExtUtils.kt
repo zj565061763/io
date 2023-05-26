@@ -29,7 +29,7 @@ fun String?.fGetExt(defaultExt: String? = null): String {
  * 包含"."的完整扩展名，
  * 例如：png -> .png
  */
-fun String?.fFullExt(): String {
+fun String?.fDotExt(): String {
     return if (this.isNullOrEmpty()) {
         ""
     } else {

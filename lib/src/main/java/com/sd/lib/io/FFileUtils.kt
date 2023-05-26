@@ -52,7 +52,7 @@ fun fFilesDir(name: String? = null): File {
  */
 fun File.fNewFile(ext: String?): File {
     this.fCheckDir()
-    val fullExt = ext.fFullExt()
+    val fullExt = ext.fDotExt()
     while (true) {
         val filename = UUID.randomUUID().toString() + fullExt
         val file = File(this, filename)

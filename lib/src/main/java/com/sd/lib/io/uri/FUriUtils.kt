@@ -6,7 +6,7 @@ import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import com.sd.lib.ctx.fContext
 import com.sd.lib.io.fDirUri
-import com.sd.lib.io.fFullExt
+import com.sd.lib.io.fDotExt
 import com.sd.lib.io.fGetExt
 import java.io.File
 import java.security.MessageDigest
@@ -40,7 +40,7 @@ fun Uri?.fToFile(): File? {
         if (dir != null) {
             try {
                 val name = md5(this.toString())
-                val ext = this.fFileName().fGetExt().fFullExt()
+                val ext = this.fFileName().fGetExt().fDotExt()
                 val file = File(dir, name + ext)
                 this.saveToFile(file)
                 if (file.exists()) file else null
