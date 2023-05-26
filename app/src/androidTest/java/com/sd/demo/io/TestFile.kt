@@ -60,7 +60,7 @@ class TestFile {
         assertEquals(true, filesDir.exists())
 
         File(File(cacheDir, "deep"), "deep.txt").apply {
-            this.parentFile.fCheckDir()
+            this.fCheckFile()
             this.writeText("hello world")
         }
 
