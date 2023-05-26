@@ -24,17 +24,15 @@ class TestUri {
     @Test
     fun testUri() {
         val dirName = "my_uri"
-        val cacheDir = fCacheDir(dirName)
-
         val filename = "urifile.txt"
-        val file = File(cacheDir, filename).apply {
+
+        val file = File(fCacheDir(dirName), filename).apply {
             this.writeText("hello world")
         }
 
         val fileUri = file.fToUri()
 
-        val expectedString = "content://${fFileProviderAuthority()}/external-cache-path" +
-                "/${dirName}/${filename}"
+        val expectedString = "content://${fFileProviderAuthority()}/external-cache-path/${dirName}/${filename}"
         val uriString = fileUri.toString()
 
         assertEquals(expectedString, uriString)
