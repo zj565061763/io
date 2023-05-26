@@ -32,10 +32,12 @@ class TestUri {
         }
 
         val fileUri = file.fToUri()
-        val expectedString = "content://${FFileProvider.getAuthority()}/external_path" +
-                "/Android/data/${_context.packageName}/cache/${dirName}/${filename}"
 
-        assertEquals(expectedString, fileUri.toString())
+        val expectedString = "content://${FFileProvider.getAuthority()}/external-cache-path" +
+                "/${dirName}/${filename}"
+        val uriString = fileUri.toString()
+
+        assertEquals(expectedString, uriString)
         assertEquals(filename, fileUri.fFileName())
 
         val saveFile = fileUri.fToFile()
