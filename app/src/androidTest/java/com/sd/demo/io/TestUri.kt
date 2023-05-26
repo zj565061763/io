@@ -3,8 +3,8 @@ package com.sd.demo.io
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.fCacheDir
-import com.sd.lib.io.uri.FFileProvider
 import com.sd.lib.io.uri.fFileName
+import com.sd.lib.io.uri.fFileProviderAuthority
 import com.sd.lib.io.uri.fToFile
 import com.sd.lib.io.uri.fToUri
 import org.junit.Assert.assertEquals
@@ -33,7 +33,7 @@ class TestUri {
 
         val fileUri = file.fToUri()
 
-        val expectedString = "content://${FFileProvider.getAuthority()}/external-cache-path" +
+        val expectedString = "content://${fFileProviderAuthority()}/external-cache-path" +
                 "/${dirName}/${filename}"
         val uriString = fileUri.toString()
 

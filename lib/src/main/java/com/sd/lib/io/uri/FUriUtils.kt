@@ -19,7 +19,7 @@ fun File?.fToUri(): Uri? {
     return try {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val context = fContext
-            val authority = FFileProvider.getAuthority()
+            val authority = fFileProviderAuthority()
             FileProvider.getUriForFile(context, authority, this)
         } else {
             Uri.fromFile(this)
