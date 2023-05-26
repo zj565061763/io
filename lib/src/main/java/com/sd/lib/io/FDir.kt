@@ -116,13 +116,13 @@ private class InternalDir private constructor(dir: File) : IDir {
     }
 
     companion object {
-        private val _cacheHolder: MutableMap<String, InternalDir> = hashMapOf()
+        private val _instanceHolder: MutableMap<String, InternalDir> = hashMapOf()
 
         fun open(directory: File): IDir {
             return synchronized(this@Companion) {
                 val path = directory.absolutePath
-                _cacheHolder[path] ?: InternalDir(directory).also {
-                    _cacheHolder[path] = it
+                _instanceHolder[path] ?: InternalDir(directory).also {
+                    _instanceHolder[path] = it
                 }
             }
         }
@@ -130,7 +130,7 @@ private class InternalDir private constructor(dir: File) : IDir {
         fun close(directory: File) {
             synchronized(this@Companion) {
                 val path = directory.absolutePath
-                _cacheHolder.remove(path)
+                _instanceHolder.remove(path)
             }
         }
     }
