@@ -26,7 +26,7 @@ fun String?.fGetExt(defaultExt: String? = null): String {
 }
 
 /**
- * 完整扩展名，
+ * 包含"."的完整扩展名，
  * 例如：png -> .png
  */
 fun String?.fFullExt(): String {
