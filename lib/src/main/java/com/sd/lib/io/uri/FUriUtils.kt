@@ -31,7 +31,7 @@ fun File?.fToUri(): Uri? {
 }
 
 /**
- * Uri转文件
+ * 读取Uri的内容并保存为文件
  */
 fun Uri?.fToFile(): File? {
     if (this == null) return null
