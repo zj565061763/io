@@ -1,7 +1,7 @@
 package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.sd.lib.io.dir.ext.FDirTemp
+import com.sd.lib.io.fDirTemp
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,9 +15,20 @@ import org.junit.runner.RunWith
 class TestDir {
     @Test
     fun testDirTemp() {
-        assertEquals(true, FDirTemp.newFile("mp3").exists())
-        assertEquals(true, FDirTemp.newFile(".mp3").exists())
-        assertEquals(true, FDirTemp.newFile(null).exists())
-        assertEquals(true, FDirTemp.newFile("").exists())
+        fDirTemp().newFile("mp3") {
+            assertEquals(true, it?.exists())
+        }
+
+        fDirTemp().newFile(".mp3") {
+            assertEquals(true, it?.exists())
+        }
+
+        fDirTemp().newFile("") {
+            assertEquals(true, it?.exists())
+        }
+
+        fDirTemp().newFile(null) {
+            assertEquals(true, it?.exists())
+        }
     }
 }
