@@ -17,6 +17,7 @@ import com.sd.lib.io.FZipUtils
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
+import com.sd.lib.io.fZipTo
 import java.io.File
 
 class ZipActivity : ComponentActivity() {
@@ -42,7 +43,7 @@ class ZipActivity : ComponentActivity() {
         val filesDir = fFilesDir("my_files")
 
         val cacheZip = File(filesDir, "cacheZip.zip")
-        FZipUtils.zip(cacheDir, cacheZip)
+        cacheDir.fZipTo(cacheZip)
         FZipUtils.unzip(cacheZip, filesDir)
     }
 

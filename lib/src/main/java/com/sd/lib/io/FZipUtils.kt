@@ -1,6 +1,10 @@
 package com.sd.lib.io
 
-import java.io.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
@@ -63,61 +67,55 @@ object FZipUtils {
         }
         return false
     }
+}
 
-    /**
-     * 把[source]压缩为[zip]
-     */
-    @JvmStatic
-    fun zip(source: File?, zip: File?): Boolean {
-        if (source == null || !source.exists()) return false
-        return zip(arrayOf(source), zip)
-    }
+/**
+ * 压缩为[zip]
+ */
+fun File?.fZipTo(zip: File?): Boolean {
+    if (this == null || !this.exists()) return false
+    return arrayOf<File?>(this).fZipTo(zip)
+}
 
-    /**
-     * 压缩文件
-     */
-    @JvmStatic
-    fun zip(files: Array<File?>?, zip: File?): Boolean {
-        if (files == null || files.isEmpty()) return false
-        if (zip == null) return false
-
-        if (zip.exists()) {
-            if (zip.isDirectory) throw IllegalArgumentException("zip should not be a directory")
-            if (!zip.delete()) return false
-        }
-
-        val fileParent = zip.parentFile
-        if (fileParent != null && !fileParent.exists()) {
-            if (!fileParent.mkdirs()) return false
-        }
-
+/**
+ * 压缩为[zip]
+ */
+fun Array<File?>?.fZipTo(zip: File?): Boolean {
+    if (this.isNullOrEmpty()) return false
+    if (zip == null) return false
+    if (!zip.fCheckFile()) return false
+    return try {
         ZipOutputStream(zip.outputStream()).use { output ->
-            for (item in files) {
+            for (item in this) {
                 if (item == null || !item.exists()) return false
-                try {
-                    compressFile(item, item.name, output)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    return false
-                }
+                compressFile(item, item.name, output)
             }
         }
-        return true
+        true
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
     }
+}
 
-    @Throws(IOException::class)
-    private fun compressFile(file: File, filename: String, outputStream: ZipOutputStream) {
-        if (file.isDirectory) {
-            outputStream.putNextEntry(ZipEntry(filename + File.separator))
-            val files = file.listFiles()
-            files?.forEach { item ->
-                compressFile(item, filename + File.separator + item.name, outputStream)
-            }
-        } else {
-            outputStream.putNextEntry(ZipEntry(filename))
-            file.inputStream().use { inputStream ->
-                inputStream.copyTo(outputStream)
-            }
+private fun compressFile(
+    file: File,
+    filename: String,
+    outputStream: ZipOutputStream,
+) {
+    if (file.isDirectory) {
+        outputStream.putNextEntry(ZipEntry(filename + File.separator))
+        file.listFiles()?.forEach { item ->
+            compressFile(
+                file = item,
+                filename = filename + File.separator + item.name,
+                outputStream = outputStream,
+            )
+        }
+    } else {
+        outputStream.putNextEntry(ZipEntry(filename))
+        file.inputStream().use { inputStream ->
+            inputStream.copyTo(outputStream)
         }
     }
 }
