@@ -30,7 +30,7 @@ interface IDir {
     /**
      * 在当前文件夹下创建一个新文件
      */
-    fun <T> newFile(ext: String?, block: (newFile: File?) -> T): T
+    fun newFile(ext: String?): File?
 
     /**
      * 操作当前文件夹
@@ -48,8 +48,8 @@ private class FDir(dir: File) : IDir {
     private val _directory: IDir
         get() = InternalDir.open(_dir)
 
-    override fun <T> newFile(ext: String?, block: (newFile: File?) -> T): T {
-        return _directory.newFile(ext, block)
+    override fun newFile(ext: String?): File? {
+        return _directory.newFile(ext)
     }
 
     override fun <T> modify(block: (dir: File?) -> T): T {
@@ -99,11 +99,8 @@ private class FDir(dir: File) : IDir {
 private class InternalDir private constructor(dir: File) : IDir {
     private val _dir = dir
 
-    override fun <T> newFile(ext: String?, block: (newFile: File?) -> T): T {
-        return modify {
-            val newFile = it?.fNewFile(ext)
-            block(newFile)
-        }
+    override fun newFile(ext: String?): File? {
+        return modify { it?.fNewFile(ext) }
     }
 
     @Synchronized

@@ -15,20 +15,9 @@ import org.junit.runner.RunWith
 class TestDir {
     @Test
     fun testDirTemp() {
-        fDirTemp().newFile("mp3") {
-            assertEquals(true, it?.exists())
-        }
-
-        fDirTemp().newFile(".mp3") {
-            assertEquals(true, it?.exists())
-        }
-
-        fDirTemp().newFile("") {
-            assertEquals(true, it?.exists())
-        }
-
-        fDirTemp().newFile(null) {
-            assertEquals(true, it?.exists())
-        }
+        assertEquals(true, fDirTemp().newFile("mp3")?.exists())
+        assertEquals(true, fDirTemp().newFile(".mp3")?.exists())
+        assertEquals(true, fDirTemp().newFile("")?.exists())
+        assertEquals(true, fDirTemp().newFile(null)?.exists())
     }
 }
