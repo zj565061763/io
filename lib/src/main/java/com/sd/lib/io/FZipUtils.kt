@@ -70,7 +70,8 @@ object FZipUtils {
 }
 
 /**
- * 压缩为[zip]
+ * 压缩为[zip]，
+ * 如果当前是文件则把文件压缩为[zip]，如果当前是文件夹则把文件夹下的所有文件压缩为[zip]
  */
 fun File?.fZipTo(zip: File?): Boolean {
     if (this == null || !this.exists()) return false
