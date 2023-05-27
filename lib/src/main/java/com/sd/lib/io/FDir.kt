@@ -114,7 +114,7 @@ private class InternalDir private constructor(dir: File) : IDir {
     }
 
     private fun checkDir(): File? {
-        return if (_dir.fCheckDir()) _dir else null
+        return if (_dir.fCreateDir()) _dir else null
     }
 
     companion object {

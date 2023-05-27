@@ -3,7 +3,7 @@ package com.sd.demo.io
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.fCacheDir
-import com.sd.lib.io.fCheckDir
+import com.sd.lib.io.fCreateDir
 import com.sd.lib.io.fCheckFile
 import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
@@ -29,7 +29,7 @@ class TestFile {
         assertEquals(true, file.fCheckFile())
         assertEquals(true, file.exists() && file.isFile)
 
-        assertEquals(true, file.fCheckDir())
+        assertEquals(true, file.fCreateDir())
         assertEquals(true, file.exists() && file.isDirectory)
     }
 
@@ -37,7 +37,7 @@ class TestFile {
     fun testCheckFile() {
         val file = _context.getExternalFilesDir(null)!!.resolve("testCheckFile").resolve("aaa")
 
-        assertEquals(true, file.fCheckDir())
+        assertEquals(true, file.fCreateDir())
         assertEquals(true, file.exists() && file.isDirectory)
 
         assertEquals(true, file.fCheckFile())

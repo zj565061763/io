@@ -21,14 +21,14 @@ fun File?.fUnzipTo(dir: File?): Boolean {
  */
 fun InputStream?.fUnzipTo(dir: File?): Boolean {
     if (this == null || dir == null) return false
-    if (!dir.fCheckDir()) return false
+    if (!dir.fCreateDir()) return false
     return try {
         (if (this is ZipInputStream) this else ZipInputStream(this)).use { inputStream ->
             var entry = inputStream.nextEntry
             while (entry != null) {
                 val target = File(dir, entry.name)
                 if (entry.isDirectory) {
-                    if (!target.fCheckDir()) return false
+                    if (!target.fCreateDir()) return false
                 } else {
                     if (!target.fCheckFile()) return false
                     target.outputStream().use { outputStream ->

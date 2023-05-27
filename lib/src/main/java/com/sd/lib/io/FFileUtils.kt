@@ -25,7 +25,7 @@ fun fCacheDir(name: String? = null): File {
         File(dir, name)
     }
     return ret.also {
-        it.fCheckDir()
+        it.fCreateDir()
     }
 }
 
@@ -43,7 +43,7 @@ fun fFilesDir(name: String? = null): File {
         File(dir, name)
     }
     return ret.also {
-        it.fCheckDir()
+        it.fCreateDir()
     }
 }
 
@@ -51,7 +51,7 @@ fun fFilesDir(name: String? = null): File {
  * 在文件夹下创建一个扩展名为[ext]的文件
  */
 fun File.fNewFile(ext: String?): File {
-    this.fCheckDir()
+    this.fCreateDir()
     val fullExt = ext.fDotExt()
     while (true) {
         val filename = UUID.randomUUID().toString() + fullExt
@@ -72,10 +72,10 @@ fun File.fNewFile(ext: String?): File {
 fun File?.fCheckFile(): Boolean {
     return try {
         if (this == null) return false
-        if (!this.exists()) this.parentFile.fCheckDir() && this.createNewFile()
+        if (!this.exists()) this.parentFile.fCreateDir() && this.createNewFile()
         if (this.isFile) return true
         this.deleteRecursively()
-        return this.parentFile.fCheckDir() && this.createNewFile()
+        return this.parentFile.fCreateDir() && this.createNewFile()
     } catch (e: Exception) {
         e.printStackTrace()
         false
@@ -86,7 +86,7 @@ fun File?.fCheckFile(): Boolean {
  * 检查文件夹是否存在，如果不存在则尝试创建
  * @return true-创建成功或者文件夹已经存在
  */
-fun File?.fCheckDir(): Boolean {
+fun File?.fCreateDir(): Boolean {
     try {
         if (this == null) return false
         if (!this.exists()) return this.mkdirs()
@@ -106,7 +106,7 @@ fun File?.fCheckDir(): Boolean {
 fun File?.fCopyToDir(dir: File?): Boolean {
     if (this == null || dir == null) return false
     if (!this.exists()) return false
-    if (!dir.fCheckDir()) return false
+    if (!dir.fCreateDir()) return false
     if (this == dir) return true
     return try {
         if (this.isDirectory) {
