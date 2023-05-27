@@ -55,7 +55,7 @@ class ZipActivity : ComponentActivity() {
         }
 
         val filesDir = fFilesDir("my_files")
-        val zip = filesDir.resolve("cacheZip.zip")
+        val zip = filesDir.resolve("my_cache.zip")
 
         cacheDir.fZipTo(zip)
         FZipUtils.unzip(zip, filesDir)
