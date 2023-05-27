@@ -59,8 +59,7 @@ fun File.fNewFile(ext: String?): File {
         if (file.exists()) {
             continue
         } else {
-            file.fCreateFile()
-            return file
+            return file.also { it.fCreateFile() }
         }
     }
 }
