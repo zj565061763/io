@@ -40,5 +40,18 @@ class TestZip {
         assertEquals(true, cacheDir.fZipTo(zip))
         assertEquals(true, zip.exists())
         assertEquals(true, zip.fUnzipTo(filesDir))
+
+        filesDir.resolve("testZip_hello.txt").let { file ->
+            assertEquals(true, file.exists())
+            assertEquals("hello", file.readText())
+        }
+        filesDir.resolve("testZip_world.txt").let { file ->
+            assertEquals(true, file.exists())
+            assertEquals("world", file.readText())
+        }
+        filesDir.resolve("testZip").resolve("hello world.txt").let { file ->
+            assertEquals(true, file.exists())
+            assertEquals("hello world", file.readText())
+        }
     }
 }
