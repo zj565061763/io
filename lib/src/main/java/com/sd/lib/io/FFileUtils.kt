@@ -67,7 +67,7 @@ fun File.fNewFile(ext: String?): File {
 
 /**
  * 检查文件是否存在，如果不存在则尝试创建
- * @return true-文件已经存在，或者创建成功
+ * @return true-创建成功或者文件已经存在
  */
 fun File?.fCheckFile(): Boolean {
     return try {
@@ -84,7 +84,7 @@ fun File?.fCheckFile(): Boolean {
 
 /**
  * 检查文件夹是否存在，如果不存在则尝试创建
- * @return true-文件夹已经存在，或者创建成功
+ * @return true-创建成功或者文件夹已经存在
  */
 fun File?.fCheckDir(): Boolean {
     try {
