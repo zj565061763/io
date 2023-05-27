@@ -66,15 +66,19 @@ fun File.fNewFile(ext: String?): File {
 }
 
 /**
- * 检查文件是否存在，如果不存在则尝试创建
+ * 检查文件是否存在，如果不存在则尝试创建，如果已存在则根据[overwrite]来决定是否覆盖，默认覆盖
  * @return true-创建成功或者文件已经存在
  */
-fun File?.fCreateFile(): Boolean {
+fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
     return try {
         if (this == null) return false
         if (!this.exists()) this.parentFile.fCreateDir() && this.createNewFile()
-        if (this.isFile) return true
-        this.deleteRecursively()
+        if (overwrite) {
+            this.fDelete()
+        } else {
+            if (this.isFile) return true
+            this.deleteRecursively()
+        }
         return this.parentFile.fCreateDir() && this.createNewFile()
     } catch (e: Exception) {
         e.printStackTrace()
