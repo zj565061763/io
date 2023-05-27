@@ -24,7 +24,7 @@ class TestFile {
 
     @Test
     fun testCreateDir() {
-        val file = _context.externalCacheDir!!.resolve("testCheckDir").resolve("aaa")
+        val file = _context.externalCacheDir!!.resolve("testCreateDir").resolve("aaa")
 
         assertEquals(true, file.fCreateFile())
         assertEquals(true, file.exists() && file.isFile)
@@ -35,7 +35,7 @@ class TestFile {
 
     @Test
     fun testCreateFile() {
-        val file = _context.getExternalFilesDir(null)!!.resolve("testCheckFile").resolve("aaa")
+        val file = _context.externalCacheDir!!.resolve("testCreateFile").resolve("aaa")
 
         assertEquals(true, file.fCreateDir())
         assertEquals(true, file.exists() && file.isDirectory)
