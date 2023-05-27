@@ -24,10 +24,10 @@ fun InputStream?.fUnzipTo(dir: File?): Boolean {
     if (!dir.fCheckDir()) return false
     return try {
         (if (this is ZipInputStream) this else ZipInputStream(this)).use { inputStream ->
-            var zipEntry = inputStream.nextEntry
-            while (zipEntry != null) {
-                val target = File(dir, zipEntry.name)
-                if (zipEntry.isDirectory) {
+            var entry = inputStream.nextEntry
+            while (entry != null) {
+                val target = File(dir, entry.name)
+                if (entry.isDirectory) {
                     if (!target.fCheckDir()) return false
                 } else {
                     if (!target.fCheckFile()) return false
@@ -36,7 +36,7 @@ fun InputStream?.fUnzipTo(dir: File?): Boolean {
                     }
                 }
                 inputStream.closeEntry()
-                zipEntry = inputStream.nextEntry
+                entry = inputStream.nextEntry
             }
         }
         true
