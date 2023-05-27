@@ -5,7 +5,7 @@ import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCheckDir
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fUnzipTo
-import com.sd.lib.io.fZipTo
+import com.sd.lib.io.fZip
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,11 +34,10 @@ class TestZip {
             }
         }
 
-        val filesDir = fFilesDir("my_files")
-        val zip = filesDir.resolve("zip.zip")
+        val zip = cacheDir.fZip()
+        assertEquals(true, zip?.exists())
 
-        assertEquals(true, cacheDir.fZipTo(zip))
-        assertEquals(true, zip.exists())
+        val filesDir = fFilesDir("my_files")
         assertEquals(true, zip.fUnzipTo(filesDir))
 
         filesDir.resolve("my_cache").apply {
