@@ -12,7 +12,6 @@ import com.sd.lib.io.fMoveToFile
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.File
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -92,11 +91,11 @@ class TestFile {
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
-        val file = File(cacheDir, "move.txt").apply {
+        val file = cacheDir.resolve("move.txt").apply {
             this.fCheckFile()
             this.writeText("hello world")
         }
-        val moveFile = File(File(filesDir, "moveFile"), "move.txt")
+        val moveFile = filesDir.resolve("moveFile").resolve("move.txt")
         val moveResult = file.fMoveToFile(moveFile)
 
         assertEquals(true, moveResult)
