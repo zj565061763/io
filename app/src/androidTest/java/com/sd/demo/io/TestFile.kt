@@ -73,11 +73,11 @@ class TestFile {
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
-        val file = File(cacheDir, "hello.txt").apply {
+        val file = cacheDir.resolve("hello.txt").apply {
             this.fCheckFile()
             this.writeText("hello world")
         }
-        val copyFile = File(File(filesDir, "copyFile"), "hello.txt")
+        val copyFile = filesDir.resolve("copyFile").resolve("hello.txt")
         val copyResult = file.fCopyToFile(copyFile)
 
         assertEquals(true, copyResult)
