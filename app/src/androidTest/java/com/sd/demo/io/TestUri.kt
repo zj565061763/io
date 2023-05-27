@@ -9,7 +9,6 @@ import com.sd.lib.io.uri.fToUri
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.File
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -23,7 +22,7 @@ class TestUri {
         val dirName = "my_uri"
         val filename = "urifile.txt"
 
-        val file = File(fCacheDir(dirName), filename).apply {
+        val file = fCacheDir(dirName).resolve(filename).apply {
             this.writeText("hello world")
         }
 
