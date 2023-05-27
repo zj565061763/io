@@ -2,70 +2,47 @@ package com.sd.lib.io
 
 import java.io.File
 import java.io.FileInputStream
-import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-object FZipUtils {
-    /**
-     * 把[zip]压缩包解压到[dir]目录下
-     */
-    @JvmStatic
-    fun unzip(zip: File?, dir: File?): Boolean {
-        if (zip == null || !zip.exists()) return false
-        return try {
-            unzip(FileInputStream(zip), dir)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            false
-        }
-    }
+/**
+ * 把[zip]压缩包解压到[dir]目录下
+ */
+fun File?.fUnzipTo(dir: File?): Boolean {
+    if (this == null || !this.exists()) return false
+    return FileInputStream(this).fUnzipTo(dir)
+}
 
-    /**
-     * 解压到[dir]目录下
-     */
-    @JvmStatic
-    fun unzip(inputStream: InputStream, dir: File?): Boolean {
-        if (dir == null) return false
-        if (dir.exists() && dir.isFile) throw IllegalArgumentException("dir should be a directory")
-
-        val zipInputStream = if (inputStream is ZipInputStream) inputStream else ZipInputStream(inputStream)
-        try {
-            var zipEntry = zipInputStream.nextEntry
+/**
+ * 解压到[dir]目录下
+ */
+fun InputStream?.fUnzipTo(dir: File?): Boolean {
+    if (this == null || dir == null) return false
+    if (!dir.fCheckDir()) return false
+    return try {
+        (if (this is ZipInputStream) this else ZipInputStream(this)).use { inputStream ->
+            var zipEntry = inputStream.nextEntry
             while (zipEntry != null) {
                 val target = File(dir, zipEntry.name)
                 if (zipEntry.isDirectory) {
-                    // 文件夹
-                    if (target.exists() && target.isFile) {
-                        if (!target.delete()) return false
-                    }
-                    if (!target.exists() && !target.mkdirs()) {
-                        return false
-                    }
+                    if (!target.fCheckDir()) return false
                 } else {
-                    // 文件
-                    val parentFile = target.parentFile
-                    if (parentFile != null && !parentFile.exists()) {
-                        if (!parentFile.mkdirs()) return false
-                    }
+                    if (!target.fCheckFile()) return false
                     target.outputStream().use { outputStream ->
-                        zipInputStream.copyTo(outputStream)
+                        inputStream.copyTo(outputStream)
                     }
                 }
-
-                zipInputStream.closeEntry()
-                zipEntry = zipInputStream.nextEntry
+                inputStream.closeEntry()
+                zipEntry = inputStream.nextEntry
             }
-            return true
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } finally {
-            zipInputStream.fClose()
         }
-        return false
+        true
+    } catch (e: IOException) {
+        e.printStackTrace()
+        false
     }
 }
 

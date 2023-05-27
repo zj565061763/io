@@ -13,11 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sd.demo.io.ui.theme.AppTheme
-import com.sd.lib.io.FZipUtils
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCheckDir
 import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
+import com.sd.lib.io.fUnzipTo
 import com.sd.lib.io.fZipTo
 
 class ZipActivity : ComponentActivity() {
@@ -58,7 +58,7 @@ class ZipActivity : ComponentActivity() {
         val zip = filesDir.resolve("my_cache.zip")
 
         cacheDir.fZipTo(zip)
-        FZipUtils.unzip(zip, filesDir)
+        zip.fUnzipTo(filesDir)
     }
 
     private fun deleteFile() {
