@@ -47,6 +47,17 @@ fun InputStream?.fUnzipTo(dir: File?): Boolean {
 }
 
 /**
+ * 压缩文件当前文件
+ */
+fun File?.fZip(filename: String? = null): File? {
+    if (this == null || !this.exists()) return null
+    val parentFile = this.parentFile ?: error("parent file is null, call fZipTo() method instead")
+    val zipFilename = if (filename.isNullOrEmpty()) this.name + ".zip" else filename
+    val zipFile = parentFile.resolve(zipFilename)
+    return if (fZipTo(zipFile)) zipFile else null
+}
+
+/**
  * 压缩为[zip]，
  * 如果当前是文件则把文件压缩为[zip]，如果当前是文件夹则把文件夹和文件夹下的所有文件压缩为[zip]
  */
