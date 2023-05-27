@@ -59,7 +59,7 @@ fun File.fNewFile(ext: String?): File {
         if (file.exists()) {
             continue
         } else {
-            file.fCheckFile()
+            file.fCreateFile()
             return file
         }
     }
@@ -69,7 +69,7 @@ fun File.fNewFile(ext: String?): File {
  * 检查文件是否存在，如果不存在则尝试创建
  * @return true-创建成功或者文件已经存在
  */
-fun File?.fCheckFile(): Boolean {
+fun File?.fCreateFile(): Boolean {
     return try {
         if (this == null) return false
         if (!this.exists()) this.parentFile.fCreateDir() && this.createNewFile()
@@ -128,7 +128,7 @@ fun File?.fCopyToFile(file: File?): Boolean {
     if (!this.exists()) return false
     if (this.isDirectory) error("this should not be a directory")
     if (this == file) return true
-    if (!file.fCheckFile()) return false
+    if (!file.fCreateFile()) return false
     return try {
         this.copyTo(file, overwrite = true)
         true
@@ -146,7 +146,7 @@ fun File?.fMoveToFile(file: File?): Boolean {
     if (!this.exists()) return false
     if (this.isDirectory) error("this should not be a directory")
     if (this == file) return true
-    if (!file.fCheckFile()) return false
+    if (!file.fCreateFile()) return false
     return try {
         this.renameTo(file)
     } catch (e: Exception) {

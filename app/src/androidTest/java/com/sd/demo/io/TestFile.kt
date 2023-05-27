@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCreateDir
-import com.sd.lib.io.fCheckFile
+import com.sd.lib.io.fCreateFile
 import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
 import com.sd.lib.io.fFilesDir
@@ -23,10 +23,10 @@ class TestFile {
     private val _context get() = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
-    fun testCheckDir() {
+    fun testCreateDir() {
         val file = _context.externalCacheDir!!.resolve("testCheckDir").resolve("aaa")
 
-        assertEquals(true, file.fCheckFile())
+        assertEquals(true, file.fCreateFile())
         assertEquals(true, file.exists() && file.isFile)
 
         assertEquals(true, file.fCreateDir())
@@ -34,13 +34,13 @@ class TestFile {
     }
 
     @Test
-    fun testCheckFile() {
+    fun testCreateFile() {
         val file = _context.getExternalFilesDir(null)!!.resolve("testCheckFile").resolve("aaa")
 
         assertEquals(true, file.fCreateDir())
         assertEquals(true, file.exists() && file.isDirectory)
 
-        assertEquals(true, file.fCheckFile())
+        assertEquals(true, file.fCreateFile())
         assertEquals(true, file.exists() && file.isFile)
     }
 
@@ -52,7 +52,7 @@ class TestFile {
         assertEquals(true, filesDir.exists())
 
         cacheDir.resolve("deep").resolve("deep.txt").apply {
-            this.fCheckFile()
+            this.fCreateFile()
             this.writeText("hello world")
         }
 
@@ -73,7 +73,7 @@ class TestFile {
         assertEquals(true, filesDir.exists())
 
         val file = cacheDir.resolve("hello.txt").apply {
-            this.fCheckFile()
+            this.fCreateFile()
             this.writeText("hello world")
         }
         val copyFile = filesDir.resolve("copyFile").resolve("hello.txt")
@@ -92,7 +92,7 @@ class TestFile {
         assertEquals(true, filesDir.exists())
 
         val file = cacheDir.resolve("move.txt").apply {
-            this.fCheckFile()
+            this.fCreateFile()
             this.writeText("hello world")
         }
         val moveFile = filesDir.resolve("moveFile").resolve("move.txt")
