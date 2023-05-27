@@ -72,14 +72,10 @@ fun File.fNewFile(ext: String?): File {
 fun File?.fCheckFile(): Boolean {
     return try {
         if (this == null) return false
-        if (!this.exists()) {
-            this.parentFile.fCheckDir()
-            return this.createNewFile()
-        }
+        if (!this.exists()) this.parentFile.fCheckDir() && this.createNewFile()
         if (this.isFile) return true
         this.deleteRecursively()
-        this.parentFile.fCheckDir()
-        return this.createNewFile()
+        return this.parentFile.fCheckDir() && this.createNewFile()
     } catch (e: Exception) {
         e.printStackTrace()
         false
