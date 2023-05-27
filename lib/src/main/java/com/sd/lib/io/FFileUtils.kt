@@ -51,7 +51,7 @@ fun fFilesDir(name: String? = null): File {
  * 在文件夹下创建一个扩展名为[ext]的文件
  */
 fun File.fNewFile(ext: String?): File {
-    this.fCreateDir()
+    if (this.exists() && this.isFile) error("this file should not be a file")
     val fullExt = ext.fDotExt()
     while (true) {
         val filename = UUID.randomUUID().toString() + fullExt
@@ -86,7 +86,7 @@ fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
 }
 
 /**
- * 检查文件夹是否存在，如果不存在则尝试创建
+ * 检查文件夹是否存在，如果不存在则尝试创建，如果已存在并且是文件则删除该文件并尝试创建文件夹
  * @return true-创建成功或者文件夹已经存在
  */
 fun File?.fCreateDir(): Boolean {
