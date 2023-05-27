@@ -105,7 +105,7 @@ private class InternalDir private constructor(dir: File) : IDir {
 
     @Synchronized
     override fun <T> modify(block: (dir: File?) -> T): T {
-        return block(checkDir())
+        return block(createDir())
     }
 
     @Synchronized
@@ -113,7 +113,7 @@ private class InternalDir private constructor(dir: File) : IDir {
         _dir.delete()
     }
 
-    private fun checkDir(): File? {
+    private fun createDir(): File? {
         return if (_dir.fCreateDir()) _dir else null
     }
 
