@@ -79,7 +79,6 @@ class TestFile {
         val copyResult = file.fCopyToFile(copyFile)
 
         assertEquals(true, copyResult)
-        assertEquals(true, copyFile.exists())
         assertEquals("hello world", copyFile.readText())
     }
 
