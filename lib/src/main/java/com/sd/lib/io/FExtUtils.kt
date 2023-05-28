@@ -14,11 +14,10 @@ fun String?.fGetExt(defaultExt: String? = null): String {
 
     var ext = MimeTypeMap.getFileExtensionFromUrl(this)
     if (ext.isNullOrEmpty()) {
-        val lastIndex = this.lastIndexOf(".")
-        if (lastIndex >= 0) ext = this.substring(lastIndex + 1)
+        ext = this.substringAfterLast(delimiter = ".", missingDelimiterValue = "")
     }
 
-    return if (ext.isNullOrEmpty()) {
+    return if (ext.isEmpty()) {
         formatDefaultExt(defaultExt)
     } else {
         removePrefixDot(ext)
