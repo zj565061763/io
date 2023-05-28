@@ -18,11 +18,11 @@ const val FByteTB = 1024 * FByteGB
 @JvmOverloads
 fun fCacheDir(name: String? = null): File {
     val context = fContext
-    val dir = context.externalCacheDir ?: context.cacheDir
+    val dir = context.externalCacheDir ?: context.cacheDir ?: error("cache dir is unavailable")
     val ret = if (name.isNullOrEmpty()) {
         dir
     } else {
-        File(dir, name)
+        dir.resolve(name)
     }
     return ret.also {
         it.fCreateDir()
@@ -36,11 +36,11 @@ fun fCacheDir(name: String? = null): File {
 @JvmOverloads
 fun fFilesDir(name: String? = null): File {
     val context = fContext
-    val dir = context.getExternalFilesDir(null) ?: context.filesDir
+    val dir = context.getExternalFilesDir(null) ?: context.filesDir ?: error("files dir is unavailable")
     val ret = if (name.isNullOrEmpty()) {
         dir
     } else {
-        File(dir, name)
+        dir.resolve(name)
     }
     return ret.also {
         it.fCreateDir()
@@ -55,7 +55,7 @@ fun File.fNewFile(ext: String?): File {
     val fullExt = ext.fDotExt()
     while (true) {
         val filename = UUID.randomUUID().toString() + fullExt
-        val file = File(this, filename)
+        val file = this.resolve(filename)
         if (file.exists()) {
             continue
         } else {
@@ -115,7 +115,8 @@ fun File?.fCopyToDir(dir: File?): Boolean {
         if (this.isDirectory) {
             this.copyRecursively(dir, overwrite = true)
         } else {
-            this.fCopyToFile(File(dir, this.name))
+            val file = dir.resolve(this.name)
+            this.fCopyToFile(file)
         }
     } catch (e: Exception) {
         e.printStackTrace()

@@ -26,7 +26,7 @@ fun InputStream?.fUnzipTo(dir: File?): Boolean {
         (if (this is ZipInputStream) this else ZipInputStream(this)).use { inputStream ->
             var entry = inputStream.nextEntry
             while (entry != null) {
-                val target = File(dir, entry.name)
+                val target = dir.resolve(entry.name)
                 if (entry.isDirectory) {
                     if (!target.fCreateDir()) return false
                 } else {

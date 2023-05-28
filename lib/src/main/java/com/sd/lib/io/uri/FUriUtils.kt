@@ -40,7 +40,7 @@ fun Uri?.fToFile(): File? {
             try {
                 val name = md5(this.toString())
                 val ext = this.fFileName().fGetExt().fDotExt()
-                val file = File(dir, name + ext)
+                val file = dir.resolve(name + ext)
                 this.saveToFile(file)
                 if (file.exists()) file else null
             } catch (e: Exception) {
