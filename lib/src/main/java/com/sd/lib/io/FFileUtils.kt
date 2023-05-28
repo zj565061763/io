@@ -95,7 +95,7 @@ fun File?.fCreateDir(): Boolean {
         if (this == null) return false
         if (!this.exists()) return this.mkdirs()
         if (this.isDirectory) return true
-        this.delete()
+        this.fDelete()
         return this.mkdirs()
     } catch (e: Exception) {
         e.printStackTrace()

@@ -110,7 +110,7 @@ private class InternalDir private constructor(dir: File) : IDir {
 
     @Synchronized
     override fun delete() {
-        _dir.delete()
+        _dir.fDelete()
     }
 
     private fun createDir(): File? {
