@@ -70,11 +70,11 @@ fun File?.fNewFile(ext: String?): File? {
  * 如果是目录，则拷贝目录下的所有文件到[dir]目录下
  */
 fun File?.fCopyToDir(dir: File?): Boolean {
-    if (this == null || dir == null) return false
-    if (!this.exists()) return false
-    if (!dir.fCreateDir()) return false
-    if (this == dir) return true
     return try {
+        if (this == null || dir == null) return false
+        if (!this.exists()) return false
+        if (!dir.fCreateDir()) return false
+        if (this == dir) return true
         if (this.isDirectory) {
             this.copyRecursively(dir, overwrite = true)
         } else {
