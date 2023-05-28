@@ -34,23 +34,20 @@ class TestZip {
             }
         }
 
-        val zip = cacheDir.fZip()
-        assertEquals(true, zip?.exists())
+        val zip = cacheDir.fZip()!!
+        assertEquals(true, zip.exists())
 
         val filesDir = fFilesDir("my_files")
         assertEquals(true, zip.fUnzipTo(filesDir))
 
         filesDir.resolve("my_cache").apply {
             this.resolve("testZip_hello.txt").let { file ->
-                assertEquals(true, file.exists())
                 assertEquals("hello", file.readText())
             }
             this.resolve("testZip_world.txt").let { file ->
-                assertEquals(true, file.exists())
                 assertEquals("world", file.readText())
             }
             this.resolve("testZip").resolve("hello world.txt").let { file ->
-                assertEquals(true, file.exists())
                 assertEquals("hello world", file.readText())
             }
         }
