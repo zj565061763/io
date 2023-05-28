@@ -13,9 +13,9 @@ internal fun <T> Exception.libThrowOrReturn(
     whiteList: List<Class<out Exception>> = libWhiteExceptionList(),
     block: () -> T,
 ): T {
-    return if (this.javaClass in whiteList) {
+    if (this.javaClass in whiteList) {
         this.printStackTrace()
-        block()
+        return block()
     } else {
         throw this
     }
