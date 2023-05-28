@@ -24,9 +24,7 @@ fun fCacheDir(name: String? = null): File {
     } else {
         dir.resolve(name)
     }
-    return ret.also {
-        it.fCreateDir()
-    }
+    return if (ret.fCreateDir()) ret else error("cache dir is unavailable")
 }
 
 /**
@@ -42,9 +40,7 @@ fun fFilesDir(name: String? = null): File {
     } else {
         dir.resolve(name)
     }
-    return ret.also {
-        it.fCreateDir()
-    }
+    return if (ret.fCreateDir()) ret else error("files dir is unavailable")
 }
 
 /**
