@@ -3,7 +3,6 @@ package com.sd.lib.io
 import android.content.Context
 import com.sd.lib.ctx.fContext
 import java.io.File
-import java.io.IOException
 import java.text.DecimalFormat
 import java.util.UUID
 
@@ -203,24 +202,5 @@ fun Long.fFormatByteSize(df: DecimalFormat = DecimalFormat("#.0")): String {
         this < FByteGB -> df.format(this.toDouble() / FByteMB) + "MB"
         this < FByteTB -> df.format(this.toDouble() / FByteGB) + "GB"
         else -> df.format(this.toDouble() / FByteTB) + "TB"
-    }
-}
-
-internal fun libWhiteExceptionList(): List<Class<out Exception>> {
-    return listOf(
-        IOException::class.java,
-        SecurityException::class.java,
-    )
-}
-
-internal fun <T> Exception.libThrowOrReturn(
-    whiteList: List<Class<out Exception>> = libWhiteExceptionList(),
-    block: () -> T,
-): T {
-    return if (this.javaClass in whiteList) {
-        this.printStackTrace()
-        block()
-    } else {
-        throw this
     }
 }
