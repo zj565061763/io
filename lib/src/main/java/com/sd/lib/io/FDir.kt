@@ -22,7 +22,7 @@ fun fDirUri(): IDir {
  */
 fun fDir(dir: File): IDir {
     val finalDir = if (dir.exists()) {
-        if (dir.isDirectory) dir else dir.parentFile
+        if (dir.isDirectory) dir else error("dir should not be a file")
     } else {
         dir
     }
