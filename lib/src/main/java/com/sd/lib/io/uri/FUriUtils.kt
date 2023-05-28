@@ -5,9 +5,11 @@ import android.os.Build
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import com.sd.lib.ctx.fContext
+import com.sd.lib.io.fCreateFile
 import com.sd.lib.io.fDirUri
 import com.sd.lib.io.fDotExt
 import com.sd.lib.io.fGetExt
+import com.sd.lib.io.libThrowOrReturn
 import java.io.File
 import java.security.MessageDigest
 
@@ -36,8 +38,7 @@ fun Uri?.fToFile(): File? {
                 val name = md5(this.toString())
                 val ext = this.fFileName().fGetExt().fDotExt()
                 val file = dir.resolve(name + ext)
-                this.saveToFile(file)
-                if (file.exists()) file else null
+                if (this.saveToFile(file)) file else null
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
@@ -58,12 +59,19 @@ fun Uri?.fFileName(): String {
     return documentFile?.name ?: ""
 }
 
-private fun Uri.saveToFile(file: File) {
-    val context = fContext
-    context.contentResolver.openInputStream(this)?.use { input ->
-        file.outputStream().buffered().use { output ->
-            input.copyTo(output)
+private fun Uri?.saveToFile(file: File): Boolean {
+    try {
+        if (this == null) return false
+        if (!file.fCreateFile()) return false
+        val context = fContext
+        context.contentResolver.openInputStream(this)?.use { input ->
+            file.outputStream().buffered().use { output ->
+                input.copyTo(output)
+            }
         }
+        return true
+    } catch (e: Exception) {
+        return e.libThrowOrReturn { false }
     }
 }
 
