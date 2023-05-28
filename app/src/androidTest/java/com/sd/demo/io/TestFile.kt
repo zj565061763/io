@@ -98,7 +98,6 @@ class TestFile {
 
         assertEquals(true, moveResult)
         assertEquals(false, file.exists())
-        assertEquals(true, moveFile.exists())
         assertEquals("hello world", moveFile.readText())
     }
 }
