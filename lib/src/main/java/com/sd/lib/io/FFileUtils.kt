@@ -8,9 +8,9 @@ import java.text.DecimalFormat
 import java.util.UUID
 
 const val FByteKB = 1024L
-const val FByteMB = 1024 * FByteKB
-const val FByteGB = 1024 * FByteMB
-const val FByteTB = 1024 * FByteGB
+const val FByteMB = 1024L * FByteKB
+const val FByteGB = 1024L * FByteMB
+const val FByteTB = 1024L * FByteGB
 
 /**
  * 获取缓存目录下的[name]目录，如果name为空则获取缓存目录，
