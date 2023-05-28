@@ -151,8 +151,7 @@ fun File?.fCreateDir(): Boolean {
         this.fDelete()
         return this.mkdirs()
     } catch (e: Exception) {
-        e.printStackTrace()
-        return false
+        return e.libThrowOrReturn { false }
     }
 }
 
