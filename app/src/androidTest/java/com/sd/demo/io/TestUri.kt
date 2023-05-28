@@ -34,8 +34,7 @@ class TestUri {
         assertEquals(expectedString, uriString)
         assertEquals(filename, fileUri.fFileName())
 
-        val saveFile = fileUri.fToFile()
-        assertEquals(true, saveFile!!.exists())
+        val saveFile = fileUri.fToFile()!!
         assertEquals("hello world", saveFile.readText())
     }
 }
