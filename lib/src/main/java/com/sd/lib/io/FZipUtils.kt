@@ -69,8 +69,12 @@ fun File?.fZip(filename: String? = null): File? {
  * 如果当前是文件则把文件压缩为[zip]，如果当前是文件夹则把文件夹和文件夹下的所有文件压缩为[zip]
  */
 fun File?.fZipTo(zip: File?): Boolean {
-    if (this == null || !this.exists()) return false
-    return arrayOf<File?>(this).fZipTo(zip)
+    try {
+        if (this == null || !this.exists()) return false
+        return arrayOf<File?>(this).fZipTo(zip)
+    } catch (e: Exception) {
+        return e.libThrowOrReturn { false }
+    }
 }
 
 /**
