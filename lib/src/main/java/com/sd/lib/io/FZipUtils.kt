@@ -85,20 +85,19 @@ fun File?.fZipTo(zip: File?): Boolean {
  * 压缩为[zip]
  */
 fun Array<File?>?.fZipTo(zip: File?): Boolean {
-    if (this.isNullOrEmpty()) return false
-    if (zip == null) return false
-    if (!zip.fCreateFile()) return false
-    return try {
+    try {
+        if (this.isNullOrEmpty()) return false
+        if (zip == null) return false
+        if (!zip.fCreateFile()) return false
         ZipOutputStream(zip.outputStream()).use { output ->
             for (item in this) {
                 if (item == null || !item.exists()) return false
                 compressFile(item, item.name, output)
             }
         }
-        true
+        return true
     } catch (e: Exception) {
-        e.printStackTrace()
-        false
+        return e.libThrowOrReturn { false }
     }
 }
 
