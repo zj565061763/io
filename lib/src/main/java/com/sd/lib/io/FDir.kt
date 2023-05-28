@@ -17,6 +17,9 @@ fun fDirUri(): IDir {
     return fDir(fFilesDir("f_dir_uri"))
 }
 
+/**
+ * 把[dir]转为[IDir]
+ */
 fun fDir(dir: File): IDir {
     val finalDir = if (dir.exists()) {
         if (dir.isDirectory) dir else dir.parentFile
