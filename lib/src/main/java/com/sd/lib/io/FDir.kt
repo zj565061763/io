@@ -100,7 +100,7 @@ private class InternalDir private constructor(dir: File) : IDir {
     private val _dir = dir
 
     override fun newFile(ext: String?): File? {
-        return modify { it?.fNewFile(ext) }
+        return modify { it.fNewFile(ext) }
     }
 
     @Synchronized
