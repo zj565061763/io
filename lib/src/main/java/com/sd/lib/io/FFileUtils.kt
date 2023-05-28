@@ -159,8 +159,8 @@ fun File?.fCreateDir(): Boolean {
  * 删除文件或者目录
  */
 fun File?.fDelete() {
-    if (this == null) return
     try {
+        if (this == null) return
         if (!this.exists()) return
         if (this.isFile) {
             this.delete()
@@ -168,7 +168,7 @@ fun File?.fDelete() {
             this.deleteRecursively()
         }
     } catch (e: Exception) {
-        e.printStackTrace()
+        e.libThrowOrReturn { }
     }
 }
 
