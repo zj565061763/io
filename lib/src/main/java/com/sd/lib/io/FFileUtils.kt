@@ -70,8 +70,8 @@ fun File?.fNewFile(ext: String?): File? {
  * @return true-创建成功或者文件已经存在
  */
 fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
-    if (this == null) return false
     return try {
+        if (this == null) return false
         if (!this.exists()) this.parentFile.fCreateDir() && this.createNewFile()
         if (overwrite) {
             this.fDelete()
