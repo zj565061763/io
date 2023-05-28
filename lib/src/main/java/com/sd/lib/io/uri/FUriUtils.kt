@@ -16,17 +16,12 @@ import java.security.MessageDigest
  */
 fun File?.fToUri(): Uri? {
     if (this == null) return null
-    return try {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val context = fContext
-            val authority = fFileProviderAuthority()
-            FileProvider.getUriForFile(context, authority, this)
-        } else {
-            Uri.fromFile(this)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        val context = fContext
+        val authority = fFileProviderAuthority()
+        FileProvider.getUriForFile(context, authority, this)
+    } else {
+        Uri.fromFile(this)
     }
 }
 
