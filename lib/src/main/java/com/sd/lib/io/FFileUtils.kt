@@ -94,17 +94,16 @@ fun File?.fCopyToDir(dir: File?): Boolean {
  * 拷贝文件
  */
 fun File?.fCopyToFile(file: File?): Boolean {
-    if (this == null || file == null) return false
-    if (!this.exists()) return false
-    if (this.isDirectory) error("this should not be a directory")
-    if (this == file) return true
-    if (!file.fCreateFile()) return false
-    return try {
+    try {
+        if (this == null || file == null) return false
+        if (!this.exists()) return false
+        if (this.isDirectory) error("this should not be a directory")
+        if (this == file) return true
+        if (!file.fCreateFile()) return false
         this.copyTo(file, overwrite = true)
-        true
+        return true
     } catch (e: Exception) {
-        e.printStackTrace()
-        false
+        return e.libThrowOrReturn { false }
     }
 }
 
