@@ -2,7 +2,6 @@ package com.sd.lib.io
 
 import java.io.File
 import java.io.FileInputStream
-import java.io.IOException
 import java.io.InputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -24,9 +23,9 @@ fun File?.fUnzipTo(dir: File?): Boolean {
  * 解压到[dir]目录下
  */
 fun InputStream?.fUnzipTo(dir: File?): Boolean {
-    if (this == null || dir == null) return false
-    if (!dir.fCreateDir()) return false
-    return try {
+    try {
+        if (this == null || dir == null) return false
+        if (!dir.fCreateDir()) return false
         (if (this is ZipInputStream) this else ZipInputStream(this)).use { inputStream ->
             var entry = inputStream.nextEntry
             while (entry != null) {
@@ -43,10 +42,9 @@ fun InputStream?.fUnzipTo(dir: File?): Boolean {
                 entry = inputStream.nextEntry
             }
         }
-        true
-    } catch (e: IOException) {
-        e.printStackTrace()
-        false
+        return true
+    } catch (e: Exception) {
+        return e.libThrowOrReturn { false }
     }
 }
 
