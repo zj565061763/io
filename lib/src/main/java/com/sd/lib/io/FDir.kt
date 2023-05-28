@@ -69,13 +69,13 @@ private class FDir(dir: File) : IDir {
     }
 
     companion object {
-        private val _counterHolder: MutableMap<String, AtomicInteger> = hashMapOf()
+        private val sCounterHolder: MutableMap<String, AtomicInteger> = hashMapOf()
 
         private fun addCount(directory: File) {
             synchronized(InternalDir.Companion) {
                 val path = directory.absolutePath
-                val counter = _counterHolder[path] ?: AtomicInteger(0).also {
-                    _counterHolder[path] = it
+                val counter = sCounterHolder[path] ?: AtomicInteger(0).also {
+                    sCounterHolder[path] = it
                 }
                 counter.incrementAndGet()
             }
@@ -84,10 +84,10 @@ private class FDir(dir: File) : IDir {
         private fun removeCount(directory: File) {
             synchronized(InternalDir.Companion) {
                 val path = directory.absolutePath
-                val counter = _counterHolder[path] ?: error("Directory was not found $path")
+                val counter = sCounterHolder[path] ?: error("Directory was not found $path")
                 counter.decrementAndGet().let {
                     if (it <= 0) {
-                        _counterHolder.remove(path)
+                        sCounterHolder.remove(path)
                         InternalDir.close(directory)
                     }
                 }
@@ -118,13 +118,13 @@ private class InternalDir private constructor(dir: File) : IDir {
     }
 
     companion object {
-        private val _instanceHolder: MutableMap<String, InternalDir> = hashMapOf()
+        private val sInstanceHolder: MutableMap<String, InternalDir> = hashMapOf()
 
         fun open(directory: File): IDir {
             return synchronized(this@Companion) {
                 val path = directory.absolutePath
-                _instanceHolder[path] ?: InternalDir(directory).also {
-                    _instanceHolder[path] = it
+                sInstanceHolder[path] ?: InternalDir(directory).also {
+                    sInstanceHolder[path] = it
                 }
             }
         }
@@ -132,7 +132,7 @@ private class InternalDir private constructor(dir: File) : IDir {
         fun close(directory: File) {
             synchronized(this@Companion) {
                 val path = directory.absolutePath
-                _instanceHolder.remove(path)
+                sInstanceHolder.remove(path)
             }
         }
     }
