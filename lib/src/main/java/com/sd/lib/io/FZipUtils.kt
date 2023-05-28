@@ -51,6 +51,7 @@ fun InputStream?.fUnzipTo(dir: File?): Boolean {
 /**
  * 压缩文件当前文件
  */
+@JvmOverloads
 fun File?.fZip(filename: String? = null): File? {
     if (this == null || !this.exists()) return null
     val parentFile = this.parentFile ?: error("parent file is null, call fZipTo() method instead")
