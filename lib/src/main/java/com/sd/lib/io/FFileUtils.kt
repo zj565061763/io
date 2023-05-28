@@ -124,9 +124,9 @@ fun File?.fMoveToFile(file: File?): Boolean {
  * @return true-创建成功或者文件已经存在
  */
 fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
-    return try {
+    try {
         if (this == null) return false
-        if (!this.exists()) this.parentFile.fCreateDir() && this.createNewFile()
+        if (!this.exists()) return this.parentFile.fCreateDir() && this.createNewFile()
         if (overwrite) {
             this.fDelete()
         } else {
@@ -135,8 +135,7 @@ fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
         }
         return this.parentFile.fCreateDir() && this.createNewFile()
     } catch (e: Exception) {
-        e.printStackTrace()
-        false
+        return e.libThrowOrReturn { false }
     }
 }
 
