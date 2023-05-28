@@ -107,16 +107,15 @@ fun File?.fCopyToFile(file: File?): Boolean {
  * 移动文件
  */
 fun File?.fMoveToFile(file: File?): Boolean {
-    if (this == null || file == null) return false
-    if (!this.exists()) return false
-    if (this.isDirectory) error("this should not be a directory")
-    if (this == file) return true
-    if (!file.fCreateFile()) return false
-    return try {
-        this.renameTo(file)
+    try {
+        if (this == null || file == null) return false
+        if (!this.exists()) return false
+        if (this.isDirectory) error("this should not be a directory")
+        if (this == file) return true
+        if (!file.fCreateFile()) return false
+        return this.renameTo(file)
     } catch (e: Exception) {
-        e.printStackTrace()
-        false
+        return e.libThrowOrReturn { false }
     }
 }
 
