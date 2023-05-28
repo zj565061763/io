@@ -50,7 +50,8 @@ fun fFilesDir(name: String? = null): File {
 /**
  * 在文件夹下创建一个扩展名为[ext]的文件
  */
-fun File.fNewFile(ext: String?): File {
+fun File?.fNewFile(ext: String?): File? {
+    if (this == null) return null
     if (this.exists() && this.isFile) error("this file should not be a file")
     val fullExt = ext.fDotExt()
     while (true) {
@@ -59,9 +60,7 @@ fun File.fNewFile(ext: String?): File {
         if (file.exists()) {
             continue
         } else {
-            return file.also {
-                it.fCreateFile()
-            }
+            return file.takeIf { it.fCreateFile() }
         }
     }
 }

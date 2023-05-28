@@ -43,17 +43,17 @@ class DirActivity : ComponentActivity() {
     private val _filesDir get() = fFilesDir("my_files")
 
     private fun clickCache() {
-        val file = _cacheDir.fNewFile("txt").apply {
-            this.writeText("hello cache")
+        _cacheDir.fNewFile("txt")?.let { file ->
+            file.writeText("hello cache")
+            logMsg { "cache:${file.readText()}" }
         }
-        logMsg { "cache:${file.readText()}" }
     }
 
     private fun clickFiles() {
-        val file = _filesDir.fNewFile("txt").apply {
-            this.writeText("hello files")
+        _filesDir.fNewFile("txt")?.let { file ->
+            file.writeText("hello files")
+            logMsg { "file:${file.readText()}" }
         }
-        logMsg { "file:${file.readText()}" }
     }
 
     private fun deleteFile() {
