@@ -58,10 +58,9 @@ class TestFile {
 
         val copyDir = filesDir.resolve("copyToDir")
         val copyResult = cacheDir.fCopyToDir(copyDir)
-        val copyFile = copyDir.resolve("deep").resolve("deep.txt")
-
         assertEquals(true, copyResult)
-        assertEquals(true, copyFile.exists())
+
+        val copyFile = copyDir.resolve("deep").resolve("deep.txt")
         assertEquals("hello world", copyFile.readText())
     }
 
