@@ -74,19 +74,19 @@ fun File?.fNewFile(ext: String?): File? {
  * 如果是目录，则拷贝目录下的所有文件到[dir]目录下
  */
 fun File?.fCopyToDir(dir: File?): Boolean {
-    return try {
+    try {
         if (this == null || dir == null) return false
         if (!this.exists()) return false
         if (!dir.fCreateDir()) return false
         if (this == dir) return true
-        if (this.isDirectory) {
+        return if (this.isDirectory) {
             this.copyRecursively(dir, overwrite = true)
         } else {
             val file = dir.resolve(this.name)
             this.fCopyToFile(file)
         }
     } catch (e: Exception) {
-        e.libThrowOrReturn { false }
+        return e.libThrowOrReturn { false }
     }
 }
 
