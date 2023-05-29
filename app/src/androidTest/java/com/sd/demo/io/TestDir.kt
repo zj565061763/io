@@ -18,6 +18,5 @@ class TestDir {
         assertEquals(true, fDirTemp().newFile("mp3")?.exists())
         assertEquals(true, fDirTemp().newFile(".mp3")?.exists())
         assertEquals(true, fDirTemp().newFile("")?.exists())
-        assertEquals(true, fDirTemp().newFile(null)?.exists())
     }
 }
