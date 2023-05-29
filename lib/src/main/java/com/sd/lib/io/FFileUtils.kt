@@ -117,6 +117,7 @@ fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
 
 /**
  * 检查文件是否存在，如果不存在则尝试创建，如果已存在则根据[overwrite]来决定是否覆盖，默认覆盖
+ * @return 当前文件是否存在
  */
 @JvmOverloads
 fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
@@ -137,14 +138,14 @@ fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
 
 /**
  * 检查文件夹是否存在，如果不存在则尝试创建，如果已存在并且是文件则删除该文件并尝试创建文件夹
- * @return true-创建成功或者文件夹已经存在
+ * @return 当前文件夹是否存在
  */
 fun File?.fCreateDir(): Boolean {
     try {
         if (this == null) return false
         if (!this.exists()) return this.mkdirs()
         if (this.isDirectory) return true
-        this.fDelete()
+        if (this.isFile) this.delete()
         return this.mkdirs()
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
