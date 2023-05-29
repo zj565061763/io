@@ -36,14 +36,14 @@ interface IDir {
     fun newFile(ext: String?): File?
 
     /**
-     * 操作当前文件夹
-     */
-    fun <T> modify(block: (dir: File?) -> T): T
-
-    /**
      * 删除当前目录以及下面的所有文件
      */
     fun delete(): Boolean
+
+    /**
+     * 操作当前文件夹
+     */
+    fun <T> modify(block: (dir: File?) -> T): T
 }
 
 private class FDir(dir: File) : IDir {
@@ -55,12 +55,12 @@ private class FDir(dir: File) : IDir {
         return _directory.newFile(ext)
     }
 
-    override fun <T> modify(block: (dir: File?) -> T): T {
-        return _directory.modify(block)
-    }
-
     override fun delete(): Boolean {
         return _directory.delete()
+    }
+
+    override fun <T> modify(block: (dir: File?) -> T): T {
+        return _directory.modify(block)
     }
 
     init {
@@ -106,14 +106,13 @@ private class InternalDir private constructor(dir: File) : IDir {
         return modify { it.fNewFile(ext) }
     }
 
-    @Synchronized
-    override fun <T> modify(block: (dir: File?) -> T): T {
-        return block(createDir())
+    override fun delete(): Boolean {
+        return modify { it.fDelete() }
     }
 
     @Synchronized
-    override fun delete(): Boolean {
-        return _dir.fDelete()
+    override fun <T> modify(block: (dir: File?) -> T): T {
+        return block(createDir())
     }
 
     private fun createDir(): File? {
