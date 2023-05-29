@@ -275,7 +275,7 @@ private class InternalDir private constructor(dir: File) : IDir {
         if (key.isEmpty()) return null
         return modify { dir ->
             if (dir != null) {
-                val filename = md5(key) + ext.fDotExt()
+                val filename = libMD5(key) + ext.fDotExt()
                 dir.resolve(filename)
             } else {
                 null

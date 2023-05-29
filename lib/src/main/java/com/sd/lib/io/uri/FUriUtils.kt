@@ -10,7 +10,7 @@ import com.sd.lib.io.fDirUri
 import com.sd.lib.io.fDotExt
 import com.sd.lib.io.fGetExt
 import com.sd.lib.io.libThrowOrReturn
-import com.sd.lib.io.md5
+import com.sd.lib.io.libMD5
 import java.io.File
 
 /**
@@ -35,7 +35,7 @@ fun Uri?.fToFile(): File? {
     return fDirUri().modify { dir ->
         if (dir != null) {
             try {
-                val name = md5(this.toString())
+                val name = libMD5(this.toString())
                 val ext = this.fFileName().fGetExt().fDotExt()
                 val file = dir.resolve(name + ext)
                 if (this.saveToFile(file)) file else null
