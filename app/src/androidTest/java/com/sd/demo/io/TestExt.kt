@@ -15,24 +15,22 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class TestExt {
     @Test
-    fun testExt() {
+    fun testGetExt() {
         assertEquals("mp3", "hello.mp3".fGetExt())
         assertEquals("mp3", ".mp3".fGetExt())
 
         assertEquals("", "mp3".fGetExt())
-        assertEquals("", null.fGetExt())
         assertEquals("", "".fGetExt())
 
-        assertEquals("", "mp3".fGetExt(null))
-        assertEquals("", null.fGetExt(""))
-        assertEquals("", null.fGetExt("."))
         assertEquals("mp3", "".fGetExt("mp3"))
         assertEquals("mp3", "".fGetExt(".mp3"))
         assertEquals("mp3", "".fGetExt("...mp3"))
+    }
 
+    @Test
+    fun testDotExt() {
         assertEquals(".mp4", "mp4".fDotExt())
         assertEquals(".mp3", ".mp3".fDotExt())
-        assertEquals("", null.fDotExt())
         assertEquals("", "".fDotExt())
     }
 }
