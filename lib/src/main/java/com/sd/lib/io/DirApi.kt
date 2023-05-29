@@ -27,7 +27,7 @@ fun fDir(dir: File): IDir {
     } else {
         dir
     }
-    return FDir(finalDir)
+    return DirApi(finalDir)
 }
 
 interface IDir {
@@ -97,10 +97,10 @@ interface IDir {
     }
 }
 
-private class FDir(dir: File) : IDir {
+private class DirApi(dir: File) : IDir {
     private val _dir = dir
     private val _directory: IDir
-        get() = InternalDir.open(_dir)
+        get() = DirImpl.open(_dir)
 
     override fun getFile(key: String?): File? {
         return _directory.getFile(key)
@@ -166,7 +166,7 @@ private class FDir(dir: File) : IDir {
         private val sCounterHolder: MutableMap<String, AtomicInteger> = hashMapOf()
 
         private fun addCount(directory: File) {
-            synchronized(InternalDir.Companion) {
+            synchronized(DirImpl.Companion) {
                 val path = directory.absolutePath
                 val counter = sCounterHolder[path] ?: AtomicInteger(0).also {
                     sCounterHolder[path] = it
@@ -176,13 +176,13 @@ private class FDir(dir: File) : IDir {
         }
 
         private fun removeCount(directory: File) {
-            synchronized(InternalDir.Companion) {
+            synchronized(DirImpl.Companion) {
                 val path = directory.absolutePath
                 val counter = sCounterHolder[path] ?: error("Directory was not found $path")
                 counter.decrementAndGet().let {
                     if (it <= 0) {
                         sCounterHolder.remove(path)
-                        InternalDir.close(directory)
+                        DirImpl.close(directory)
                     }
                 }
             }
@@ -190,7 +190,7 @@ private class FDir(dir: File) : IDir {
     }
 }
 
-private class InternalDir private constructor(dir: File) : IDir {
+private class DirImpl private constructor(dir: File) : IDir {
     private val _dir = dir
 
     override fun getFile(key: String?): File? {
@@ -299,12 +299,12 @@ private class InternalDir private constructor(dir: File) : IDir {
     }
 
     companion object {
-        private val sInstanceHolder: MutableMap<String, InternalDir> = hashMapOf()
+        private val sInstanceHolder: MutableMap<String, DirImpl> = hashMapOf()
 
         fun open(directory: File): IDir {
             return synchronized(this@Companion) {
                 val path = directory.absolutePath
-                sInstanceHolder[path] ?: InternalDir(directory).also {
+                sInstanceHolder[path] ?: DirImpl(directory).also {
                     sInstanceHolder[path] = it
                 }
             }
