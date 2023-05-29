@@ -44,12 +44,27 @@ interface IDir {
 
     /**
      * 把[file]文件拷贝到当前目录
-     *
      * @param filename 如果不为空-使用该文件名；为空-使用[file]的文件名
      * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖拷贝失败
      * @return 拷贝成功-返回拷贝后的文件；拷贝失败-返回原文件[file]
      */
-    fun copyFile(file: File, filename: String? = null, overwrite: Boolean = true): File
+    fun copyFile(
+        file: File,
+        filename: String? = null,
+        overwrite: Boolean = true,
+    ): File
+
+    /**
+     * 把[file]文件移动到当前目录
+     * @param filename 如果不为空-使用该文件名；为空-使用[file]的文件名
+     * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖拷贝失败
+     * @return 移动成功-返回移动后的文件；移动失败-返回原文件[file]
+     */
+    fun takeFile(
+        file: File,
+        filename: String? = null,
+        overwrite: Boolean = true,
+    ): File
 
     /**
      * 在当前文件夹下创建一个新文件
@@ -87,8 +102,28 @@ private class FDir(dir: File) : IDir {
         return _directory.getTempFile(key)
     }
 
-    override fun copyFile(file: File, filename: String?, overwrite: Boolean): File {
-        return _directory.copyFile(file, filename, overwrite)
+    override fun copyFile(
+        file: File,
+        filename: String?,
+        overwrite: Boolean,
+    ): File {
+        return _directory.copyFile(
+            file = file,
+            filename = filename,
+            overwrite = overwrite,
+        )
+    }
+
+    override fun takeFile(
+        file: File,
+        filename: String?,
+        overwrite: Boolean,
+    ): File {
+        return _directory.takeFile(
+            file = file,
+            filename = filename,
+            overwrite = overwrite,
+        )
     }
 
     override fun newFile(ext: String): File? {
@@ -162,13 +197,34 @@ private class InternalDir private constructor(dir: File) : IDir {
         )
     }
 
-    override fun copyFile(file: File, filename: String?, overwrite: Boolean): File {
+    override fun copyFile(
+        file: File,
+        filename: String?,
+        overwrite: Boolean,
+    ): File {
         return modify { dir ->
             if (dir != null && file.exists()) {
                 if (file.isDirectory) error("file should not be a directory")
-                val newFile = dir.resolve(filename.takeUnless { it.isNullOrEmpty() } ?: file.name)
-                val copy = file.fCopyToFile(file = newFile, overwrite = overwrite)
-                if (copy) newFile else file
+                val target = dir.resolve(filename.takeUnless { it.isNullOrEmpty() } ?: file.name)
+                val success = file.fCopyToFile(target = target, overwrite = overwrite)
+                if (success) target else file
+            } else {
+                file
+            }
+        }
+    }
+
+    override fun takeFile(
+        file: File,
+        filename: String?,
+        overwrite: Boolean,
+    ): File {
+        return modify { dir ->
+            if (dir != null && file.exists()) {
+                if (file.isDirectory) error("file should not be a directory")
+                val target = dir.resolve(filename.takeUnless { it.isNullOrEmpty() } ?: file.name)
+                val success = file.fMoveToFile(target = target, overwrite = overwrite)
+                if (success) target else file
             } else {
                 file
             }

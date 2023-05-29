@@ -81,17 +81,18 @@ fun File?.fCopyToDir(dir: File?): Boolean {
 }
 
 /**
- * 拷贝文件，如果[file]已存在则由[overwrite]决定是否覆盖
+ * 拷贝文件，如果[target]已存在则由[overwrite]决定是否覆盖
  */
 @JvmOverloads
-fun File?.fCopyToFile(file: File?, overwrite: Boolean = true): Boolean {
+fun File?.fCopyToFile(target: File?, overwrite: Boolean = true): Boolean {
     try {
-        if (this == null || file == null) return false
+        if (this == null || target == null) return false
         if (!this.exists()) return false
         if (this.isDirectory) error("this should not be a directory")
-        if (this == file) return true
-        if (!file.fCreateFile(overwrite = overwrite)) return false
-        this.copyTo(file, overwrite = overwrite)
+        if (this == target) error("this should not be target")
+        if (target.exists() && !overwrite) return false
+        if (!target.fCreateFile(overwrite = true)) return false
+        this.copyTo(target, overwrite = true)
         return true
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
@@ -99,16 +100,16 @@ fun File?.fCopyToFile(file: File?, overwrite: Boolean = true): Boolean {
 }
 
 /**
- * 移动文件
+ * 移动文件，如果[target]已存在则由[overwrite]决定是否覆盖
  */
-fun File?.fMoveToFile(file: File?): Boolean {
+fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
     try {
-        if (this == null || file == null) return false
+        if (this == null || target == null) return false
         if (!this.exists()) return false
         if (this.isDirectory) error("this should not be a directory")
-        if (this == file) return true
-        if (!file.fCreateFile()) return false
-        return this.renameTo(file)
+        if (this == target) return true
+        if (!target.fCreateFile(overwrite = overwrite)) return false
+        return this.renameTo(target)
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
     }
