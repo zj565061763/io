@@ -82,14 +82,14 @@ fun File?.fZipTo(target: File?): Boolean {
 }
 
 /**
- * 压缩为[zip]
+ * 压缩当前文件列表为[target]
  */
-fun Array<File?>?.fZipTo(zip: File?): Boolean {
+fun Array<File?>?.fZipTo(target: File?): Boolean {
     try {
         if (this.isNullOrEmpty()) return false
-        if (zip == null) return false
-        if (!zip.fCreateFile()) return false
-        ZipOutputStream(zip.outputStream()).use { output ->
+        if (target == null) return false
+        if (!target.fCreateFile()) return false
+        ZipOutputStream(target.outputStream()).use { output ->
             for (item in this) {
                 if (item == null || !item.exists()) return false
                 compressFile(item, item.name, output)
