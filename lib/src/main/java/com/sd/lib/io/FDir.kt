@@ -3,6 +3,8 @@ package com.sd.lib.io
 import java.io.File
 import java.util.concurrent.atomic.AtomicInteger
 
+internal const val TempExt = "temp"
+
 /**
  * 临时目录
  */
@@ -36,6 +38,11 @@ interface IDir {
     fun getFile(key: String?): File?
 
     /**
+     * 返回[key]对应的临时文件
+     */
+    fun getTempFile(key: String?): File?
+
+    /**
      * 在当前文件夹下创建一个新文件
      */
     fun newFile(ext: String): File?
@@ -58,6 +65,10 @@ private class FDir(dir: File) : IDir {
 
     override fun getFile(key: String?): File? {
         return _directory.getFile(key)
+    }
+
+    override fun getTempFile(key: String?): File? {
+        return _directory.getTempFile(key)
     }
 
     override fun newFile(ext: String): File? {
@@ -116,6 +127,14 @@ private class InternalDir private constructor(dir: File) : IDir {
         return createKeyFile(
             key = key,
             ext = key.fGetExt(),
+        )
+    }
+
+    override fun getTempFile(key: String?): File? {
+        if (key.isNullOrEmpty()) return null
+        return createKeyFile(
+            key = key,
+            ext = TempExt,
         )
     }
 
