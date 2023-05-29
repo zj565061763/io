@@ -16,7 +16,9 @@ import com.sd.demo.io.ui.theme.AppTheme
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
+import com.sd.lib.io.fFormatByteSize
 import com.sd.lib.io.fNewFile
+import com.sd.lib.io.fSize
 
 class DirActivity : ComponentActivity() {
 
@@ -44,15 +46,15 @@ class DirActivity : ComponentActivity() {
 
     private fun clickCache() {
         _cacheDir.fNewFile("txt")?.let { file ->
-            file.writeText("hello cache")
-            logMsg { "cache:${file.readText()}" }
+            file.writeText("hello cache !!!")
+            logMsg { "cache:${file.readText()} size:${file.fSize().fFormatByteSize()}" }
         }
     }
 
     private fun clickFiles() {
         _filesDir.fNewFile("txt")?.let { file ->
-            file.writeText("hello files")
-            logMsg { "file:${file.readText()}" }
+            file.writeText("hello files !!!!!!")
+            logMsg { "file:${file.readText()} size:${file.fSize().fFormatByteSize()}" }
         }
     }
 
