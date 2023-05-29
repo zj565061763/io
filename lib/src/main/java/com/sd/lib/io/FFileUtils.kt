@@ -70,10 +70,10 @@ fun File?.fCopyToDir(target: File?): Boolean {
         if (this == target) error("this should not be target")
         if (!target.fCreateDir()) return false
         return if (this.isDirectory) {
-            this.copyRecursively(target, overwrite = true)
+            this.copyRecursively(target = target, overwrite = true)
         } else {
             val file = target.resolve(this.name)
-            this.fCopyToFile(file)
+            this.fCopyToFile(target = file, overwrite = true)
         }
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
