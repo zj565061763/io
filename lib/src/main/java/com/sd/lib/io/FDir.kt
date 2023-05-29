@@ -48,6 +48,13 @@ interface IDir {
     fun newFile(ext: String): File?
 
     /**
+     * 删除文件（临时文件不会被删除）
+     * @param ext 文件扩展名（例如mp3）null-删除所有文件；空字符串-删除扩展名为空的文件
+     * @return 返回删除的文件数量
+     */
+    fun deleteFile(ext: String?): Int
+
+    /**
      * 删除当前目录以及下面的所有文件
      */
     fun delete(): Boolean
@@ -73,6 +80,10 @@ private class FDir(dir: File) : IDir {
 
     override fun newFile(ext: String): File? {
         return _directory.newFile(ext)
+    }
+
+    override fun deleteFile(ext: String?): Int {
+        return _directory.deleteFile(ext)
     }
 
     override fun delete(): Boolean {
@@ -140,6 +151,29 @@ private class InternalDir private constructor(dir: File) : IDir {
 
     override fun newFile(ext: String): File? {
         return modify { it.fNewFile(ext) }
+    }
+
+    override fun deleteFile(ext: String?): Int {
+        return modify { dir ->
+            val files = dir?.listFiles()
+            if (!files.isNullOrEmpty()) {
+                val noneDotExt = if (ext.isNullOrEmpty()) ext else {
+                    ext.fNoneDotExt()
+                }
+
+                var count = 0
+                for (item in files) {
+                    val itemExt = item.extension
+                    if (itemExt == TempExt) continue
+                    if (noneDotExt == null || noneDotExt == itemExt) {
+                        if (item.fDelete()) count++
+                    }
+                }
+                count
+            } else {
+                0
+            }
+        }
     }
 
     override fun delete(): Boolean {
