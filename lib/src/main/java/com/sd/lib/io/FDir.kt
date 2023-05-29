@@ -84,6 +84,11 @@ interface IDir {
     fun delete(): Boolean
 
     /**
+     * 操作当前文件夹的子级
+     */
+    fun <T> listFiles(block: (files: Array<File>?) -> T): T
+
+    /**
      * 操作当前文件夹
      */
     fun <T> modify(block: (dir: File?) -> T): T
@@ -136,6 +141,10 @@ private class FDir(dir: File) : IDir {
 
     override fun delete(): Boolean {
         return _directory.delete()
+    }
+
+    override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
+        return _directory.listFiles(block)
     }
 
     override fun <T> modify(block: (dir: File?) -> T): T {
@@ -236,8 +245,7 @@ private class InternalDir private constructor(dir: File) : IDir {
     }
 
     override fun deleteFile(ext: String?): Int {
-        return modify { dir ->
-            val files = dir?.listFiles()
+        return listFiles { files ->
             if (!files.isNullOrEmpty()) {
                 val noneDotExt = if (ext.isNullOrEmpty()) ext else {
                     ext.fNoneDotExt()
@@ -260,6 +268,10 @@ private class InternalDir private constructor(dir: File) : IDir {
 
     override fun delete(): Boolean {
         return modify { it.fDelete() }
+    }
+
+    override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
+        return modify { block(it?.listFiles()) }
     }
 
     @Synchronized
