@@ -8,33 +8,33 @@ import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
 /**
- * 把[zip]压缩包解压到[dir]目录下
+ * 把[zip]压缩包解压到[target]目录下
  */
-fun File?.fUnzipTo(dir: File?): Boolean {
+fun File?.fUnzipTo(target: File?): Boolean {
     try {
         if (this == null || !this.exists()) return false
-        return FileInputStream(this).fUnzipTo(dir)
+        return FileInputStream(this).fUnzipTo(target)
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
     }
 }
 
 /**
- * 解压到[dir]目录下
+ * 解压到[target]目录下
  */
-fun InputStream?.fUnzipTo(dir: File?): Boolean {
+fun InputStream?.fUnzipTo(target: File?): Boolean {
     try {
-        if (this == null || dir == null) return false
-        if (!dir.fCreateDir()) return false
+        if (this == null || target == null) return false
+        if (!target.fCreateDir()) return false
         (if (this is ZipInputStream) this else ZipInputStream(this)).use { inputStream ->
             var entry = inputStream.nextEntry
             while (entry != null) {
-                val target = dir.resolve(entry.name)
+                val file = target.resolve(entry.name)
                 if (entry.isDirectory) {
-                    if (!target.fCreateDir()) return false
+                    if (!file.fCreateDir()) return false
                 } else {
-                    if (!target.fCreateFile()) return false
-                    target.outputStream().use { outputStream ->
+                    if (!file.fCreateFile()) return false
+                    file.outputStream().use { outputStream ->
                         inputStream.copyTo(outputStream)
                     }
                 }
