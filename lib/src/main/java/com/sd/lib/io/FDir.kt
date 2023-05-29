@@ -78,11 +78,6 @@ interface IDir {
     fun deleteFile(ext: String?): Int
 
     /**
-     * 删除当前目录以及下面的所有文件
-     */
-    fun delete(): Boolean
-
-    /**
      * 操作当前文件夹的子级
      */
     fun <T> listFiles(block: (files: Array<File>?) -> T): T
@@ -140,10 +135,6 @@ private class DirApi(dir: File) : IDir {
 
     override fun deleteFile(ext: String?): Int {
         return _directory.deleteFile(ext)
-    }
-
-    override fun delete(): Boolean {
-        return _directory.delete()
     }
 
     override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
@@ -267,10 +258,6 @@ private class DirImpl private constructor(dir: File) : IDir {
                 0
             }
         }
-    }
-
-    override fun delete(): Boolean {
-        return modify { it.fDelete() }
     }
 
     override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
