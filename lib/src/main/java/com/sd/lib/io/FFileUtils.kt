@@ -67,8 +67,8 @@ fun File?.fCopyToDir(target: File?): Boolean {
     try {
         if (this == null || target == null) return false
         if (!this.exists()) return false
-        if (!target.fCreateDir()) return false
         if (this == target) error("this should not be target")
+        if (!target.fCreateDir()) return false
         return if (this.isDirectory) {
             this.copyRecursively(target, overwrite = true)
         } else {
