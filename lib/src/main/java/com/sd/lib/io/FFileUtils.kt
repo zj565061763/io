@@ -128,7 +128,7 @@ fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
             this.fDelete()
         } else {
             if (this.isFile) return true
-            this.deleteRecursively()
+            if (this.isDirectory) this.deleteRecursively()
         }
         return this.parentFile.fCreateDir() && this.createNewFile()
     } catch (e: Exception) {
