@@ -1,9 +1,8 @@
 package com.sd.lib.io
 
+import com.sd.lib.io.IDir.Companion.TempExt
 import java.io.File
 import java.util.concurrent.atomic.AtomicInteger
-
-internal const val TempExt = "temp"
 
 /**
  * 临时目录
@@ -92,6 +91,10 @@ interface IDir {
      * 操作当前文件夹
      */
     fun <T> modify(block: (dir: File?) -> T): T
+
+    companion object {
+        const val TempExt = "temp"
+    }
 }
 
 private class FDir(dir: File) : IDir {
