@@ -49,7 +49,7 @@ fun InputStream?.fUnzipTo(target: File?): Boolean {
 }
 
 /**
- * 压缩文件当前文件
+ * 压缩当前文件并返回压缩后的文件
  */
 @JvmOverloads
 fun File?.fZip(filename: String? = null): File? {
@@ -69,13 +69,13 @@ fun File?.fZip(filename: String? = null): File? {
 }
 
 /**
- * 压缩为[zip]，
- * 如果当前是文件则把文件压缩为[zip]，如果当前是文件夹则把文件夹和文件夹下的所有文件压缩为[zip]
+ * 压缩当前文件为[target]，
+ * 如果当前是文件则把文件压缩为[target]，如果当前是文件夹则把文件夹和文件夹下的所有文件压缩为[target]
  */
-fun File?.fZipTo(zip: File?): Boolean {
+fun File?.fZipTo(target: File?): Boolean {
     try {
         if (this == null || !this.exists()) return false
-        return arrayOf<File?>(this).fZipTo(zip)
+        return arrayOf<File?>(this).fZipTo(target)
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
     }
