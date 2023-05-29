@@ -61,8 +61,8 @@ fun File?.fZip(filename: String? = null): File? {
         } else {
             if (filename.endsWith(".zip")) filename else "$filename.zip"
         }
-        val zipFile = parentFile.resolve(zipFilename)
-        return if (fZipTo(zipFile)) zipFile else null
+        val target = parentFile.resolve(zipFilename)
+        return if (fZipTo(target)) target else null
     } catch (e: Exception) {
         return e.libThrowOrReturn { null }
     }
