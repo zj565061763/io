@@ -8,15 +8,11 @@ internal fun md5(value: String): String {
     return bytes.joinToString("") { "%02X".format(it) }
 }
 
-internal fun libWhiteExceptionList(): List<Class<out Exception>> {
-    return listOf(
+internal fun <T> Exception.libThrowOrReturn(
+    whiteList: List<Class<out Exception>> = listOf(
         IOException::class.java,
         SecurityException::class.java,
-    )
-}
-
-internal fun <T> Exception.libThrowOrReturn(
-    whiteList: List<Class<out Exception>> = libWhiteExceptionList(),
+    ),
     block: () -> T,
 ): T {
     if (this.javaClass in whiteList) {
