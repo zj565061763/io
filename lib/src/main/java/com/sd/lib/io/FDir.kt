@@ -31,6 +31,11 @@ fun fDir(dir: File): IDir {
 
 interface IDir {
     /**
+     * 返回[key]对应的文件，如果key包括扩展名，则会使用[key]的扩展名
+     */
+    fun getFile(key: String?): File?
+
+    /**
      * 在当前文件夹下创建一个新文件
      */
     fun newFile(ext: String): File?
@@ -50,6 +55,10 @@ private class FDir(dir: File) : IDir {
     private val _dir = dir
     private val _directory: IDir
         get() = InternalDir.open(_dir)
+
+    override fun getFile(key: String?): File? {
+        return _directory.getFile(key)
+    }
 
     override fun newFile(ext: String): File? {
         return _directory.newFile(ext)
@@ -102,6 +111,14 @@ private class FDir(dir: File) : IDir {
 private class InternalDir private constructor(dir: File) : IDir {
     private val _dir = dir
 
+    override fun getFile(key: String?): File? {
+        if (key.isNullOrEmpty()) return null
+        return createKeyFile(
+            key = key,
+            ext = key.fGetExt(),
+        )
+    }
+
     override fun newFile(ext: String): File? {
         return modify { it.fNewFile(ext) }
     }
@@ -112,11 +129,23 @@ private class InternalDir private constructor(dir: File) : IDir {
 
     @Synchronized
     override fun <T> modify(block: (dir: File?) -> T): T {
-        return block(createDir())
+        val directory = if (_dir.fCreateDir()) _dir else null
+        return block(directory)
     }
 
-    private fun createDir(): File? {
-        return if (_dir.fCreateDir()) _dir else null
+    private fun createKeyFile(
+        key: String,
+        ext: String,
+    ): File? {
+        if (key.isEmpty()) return null
+        return modify { dir ->
+            if (dir != null) {
+                val filename = md5(key) + ext.fDotExt()
+                dir.resolve(filename)
+            } else {
+                null
+            }
+        }
     }
 
     companion object {

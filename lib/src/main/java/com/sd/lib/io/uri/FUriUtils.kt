@@ -10,8 +10,8 @@ import com.sd.lib.io.fDirUri
 import com.sd.lib.io.fDotExt
 import com.sd.lib.io.fGetExt
 import com.sd.lib.io.libThrowOrReturn
+import com.sd.lib.io.md5
 import java.io.File
-import java.security.MessageDigest
 
 /**
  * 文件转Uri
@@ -73,9 +73,4 @@ private fun Uri?.saveToFile(file: File): Boolean {
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
     }
-}
-
-private fun md5(value: String): String {
-    val bytes = MessageDigest.getInstance("MD5").digest(value.toByteArray())
-    return bytes.joinToString("") { "%02X".format(it) }
 }
