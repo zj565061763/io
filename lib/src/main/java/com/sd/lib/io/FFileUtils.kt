@@ -46,11 +46,11 @@ fun fFilesDir(name: String? = null): File {
 /**
  * 在文件夹下创建一个扩展名为[ext]的文件
  */
-fun File?.fNewFile(ext: String?): File? {
+fun File?.fNewFile(ext: String): File? {
     try {
         if (this == null) return null
         if (this.exists() && this.isFile) error("this file should not be a file")
-        val fullExt = ext?.fDotExt() ?: ""
+        val fullExt = ext.fDotExt()
         while (true) {
             val filename = UUID.randomUUID().toString() + fullExt
             val file = this.resolve(filename)

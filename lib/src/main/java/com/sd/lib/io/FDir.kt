@@ -33,7 +33,7 @@ interface IDir {
     /**
      * 在当前文件夹下创建一个新文件
      */
-    fun newFile(ext: String?): File?
+    fun newFile(ext: String): File?
 
     /**
      * 删除当前目录以及下面的所有文件
@@ -51,7 +51,7 @@ private class FDir(dir: File) : IDir {
     private val _directory: IDir
         get() = InternalDir.open(_dir)
 
-    override fun newFile(ext: String?): File? {
+    override fun newFile(ext: String): File? {
         return _directory.newFile(ext)
     }
 
@@ -102,7 +102,7 @@ private class FDir(dir: File) : IDir {
 private class InternalDir private constructor(dir: File) : IDir {
     private val _dir = dir
 
-    override fun newFile(ext: String?): File? {
+    override fun newFile(ext: String): File? {
         return modify { it.fNewFile(ext) }
     }
 
