@@ -91,7 +91,7 @@ fun File?.fCopyToFile(target: File?, overwrite: Boolean = true): Boolean {
         if (this.isDirectory) error("this should not be a directory")
         if (this == target) error("this should not be target")
         if (target.exists() && !overwrite) return false
-        if (!target.fCreateFile(overwrite = true)) return false
+        if (!target.fCreateFile()) return false
         this.copyTo(target, overwrite = true)
         return true
     } catch (e: Exception) {
@@ -108,7 +108,7 @@ fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
         if (!this.exists()) return false
         if (this.isDirectory) error("this should not be a directory")
         if (this == target) return true
-        if (!target.fCreateFile(overwrite = overwrite)) return false
+        if (!target.fCreateFile()) return false
         return this.renameTo(target)
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
@@ -116,20 +116,13 @@ fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
 }
 
 /**
- * 检查文件是否存在，如果不存在则尝试创建，如果已存在则根据[overwrite]来决定是否覆盖，默认覆盖
+ * 检查文件是否存在，如果不存在则创建文件，如果已存在则删除原文件后创建文件
  * @return 当前文件是否存在
  */
-@JvmOverloads
-fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
+fun File?.fCreateFile(): Boolean {
     try {
         if (this == null) return false
-        if (!this.exists()) return this.parentFile.fCreateDir() && this.createNewFile()
-        if (overwrite) {
-            this.fDelete()
-        } else {
-            if (this.isFile) return true
-            if (this.isDirectory) this.deleteRecursively()
-        }
+        this.fDelete()
         return this.parentFile.fCreateDir() && this.createNewFile()
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
@@ -137,7 +130,7 @@ fun File?.fCreateFile(overwrite: Boolean = true): Boolean {
 }
 
 /**
- * 检查文件夹是否存在，如果不存在则尝试创建，如果已存在并且是文件则删除该文件并尝试创建文件夹
+ * 检查文件夹是否存在，如果不存在则创建文件夹，如果已存在并且是文件则删除该文件并创建文件夹
  * @return 当前文件夹是否存在
  */
 fun File?.fCreateDir(): Boolean {
