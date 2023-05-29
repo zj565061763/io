@@ -71,8 +71,8 @@ interface IDir {
     fun newFile(ext: String): File?
 
     /**
-     * 删除文件（临时文件不会被删除）
-     * @param ext 文件扩展名（例如mp3）null-删除所有文件；空字符串-删除扩展名为空的文件
+     * 删除当前文件夹下的文件（临时文件不会被删除）
+     * @param ext 文件扩展名（例如mp3）null-删除所有文件
      * @return 返回删除的文件数量
      */
     fun deleteFile(ext: String?): Int
