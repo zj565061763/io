@@ -81,16 +81,17 @@ fun File?.fCopyToDir(dir: File?): Boolean {
 }
 
 /**
- * 拷贝文件
+ * 拷贝文件，如果[file]已存在则由[overwrite]决定是否覆盖
  */
-fun File?.fCopyToFile(file: File?): Boolean {
+@JvmOverloads
+fun File?.fCopyToFile(file: File?, overwrite: Boolean = true): Boolean {
     try {
         if (this == null || file == null) return false
         if (!this.exists()) return false
         if (this.isDirectory) error("this should not be a directory")
         if (this == file) return true
-        if (!file.fCreateFile()) return false
-        this.copyTo(file, overwrite = true)
+        if (!file.fCreateFile(overwrite = overwrite)) return false
+        this.copyTo(file, overwrite = overwrite)
         return true
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }

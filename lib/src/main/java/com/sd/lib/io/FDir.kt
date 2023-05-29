@@ -43,6 +43,13 @@ interface IDir {
     fun getTempFile(key: String?): File?
 
     /**
+     * 把[file]文件拷贝到当前目录，如果当前目录已存在目标文件则由[overwrite]决定是否覆盖
+     *
+     * @return 拷贝成功-返回拷贝后的文件；拷贝失败-返回原文件[file]
+     */
+    fun copyFile(file: File, overwrite: Boolean = true): File
+
+    /**
      * 在当前文件夹下创建一个新文件
      */
     fun newFile(ext: String): File?
@@ -76,6 +83,10 @@ private class FDir(dir: File) : IDir {
 
     override fun getTempFile(key: String?): File? {
         return _directory.getTempFile(key)
+    }
+
+    override fun copyFile(file: File, overwrite: Boolean): File {
+        return _directory.copyFile(file, overwrite)
     }
 
     override fun newFile(ext: String): File? {
@@ -147,6 +158,19 @@ private class InternalDir private constructor(dir: File) : IDir {
             key = key,
             ext = TempExt,
         )
+    }
+
+    override fun copyFile(file: File, overwrite: Boolean): File {
+        return modify { dir ->
+            if (dir != null && file.exists()) {
+                if (file.isDirectory) error("file should not be a directory")
+                val newFile = dir.resolve(file.name)
+                val copy = file.fCopyToFile(file = newFile, overwrite = overwrite)
+                if (copy) newFile else file
+            } else {
+                file
+            }
+        }
     }
 
     override fun newFile(ext: String): File? {
