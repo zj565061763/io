@@ -8,7 +8,7 @@ import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
 /**
- * 把[zip]压缩包解压到[target]目录下
+ * 解压到[target]目录下
  */
 fun File?.fUnzipTo(target: File?): Boolean {
     try {
