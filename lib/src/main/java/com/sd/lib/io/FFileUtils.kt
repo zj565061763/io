@@ -158,17 +158,17 @@ fun File?.fCreateDir(): Boolean {
 /**
  * 删除文件或者目录
  */
-fun File?.fDelete() {
+fun File?.fDelete(): Boolean {
     try {
-        if (this == null) return
-        if (!this.exists()) return
-        if (this.isFile) {
+        if (this == null) return false
+        if (!this.exists()) return false
+        return if (this.isFile) {
             this.delete()
         } else {
             this.deleteRecursively()
         }
     } catch (e: Exception) {
-        e.libThrowOrReturn { }
+        return e.libThrowOrReturn { false }
     }
 }
 

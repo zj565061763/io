@@ -43,7 +43,7 @@ interface IDir {
     /**
      * 删除当前目录以及下面的所有文件
      */
-    fun delete()
+    fun delete(): Boolean
 }
 
 private class FDir(dir: File) : IDir {
@@ -59,8 +59,8 @@ private class FDir(dir: File) : IDir {
         return _directory.modify(block)
     }
 
-    override fun delete() {
-        _directory.delete()
+    override fun delete(): Boolean {
+        return _directory.delete()
     }
 
     init {
@@ -112,8 +112,8 @@ private class InternalDir private constructor(dir: File) : IDir {
     }
 
     @Synchronized
-    override fun delete() {
-        _dir.fDelete()
+    override fun delete(): Boolean {
+        return _dir.fDelete()
     }
 
     private fun createDir(): File? {
