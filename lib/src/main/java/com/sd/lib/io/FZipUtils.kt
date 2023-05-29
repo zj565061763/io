@@ -89,10 +89,14 @@ fun Array<File?>?.fZipTo(target: File?): Boolean {
         if (this.isNullOrEmpty()) return false
         if (target == null) return false
         if (!target.fCreateFile()) return false
-        ZipOutputStream(target.outputStream()).use { output ->
+        ZipOutputStream(target.outputStream()).use { outputStream ->
             for (item in this) {
                 if (item == null || !item.exists()) continue
-                compressFile(item, item.name, output)
+                compressFile(
+                    file = item,
+                    filename = item.name,
+                    outputStream = outputStream,
+                )
             }
         }
         return true
