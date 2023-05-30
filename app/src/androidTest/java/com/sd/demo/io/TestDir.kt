@@ -46,23 +46,45 @@ class TestDir {
 
     @Test
     fun testCopyFile() {
-        val file = _dirSource.resolve("file.txt").apply {
+        val source = _dirSource.resolve("file.txt").apply {
             this.fCreateFile()
             this.writeText("testCopyFile")
         }
 
-        _dir.copyFile(file).let { copyFile ->
-            assertEquals(true, copyFile.exists())
-            assertEquals("file.txt", copyFile.name)
-            assertEquals(false, copyFile == file)
-            assertEquals("testCopyFile", copyFile.readText())
+        _dir.copyFile(source).let { file ->
+            assertEquals(true, file.exists())
+            assertEquals("file.txt", file.name)
+            assertEquals(false, file == source)
+            assertEquals("testCopyFile", file.readText())
         }
 
-        _dir.copyFile(file, "copy_file").let { copyFile ->
-            assertEquals(true, copyFile.exists())
-            assertEquals("copy_file.txt", copyFile.name)
-            assertEquals(false, copyFile == file)
-            assertEquals("testCopyFile", copyFile.readText())
+        _dir.copyFile(source, "copy_file").let { file ->
+            assertEquals(true, file.exists())
+            assertEquals("copy_file.txt", file.name)
+            assertEquals(false, file == source)
+            assertEquals("testCopyFile", file.readText())
+        }
+    }
+
+    @Test
+    fun testTakeFile() {
+        val source = _dirSource.resolve("file.txt").apply {
+            this.fCreateFile()
+            this.writeText("testTakeFile")
+        }
+
+        _dir.takeFile(source).let { file ->
+            assertEquals(true, file.exists())
+            assertEquals("file.txt", file.name)
+            assertEquals(false, file == source)
+            assertEquals("testTakeFile", file.readText())
+        }
+
+        _dir.copyFile(source, "take_file").let { file ->
+            assertEquals(true, file.exists())
+            assertEquals("take_file.txt", file.name)
+            assertEquals(false, file == source)
+            assertEquals("testTakeFile", file.readText())
         }
     }
 }
