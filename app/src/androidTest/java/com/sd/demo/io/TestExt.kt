@@ -47,6 +47,7 @@ class TestExt {
     fun testExtRename() {
         assertEquals("new.mp4", "old.mp3".fExtRename("new.mp4"))
         assertEquals("new.mp3", "old.mp3".fExtRename("new"))
+        assertEquals("new", "old".fExtRename("new"))
 
         assertEquals("old.mp3", "old.mp3".fExtRename(""))
         assertEquals("old.mp3", "old.mp3".fExtRename(null))
