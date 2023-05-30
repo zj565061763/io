@@ -1,9 +1,10 @@
 package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.sd.lib.io.fExtAddDot
 import com.sd.lib.io.fExt
+import com.sd.lib.io.fExtAddDot
 import com.sd.lib.io.fExtRemoveDot
+import com.sd.lib.io.fExtRename
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,5 +41,14 @@ class TestExt {
         assertEquals("mp3", "mp3".fExtRemoveDot())
         assertEquals("mp3", ".mp3".fExtRemoveDot())
         assertEquals("", "".fExtRemoveDot())
+    }
+
+    @Test
+    fun testExtRename() {
+        assertEquals("new.mp4", "old.mp3".fExtRename("new.mp4"))
+        assertEquals("new.mp3", "old.mp3".fExtRename("new"))
+
+        assertEquals("old.mp3", "old.mp3".fExtRename(""))
+        assertEquals("old.mp3", "old.mp3".fExtRename(null))
     }
 }
