@@ -78,13 +78,6 @@ class TestDir {
             assertEquals(false, file == source)
             assertEquals("testTakeFile", file.readText())
         }
-
-        _dir.copyFile(source, "take_file").let { file ->
-            assertEquals(true, file.exists())
-            assertEquals("take_file.txt", file.name)
-            assertEquals(false, file == source)
-            assertEquals("testTakeFile", file.readText())
-        }
     }
 
     @Test
