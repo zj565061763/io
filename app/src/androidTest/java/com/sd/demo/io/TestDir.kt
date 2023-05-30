@@ -16,7 +16,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class TestDir {
     private val _dir = fDir(fCacheDir("test_dir"))
-    private val _dirSource = fCacheDir("file_source")
 
     @Test
     fun testGetKeyFile() {
@@ -46,7 +45,7 @@ class TestDir {
 
     @Test
     fun testCopyFile() {
-        val source = _dirSource.resolve("file.txt").apply {
+        val source = fCacheDir("file_source").resolve("file.txt").apply {
             this.fCreateFile()
             this.writeText("testCopyFile")
         }
@@ -68,7 +67,7 @@ class TestDir {
 
     @Test
     fun testTakeFile() {
-        val source = _dirSource.resolve("file.txt").apply {
+        val source = fCacheDir("file_source").resolve("file.txt").apply {
             this.fCreateFile()
             this.writeText("testTakeFile")
         }
@@ -86,5 +85,15 @@ class TestDir {
             assertEquals(false, file == source)
             assertEquals("testTakeFile", file.readText())
         }
+    }
+
+    @Test
+    fun testNewFile() {
+        val file = _dir.newFile("txt")!!.also {
+            assertEquals(true, it.exists())
+            it.writeText("testNewFile")
+        }
+
+        assertEquals("testNewFile", file.readText())
     }
 }
