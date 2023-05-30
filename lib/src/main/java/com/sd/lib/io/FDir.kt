@@ -208,7 +208,8 @@ private class DirImpl private constructor(dir: File) : IDir {
         return modify { dir ->
             if (dir != null && file.exists()) {
                 if (file.isDirectory) error("file should not be a directory")
-                val target = dir.resolve(filename.takeUnless { it.isNullOrEmpty() } ?: file.name)
+                val name = file.name.fExtRename(filename)
+                val target = dir.resolve(name)
                 val success = file.fCopyToFile(target = target, overwrite = overwrite)
                 if (success) target else file
             } else {
@@ -225,7 +226,8 @@ private class DirImpl private constructor(dir: File) : IDir {
         return modify { dir ->
             if (dir != null && file.exists()) {
                 if (file.isDirectory) error("file should not be a directory")
-                val target = dir.resolve(filename.takeUnless { it.isNullOrEmpty() } ?: file.name)
+                val name = file.name.fExtRename(filename)
+                val target = dir.resolve(name)
                 val success = file.fMoveToFile(target = target, overwrite = overwrite)
                 if (success) target else file
             } else {
