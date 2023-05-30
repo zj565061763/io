@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sd.demo.io.ui.theme.AppTheme
 import com.sd.lib.io.fCacheDir
-import com.sd.lib.io.fCreateDir
+import com.sd.lib.io.fMakeDirs
 import com.sd.lib.io.fDelete
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fUnzipTo
@@ -47,7 +47,7 @@ class ZipActivity : ComponentActivity() {
                 this.writeText("world")
             }
             this.resolve("testZip").apply {
-                this.fCreateDir()
+                this.fMakeDirs()
                 this.resolve("hello world.txt").apply {
                     this.writeText("hello world")
                 }

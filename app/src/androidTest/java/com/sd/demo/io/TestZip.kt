@@ -2,7 +2,7 @@ package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sd.lib.io.fCacheDir
-import com.sd.lib.io.fCreateDir
+import com.sd.lib.io.fMakeDirs
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fUnzipTo
 import com.sd.lib.io.fZip
@@ -27,7 +27,7 @@ class TestZip {
                 this.writeText("world")
             }
             this.resolve("testZip").apply {
-                this.fCreateDir()
+                this.fMakeDirs()
                 this.resolve("hello world.txt").apply {
                     this.writeText("hello world")
                 }

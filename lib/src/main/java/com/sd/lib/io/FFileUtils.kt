@@ -18,7 +18,7 @@ fun fCacheDir(name: String? = null): File {
     } else {
         dir.resolve(name)
     }
-    return if (ret.fCreateDir()) ret else error("cache dir is unavailable")
+    return if (ret.fMakeDirs()) ret else error("cache dir is unavailable")
 }
 
 /**
@@ -34,7 +34,7 @@ fun fFilesDir(name: String? = null): File {
     } else {
         dir.resolve(name)
     }
-    return if (ret.fCreateDir()) ret else error("files dir is unavailable")
+    return if (ret.fMakeDirs()) ret else error("files dir is unavailable")
 }
 
 /**
@@ -68,7 +68,7 @@ fun File?.fCopyToDir(target: File?): Boolean {
         if (this == null || target == null) return false
         if (!this.exists()) return false
         if (this == target) error("this should not be target")
-        if (!target.fCreateDir()) return false
+        if (!target.fMakeDirs()) return false
         return if (this.isDirectory) {
             this.copyRecursively(target = target, overwrite = true)
         } else {
@@ -124,7 +124,7 @@ fun File?.fCreateFile(): Boolean {
     try {
         if (this == null) return false
         this.fDelete()
-        return this.parentFile.fCreateDir() && this.createNewFile()
+        return this.parentFile.fMakeDirs() && this.createNewFile()
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
     }
@@ -134,7 +134,7 @@ fun File?.fCreateFile(): Boolean {
  * 检查文件夹是否存在，如果不存在则创建文件夹，如果已存在并且是文件则删除该文件并创建文件夹
  * @return 当前文件夹是否存在
  */
-fun File?.fCreateDir(): Boolean {
+fun File?.fMakeDirs(): Boolean {
     try {
         if (this == null) return false
         if (!this.exists()) return this.mkdirs()

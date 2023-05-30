@@ -5,7 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
-import com.sd.lib.io.fCreateDir
+import com.sd.lib.io.fMakeDirs
 import com.sd.lib.io.fCreateFile
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fMoveToFile
@@ -23,13 +23,13 @@ class TestFile {
     private val _context get() = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
-    fun testCreateDir() {
-        val file = _context.externalCacheDir!!.resolve("testCreateDir").resolve("aaa")
+    fun testMakeDirs() {
+        val file = _context.externalCacheDir!!.resolve("testMakeDirs").resolve("aaa")
 
         assertEquals(true, file.fCreateFile())
         assertEquals(true, file.exists() && file.isFile)
 
-        assertEquals(true, file.fCreateDir())
+        assertEquals(true, file.fMakeDirs())
         assertEquals(true, file.exists() && file.isDirectory)
     }
 
@@ -37,7 +37,7 @@ class TestFile {
     fun testCreateFile() {
         val file = _context.externalCacheDir!!.resolve("testCreateFile").resolve("aaa")
 
-        assertEquals(true, file.fCreateDir())
+        assertEquals(true, file.fMakeDirs())
         assertEquals(true, file.exists() && file.isDirectory)
 
         assertEquals(true, file.fCreateFile())

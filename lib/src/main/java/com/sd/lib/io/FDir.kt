@@ -268,7 +268,7 @@ private class DirImpl private constructor(dir: File) : IDir {
 
     @Synchronized
     override fun <T> modify(block: (dir: File?) -> T): T {
-        val directory = if (_dir.fCreateDir()) _dir else null
+        val directory = if (_dir.fMakeDirs()) _dir else null
         return block(directory)
     }
 

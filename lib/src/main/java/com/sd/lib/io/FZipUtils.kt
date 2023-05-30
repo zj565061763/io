@@ -25,13 +25,13 @@ fun File?.fUnzipTo(target: File?): Boolean {
 fun InputStream?.fUnzipTo(target: File?): Boolean {
     try {
         if (this == null || target == null) return false
-        if (!target.fCreateDir()) return false
+        if (!target.fMakeDirs()) return false
         (if (this is ZipInputStream) this else ZipInputStream(this)).use { inputStream ->
             var entry = inputStream.nextEntry
             while (entry != null) {
                 val file = target.resolve(entry.name)
                 if (entry.isDirectory) {
-                    if (!file.fCreateDir()) return false
+                    if (!file.fMakeDirs()) return false
                 } else {
                     if (!file.fCreateFile()) return false
                     file.outputStream().use { outputStream ->
