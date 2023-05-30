@@ -58,7 +58,7 @@ class TestDir {
             assertEquals("testCopyFile", copyFile.readText())
         }
 
-        _dir.copyFile(file, "copy_file.txt").let { copyFile ->
+        _dir.copyFile(file, "copy_file").let { copyFile ->
             assertEquals(true, copyFile.exists())
             assertEquals("copy_file.txt", copyFile.name)
             assertEquals(false, copyFile == file)
