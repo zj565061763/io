@@ -1,9 +1,9 @@
 package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.sd.lib.io.fDotExt
+import com.sd.lib.io.fExtAddDot
 import com.sd.lib.io.fExt
-import com.sd.lib.io.fNoneDotExt
+import com.sd.lib.io.fExtRemoveDot
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,15 +30,15 @@ class TestExt {
 
     @Test
     fun testDotExt() {
-        assertEquals(".mp3", "mp3".fDotExt())
-        assertEquals(".mp3", ".mp3".fDotExt())
-        assertEquals("", "".fDotExt())
+        assertEquals(".mp3", "mp3".fExtAddDot())
+        assertEquals(".mp3", ".mp3".fExtAddDot())
+        assertEquals("", "".fExtAddDot())
     }
 
     @Test
     fun testNoneDotExt() {
-        assertEquals("mp3", "mp3".fNoneDotExt())
-        assertEquals("mp3", ".mp3".fNoneDotExt())
-        assertEquals("", "".fNoneDotExt())
+        assertEquals("mp3", "mp3".fExtRemoveDot())
+        assertEquals("mp3", ".mp3".fExtRemoveDot())
+        assertEquals("", "".fExtRemoveDot())
     }
 }

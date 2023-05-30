@@ -242,7 +242,7 @@ private class DirImpl private constructor(dir: File) : IDir {
         return listFiles { files ->
             if (!files.isNullOrEmpty()) {
                 val noneDotExt = if (ext.isNullOrEmpty()) ext else {
-                    ext.fNoneDotExt()
+                    ext.fExtRemoveDot()
                 }
 
                 var count = 0
@@ -277,7 +277,7 @@ private class DirImpl private constructor(dir: File) : IDir {
         if (key.isEmpty()) return null
         return modify { dir ->
             if (dir != null) {
-                val filename = libMD5(key) + ext.fDotExt()
+                val filename = libMD5(key) + ext.fExtAddDot()
                 dir.resolve(filename)
             } else {
                 null

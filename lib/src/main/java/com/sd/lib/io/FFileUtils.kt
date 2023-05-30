@@ -44,9 +44,9 @@ fun File?.fNewFile(ext: String): File? {
     try {
         if (this == null) return null
         if (this.exists() && this.isFile) error("this file should not be a file")
-        val fullExt = ext.fDotExt()
+        val dotExt = ext.fExtAddDot()
         while (true) {
-            val filename = UUID.randomUUID().toString() + fullExt
+            val filename = UUID.randomUUID().toString() + dotExt
             val file = this.resolve(filename)
             if (file.exists()) {
                 continue

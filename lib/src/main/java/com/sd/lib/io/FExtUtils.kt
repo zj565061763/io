@@ -10,7 +10,7 @@ private const val Dot = "."
  */
 @JvmOverloads
 fun String.fExt(defaultExt: String = ""): String {
-    if (this.isEmpty()) return defaultExt.fNoneDotExt()
+    if (this.isEmpty()) return defaultExt.fExtRemoveDot()
 
     var ext = MimeTypeMap.getFileExtensionFromUrl(this)
     if (ext.isNullOrEmpty()) {
@@ -18,16 +18,16 @@ fun String.fExt(defaultExt: String = ""): String {
     }
 
     return if (ext.isEmpty()) {
-        defaultExt.fNoneDotExt()
+        defaultExt.fExtRemoveDot()
     } else {
-        ext.fNoneDotExt()
+        ext.fExtRemoveDot()
     }
 }
 
 /**
  * mp3 -> .mp3
  */
-fun String.fDotExt(): String {
+fun String.fExtAddDot(): String {
     if (this.isEmpty()) return ""
     return if (this.startsWith(Dot)) this else "${Dot}${this}"
 }
@@ -35,7 +35,7 @@ fun String.fDotExt(): String {
 /**
  * .mp3 -> mp3
  */
-fun String.fNoneDotExt(): String {
+fun String.fExtRemoveDot(): String {
     if (this.isEmpty()) return ""
     var ret = this
     while (ret.startsWith(Dot)) {
