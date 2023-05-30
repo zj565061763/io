@@ -18,13 +18,26 @@ class TestDir {
     private val _dir = fDir(fCacheDir("test_dir"))
 
     @Test
-    fun testGetFile() {
-        val file = _dir.getFile("testGetFile.txt")!!
+    fun testGetKeyFile() {
+        val file = _dir.getKeyFile("testGetKeyFile.txt")!!
         assertEquals(true, file.fCreateFile())
         assertEquals(true, file.exists())
 
-        file.writeText("testGetFile")
-        assertEquals("testGetFile", file.readText())
+        file.writeText("testGetKeyFile")
+        assertEquals("testGetKeyFile", file.readText())
+
+        assertEquals(true, file.delete())
+        assertEquals(false, file.exists())
+    }
+
+    @Test
+    fun testGetKeyTempFile() {
+        val file = _dir.getKeyTempFile("testGetKeyTempFile.txt")!!
+        assertEquals(true, file.fCreateFile())
+        assertEquals(true, file.exists())
+
+        file.writeText("testGetKeyTempFile")
+        assertEquals("testGetKeyTempFile", file.readText())
 
         assertEquals(true, file.delete())
         assertEquals(false, file.exists())

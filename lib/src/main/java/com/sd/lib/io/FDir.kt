@@ -34,12 +34,12 @@ interface IDir {
     /**
      * 返回[key]对应的文件，如果key包括扩展名，则会使用[key]的扩展名
      */
-    fun getFile(key: String?): File?
+    fun getKeyFile(key: String?): File?
 
     /**
      * 返回[key]对应的临时文件
      */
-    fun getTempFile(key: String?): File?
+    fun getKeyTempFile(key: String?): File?
 
     /**
      * 把[file]文件拷贝到当前目录
@@ -97,12 +97,12 @@ private class DirApi(dir: File) : IDir {
     private val _directory: IDir
         get() = DirImpl.open(_dir)
 
-    override fun getFile(key: String?): File? {
-        return _directory.getFile(key)
+    override fun getKeyFile(key: String?): File? {
+        return _directory.getKeyFile(key)
     }
 
-    override fun getTempFile(key: String?): File? {
-        return _directory.getTempFile(key)
+    override fun getKeyTempFile(key: String?): File? {
+        return _directory.getKeyTempFile(key)
     }
 
     override fun copyFile(
@@ -184,7 +184,7 @@ private class DirApi(dir: File) : IDir {
 private class DirImpl private constructor(dir: File) : IDir {
     private val _dir = dir
 
-    override fun getFile(key: String?): File? {
+    override fun getKeyFile(key: String?): File? {
         if (key.isNullOrEmpty()) return null
         return createKeyFile(
             key = key,
@@ -192,7 +192,7 @@ private class DirImpl private constructor(dir: File) : IDir {
         )
     }
 
-    override fun getTempFile(key: String?): File? {
+    override fun getKeyTempFile(key: String?): File? {
         if (key.isNullOrEmpty()) return null
         return createKeyFile(
             key = key,
