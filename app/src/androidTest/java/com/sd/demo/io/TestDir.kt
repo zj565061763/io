@@ -19,8 +19,10 @@ class TestDir {
 
     @Test
     fun testGetFile() {
-        val file = _dir.getFile("testGetFile.mp3")!!
+        val file = _dir.getFile("testGetFile.txt")!!
         assertEquals(true, file.fCreateFile())
         assertEquals(true, file.exists())
+        file.writeText("testGetFile")
+        assertEquals("testGetFile", file.readText())
     }
 }
