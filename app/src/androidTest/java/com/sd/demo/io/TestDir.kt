@@ -1,7 +1,9 @@
 package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.sd.lib.io.fDirTemp
+import com.sd.lib.io.fCacheDir
+import com.sd.lib.io.fCreateFile
+import com.sd.lib.io.fDir
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -13,10 +15,12 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class TestDir {
+    private val _dir = fDir(fCacheDir("test_dir"))
+
     @Test
-    fun testDirTemp() {
-        assertEquals(true, fDirTemp().newFile("mp3")?.exists())
-        assertEquals(true, fDirTemp().newFile(".mp3")?.exists())
-        assertEquals(true, fDirTemp().newFile("")?.exists())
+    fun testGetFile() {
+        val file = _dir.getFile("testGetFile.mp3")!!
+        assertEquals(true, file.fCreateFile())
+        assertEquals(true, file.exists())
     }
 }
