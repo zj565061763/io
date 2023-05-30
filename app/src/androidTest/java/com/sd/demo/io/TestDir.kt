@@ -22,7 +22,11 @@ class TestDir {
         val file = _dir.getFile("testGetFile.txt")!!
         assertEquals(true, file.fCreateFile())
         assertEquals(true, file.exists())
+
         file.writeText("testGetFile")
         assertEquals("testGetFile", file.readText())
+
+        assertEquals(true, file.delete())
+        assertEquals(false, file.exists())
     }
 }
