@@ -9,7 +9,7 @@ private const val Dot = "."
  * 如果未获取到到扩展名，则返回[defaultExt]，如果[defaultExt]包括"."则会移除“.”后返回
  */
 @JvmOverloads
-fun String.fGetExt(defaultExt: String = ""): String {
+fun String.fExt(defaultExt: String = ""): String {
     if (this.isEmpty()) return defaultExt.fNoneDotExt()
 
     var ext = MimeTypeMap.getFileExtensionFromUrl(this)

@@ -8,7 +8,7 @@ import com.sd.lib.ctx.fContext
 import com.sd.lib.io.fCreateFile
 import com.sd.lib.io.fDirUri
 import com.sd.lib.io.fDotExt
-import com.sd.lib.io.fGetExt
+import com.sd.lib.io.fExt
 import com.sd.lib.io.libThrowOrReturn
 import com.sd.lib.io.libMD5
 import java.io.File
@@ -36,7 +36,7 @@ fun Uri?.fToFile(): File? {
         if (dir != null) {
             try {
                 val name = libMD5(this.toString())
-                val ext = this.fFileName().fGetExt().fDotExt()
+                val ext = this.fFileName().fExt().fDotExt()
                 val file = dir.resolve(name + ext)
                 if (this.saveToFile(file)) file else null
             } catch (e: Exception) {

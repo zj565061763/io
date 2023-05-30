@@ -2,7 +2,7 @@ package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sd.lib.io.fDotExt
-import com.sd.lib.io.fGetExt
+import com.sd.lib.io.fExt
 import com.sd.lib.io.fNoneDotExt
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -16,16 +16,16 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class TestExt {
     @Test
-    fun testGetExt() {
-        assertEquals("mp3", "hello.mp3".fGetExt())
-        assertEquals("mp3", ".mp3".fGetExt())
+    fun testExt() {
+        assertEquals("mp3", "hello.mp3".fExt())
+        assertEquals("mp3", ".mp3".fExt())
 
-        assertEquals("", "mp3".fGetExt())
-        assertEquals("", "".fGetExt())
+        assertEquals("", "mp3".fExt())
+        assertEquals("", "".fExt())
 
-        assertEquals("mp3", "".fGetExt("mp3"))
-        assertEquals("mp3", "".fGetExt(".mp3"))
-        assertEquals("mp3", "".fGetExt("...mp3"))
+        assertEquals("mp3", "".fExt("mp3"))
+        assertEquals("mp3", "".fExt(".mp3"))
+        assertEquals("mp3", "".fExt("...mp3"))
     }
 
     @Test

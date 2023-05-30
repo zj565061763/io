@@ -188,7 +188,7 @@ private class DirImpl private constructor(dir: File) : IDir {
         if (key.isNullOrEmpty()) return null
         return createKeyFile(
             key = key,
-            ext = key.fGetExt(),
+            ext = key.fExt(),
         )
     }
 
