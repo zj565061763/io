@@ -154,6 +154,14 @@ private class DirApi(dir: File) : IDir {
         return _directory.modify(block)
     }
 
+    override fun hashCode(): Int {
+        return _directory.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is DirApi) _directory == other._directory else false
+    }
+
     init {
         addCount(_dir)
     }
@@ -298,6 +306,14 @@ private class DirImpl private constructor(dir: File) : IDir {
                 null
             }
         }
+    }
+
+    override fun hashCode(): Int {
+        return _dir.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is DirImpl) _dir == other._dir else false
     }
 
     companion object {
