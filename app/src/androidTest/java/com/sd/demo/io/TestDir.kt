@@ -89,4 +89,28 @@ class TestDir {
 
         assertEquals("testNewFile", file.readText())
     }
+
+    @Test
+    fun testDeleteFile() {
+        _dir.deleteFile(null)
+
+        kotlin.run {
+            repeat(10) {
+                _dir.newFile("txt")!!.also { assertEquals(true, it.exists()) }
+            }
+            _dir.deleteFile("txt").also { assertEquals(10, it) }
+        }
+
+        kotlin.run {
+            repeat(5) {
+                _dir.newFile("mp$it")!!.also { assertEquals(true, it.exists()) }
+            }
+
+            _dir.newFile("")!!.also { assertEquals(true, it.exists()) }
+            _dir.newFile("")!!.also { assertEquals(true, it.exists()) }
+
+            _dir.deleteFile("").also { assertEquals(2, it) }
+            _dir.deleteFile(null).also { assertEquals(5, it) }
+        }
+    }
 }
