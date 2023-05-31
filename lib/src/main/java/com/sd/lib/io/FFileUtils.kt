@@ -174,3 +174,15 @@ fun File?.fExist(): Boolean {
         return e.libThrowOrReturn { false }
     }
 }
+
+/**
+ * [File.listFiles]
+ */
+fun File?.fItems(): Array<File>? {
+    try {
+        if (this == null) return null
+        return this.listFiles()
+    } catch (e: Exception) {
+        return e.libThrowOrReturn { null }
+    }
+}
