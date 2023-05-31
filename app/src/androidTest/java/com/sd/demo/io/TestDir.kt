@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class TestDir {
-    private val _dir = fDir(fCacheDir("test_dir"))
+    private val _dir = fCacheDir("test_dir").fDir()
 
     @Test
     fun testGetKeyFile() {

@@ -8,24 +8,24 @@ import java.util.concurrent.atomic.AtomicInteger
  * 临时目录
  */
 fun fDirTemp(): IDir {
-    return fDir(fFilesDir("f_dir_temp"))
+    return fFilesDir("f_dir_temp").fDir()
 }
 
 /**
  * 保存Uri的目录
  */
 fun fDirUri(): IDir {
-    return fDir(fFilesDir("f_dir_uri"))
+    return fFilesDir("f_dir_uri").fDir()
 }
 
 /**
- * 把[dir]转为[IDir]
+ * [File]转[IDir]
  */
-fun fDir(dir: File): IDir {
-    val finalDir = if (dir.exists()) {
-        if (dir.isDirectory) dir else error("dir should not be a file")
+fun File.fDir(): IDir {
+    val finalDir = if (this.exists()) {
+        if (this.isDirectory) this else error("this should not be a file")
     } else {
-        dir
+        this
     }
     return DirApi(finalDir)
 }
