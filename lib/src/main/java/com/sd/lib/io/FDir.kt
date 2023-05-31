@@ -73,9 +73,17 @@ interface IDir {
     /**
      * 删除当前文件夹下的文件（临时文件不会被删除）
      * @param ext 文件扩展名（例如mp3）null-删除所有文件
+     * @param block 遍历文件，返回true则跳过该文件
      * @return 返回删除的文件数量
      */
-    fun deleteFile(ext: String?): Int
+    fun deleteFile(ext: String?, block: ((File) -> Boolean)? = null): Int
+
+    /**
+     * 删除临时文件
+     * @param block 遍历临时文件，返回true则跳过该文件
+     * @return 返回删除的文件数量
+     */
+    fun deleteTempFile(block: ((File) -> Boolean)? = null): Int
 
     /**
      * 操作当前文件夹的子级
@@ -138,8 +146,12 @@ private class DirApi(dir: File) : IDir {
         return _directory.newFile(ext)
     }
 
-    override fun deleteFile(ext: String?): Int {
-        return _directory.deleteFile(ext)
+    override fun deleteFile(ext: String?, block: ((File) -> Boolean)?): Int {
+        return _directory.deleteFile(ext, block)
+    }
+
+    override fun deleteTempFile(block: ((File) -> Boolean)?): Int {
+        return _directory.deleteTempFile(block)
     }
 
     override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
@@ -257,7 +269,7 @@ private class DirImpl private constructor(dir: File) : IDir {
         return modify { it.fNewFile(ext) }
     }
 
-    override fun deleteFile(ext: String?): Int {
+    override fun deleteFile(ext: String?, block: ((File) -> Boolean)?): Int {
         return listFiles { files ->
             if (!files.isNullOrEmpty()) {
                 val noneDotExt = if (ext.isNullOrEmpty()) ext else {
@@ -269,6 +281,24 @@ private class DirImpl private constructor(dir: File) : IDir {
                     val itemExt = item.extension
                     if (itemExt == TempExt) continue
                     if (noneDotExt == null || noneDotExt == itemExt) {
+                        if (block != null && block(item)) continue
+                        if (item.fDelete()) count++
+                    }
+                }
+                count
+            } else {
+                0
+            }
+        }
+    }
+
+    override fun deleteTempFile(block: ((File) -> Boolean)?): Int {
+        return listFiles { files ->
+            if (!files.isNullOrEmpty()) {
+                var count = 0
+                for (item in files) {
+                    if (block != null && block(item)) continue
+                    if (item.extension == TempExt) {
                         if (item.fDelete()) count++
                     }
                 }
