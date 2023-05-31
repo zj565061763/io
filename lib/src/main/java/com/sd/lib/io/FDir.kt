@@ -22,7 +22,7 @@ fun fDirUri(): IDir {
  * [File]转[IDir]
  */
 fun File.fDir(): IDir {
-    val finalDir = if (this.exists()) {
+    val finalDir = if (this.fExist()) {
         if (this.isDirectory) this else error("this should not be a file")
     } else {
         this
@@ -223,7 +223,7 @@ private class DirImpl private constructor(dir: File) : IDir {
         overwrite: Boolean,
     ): File {
         return modify { dir ->
-            if (dir != null && file.exists()) {
+            if (dir != null && file.fExist()) {
                 if (file.isDirectory) error("file should not be a directory")
                 val name = file.name.fExtRename(filename)
                 val target = dir.resolve(name)
@@ -241,7 +241,7 @@ private class DirImpl private constructor(dir: File) : IDir {
         overwrite: Boolean,
     ): File {
         return modify { dir ->
-            if (dir != null && file.exists()) {
+            if (dir != null && file.fExist()) {
                 if (file.isDirectory) error("file should not be a directory")
                 val name = file.name.fExtRename(filename)
                 val target = dir.resolve(name)

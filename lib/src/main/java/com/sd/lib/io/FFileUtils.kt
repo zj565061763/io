@@ -162,3 +162,15 @@ fun File?.fDelete(): Boolean {
         return e.libThrowOrReturn { false }
     }
 }
+
+/**
+ * [File.exists]
+ */
+fun File?.fExist(): Boolean {
+    try {
+        if (this == null) return false
+        return this.exists()
+    } catch (e: Exception) {
+        return e.libThrowOrReturn { false }
+    }
+}
