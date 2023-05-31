@@ -83,6 +83,11 @@ interface IDir {
     fun <T> listFiles(block: (files: Array<File>?) -> T): T
 
     /**
+     * 当前文件夹下所有文件的大小
+     */
+    fun size(): Long
+
+    /**
      * 操作当前文件夹
      */
     fun <T> modify(block: (dir: File?) -> T): T
@@ -139,6 +144,10 @@ private class DirApi(dir: File) : IDir {
 
     override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
         return _directory.listFiles(block)
+    }
+
+    override fun size(): Long {
+        return _directory.size()
     }
 
     override fun <T> modify(block: (dir: File?) -> T): T {
@@ -264,6 +273,10 @@ private class DirImpl private constructor(dir: File) : IDir {
 
     override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
         return modify { block(it?.listFiles()) }
+    }
+
+    override fun size(): Long {
+        return modify { it.fSize() }
     }
 
     @Synchronized
