@@ -280,7 +280,7 @@ private class DirImpl private constructor(dir: File) : IDir {
     }
 
     override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
-        return modify { block(it.fItems()) }
+        return modify { block(it.fListFiles()) }
     }
 
     override fun size(): Long {

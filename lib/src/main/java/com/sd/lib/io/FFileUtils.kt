@@ -178,7 +178,7 @@ fun File?.fExist(): Boolean {
 /**
  * [File.listFiles]
  */
-fun File?.fItems(): Array<File>? {
+fun File?.fListFiles(): Array<File>? {
     try {
         if (this == null) return null
         return this.listFiles()
