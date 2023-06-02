@@ -22,12 +22,8 @@ fun fDirUri(): IDir {
  * [File]转[IDir]
  */
 fun File.fDir(): IDir {
-    val finalDir = if (this.fExist()) {
-        if (this.isDirectory) this else error("this should not be a file")
-    } else {
-        this
-    }
-    return DirApi(finalDir)
+    if (this.isFile) error("this should not be a file")
+    return DirApi(this)
 }
 
 interface IDir {
@@ -235,7 +231,7 @@ private class DirImpl private constructor(dir: File) : IDir {
         overwrite: Boolean,
     ): File {
         return modify { dir ->
-            if (dir != null && file.fExist()) {
+            if (dir != null && file.exists()) {
                 if (file.isDirectory) error("file should not be a directory")
                 val name = file.name.fExtRename(filename)
                 val target = dir.resolve(name)
@@ -253,7 +249,7 @@ private class DirImpl private constructor(dir: File) : IDir {
         overwrite: Boolean,
     ): File {
         return modify { dir ->
-            if (dir != null && file.fExist()) {
+            if (dir != null && file.exists()) {
                 if (file.isDirectory) error("file should not be a directory")
                 val name = file.name.fExtRename(filename)
                 val target = dir.resolve(name)
@@ -310,7 +306,10 @@ private class DirImpl private constructor(dir: File) : IDir {
     }
 
     override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
-        return modify { block(it.fListFiles()) }
+        return modify {
+            val files = it?.listFiles()
+            block(files)
+        }
     }
 
     override fun size(): Long {
