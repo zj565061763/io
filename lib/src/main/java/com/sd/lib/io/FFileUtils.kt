@@ -41,21 +41,17 @@ fun fFilesDir(name: String? = null): File {
  * 在文件夹下创建一个扩展名为[ext]的文件
  */
 fun File?.fNewFile(ext: String): File? {
-    try {
-        if (this == null) return null
-        if (this.exists() && this.isFile) error("this file should not be a file")
-        val dotExt = ext.fExtAddDot()
-        while (true) {
-            val filename = UUID.randomUUID().toString() + dotExt
-            val file = this.resolve(filename)
-            if (file.exists()) {
-                continue
-            } else {
-                return file.takeIf { it.fCreateFile() }
-            }
+    if (this == null) return null
+    if (this.exists() && this.isFile) error("this file should not be a file")
+    val dotExt = ext.fExtAddDot()
+    while (true) {
+        val filename = UUID.randomUUID().toString() + dotExt
+        val file = this.resolve(filename)
+        if (file.exists()) {
+            continue
+        } else {
+            return file.takeIf { it.fCreateFile() }
         }
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { null }
     }
 }
 
