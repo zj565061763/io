@@ -42,7 +42,7 @@ fun fFilesDir(name: String? = null): File {
  */
 fun File?.fNewFile(ext: String): File? {
     if (this == null) return null
-    if (this.exists() && this.isFile) error("this file should not be a file")
+    if (this.isFile) error("this file should not be a file")
     val dotExt = ext.fExtAddDot()
     while (true) {
         val filename = UUID.randomUUID().toString() + dotExt
