@@ -34,15 +34,10 @@ fun Uri?.fToFile(): File? {
     if (this == null) return null
     return fDirUri().modify { dir ->
         if (dir != null) {
-            try {
-                val name = libMD5(this.toString())
-                val ext = this.fFileName().fExt().fExtAddDot()
-                val file = dir.resolve(name + ext)
-                if (this.saveToFile(file)) file else null
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
+            val name = libMD5(this.toString())
+            val ext = this.fFileName().fExt().fExtAddDot()
+            val file = dir.resolve(name + ext)
+            if (this.saveToFile(file)) file else null
         } else {
             null
         }
