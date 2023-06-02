@@ -8,14 +8,8 @@ internal fun libMD5(value: String): String {
     return bytes.joinToString("") { "%02X".format(it) }
 }
 
-internal fun <T> Exception.libThrowOrReturn(
-    whiteList: List<Class<out Exception>> = listOf(
-        IOException::class.java,
-        SecurityException::class.java,
-    ),
-    block: () -> T,
-): T {
-    if (this.javaClass in whiteList) {
+internal fun <T> Exception.libThrowOrReturn(block: () -> T): T {
+    if (this is IOException) {
         this.printStackTrace()
         return block()
     } else {
