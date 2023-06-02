@@ -11,8 +11,12 @@ import java.util.zip.ZipOutputStream
  * 解压到[target]目录下
  */
 fun File?.fUnzipTo(target: File?): Boolean {
-    if (this == null || !this.exists()) return false
-    return FileInputStream(this).fUnzipTo(target)
+    try {
+        if (this == null || !this.exists()) return false
+        return FileInputStream(this).fUnzipTo(target)
+    } catch (e: Exception) {
+        return e.libThrowOrReturn { false }
+    }
 }
 
 /**
