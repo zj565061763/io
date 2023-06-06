@@ -7,10 +7,10 @@ import androidx.documentfile.provider.DocumentFile
 import com.sd.lib.ctx.fContext
 import com.sd.lib.io.fCreateFile
 import com.sd.lib.io.fDirUri
-import com.sd.lib.io.fExtAddDot
 import com.sd.lib.io.fExt
-import com.sd.lib.io.libThrowOrReturn
+import com.sd.lib.io.fExtAddDot
 import com.sd.lib.io.libMD5
+import com.sd.lib.io.libThrowOrReturn
 import java.io.File
 
 /**
@@ -28,7 +28,7 @@ fun File?.fToUri(): Uri? {
 }
 
 /**
- * 读取Uri的内容并保存为文件
+ * 读取Uri的内容并保存为文件到[fDirUri]目录下
  */
 fun Uri?.fToFile(): File? {
     if (this == null) return null
