@@ -46,6 +46,41 @@ fun fAlbumSaveImage(file: File?): Uri? {
     }
 }
 
+private const val DefaultVideoExt = "mp4"
+private const val DefaultVideoMimeType = "video/mp4"
+
+/**
+ * 保存视频到相册
+ */
+fun fAlbumSaveVideo(file: File?): Uri? {
+    if (file == null || !file.exists()) return null
+
+    val contentValues = ContentValues().apply {
+        val uuid = UUID.randomUUID().toString()
+        val ext = file.absolutePath.fExt(DefaultVideoExt)
+        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext) ?: DefaultVideoMimeType
+
+        this.put(MediaStore.Video.VideoColumns.TITLE, uuid)
+        this.put(MediaStore.Video.VideoColumns.DISPLAY_NAME, uuid + ext.fExtAddDot())
+        this.put(MediaStore.Video.VideoColumns.DESCRIPTION, uuid)
+        this.put(MediaStore.Video.VideoColumns.MIME_TYPE, mimeType)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_MOVIES)
+        }
+    }
+
+    val resolver = fContext.contentResolver
+    val uri = resolver.fInsert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues) ?: return null
+
+    return if (file.saveToUri(uri, resolver)) {
+        uri
+    } else {
+        resolver.fDelete(uri)
+        null
+    }
+}
+
 private fun ContentResolver.fInsert(uri: Uri, contentValues: ContentValues): Uri? {
     return try {
         this.insert(uri, contentValues)
