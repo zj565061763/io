@@ -133,7 +133,6 @@ fun File?.fCreateFile(): Boolean {
 fun File?.fMakeDirs(): Boolean {
     try {
         if (this == null) return false
-        if (!this.exists()) return this.mkdirs()
         if (this.isDirectory) return true
         if (this.isFile) this.delete()
         return this.mkdirs()
