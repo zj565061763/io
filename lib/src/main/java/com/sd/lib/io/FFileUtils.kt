@@ -147,11 +147,12 @@ fun File?.fMakeDirs(): Boolean {
 fun File?.fDelete(): Boolean {
     try {
         if (this == null) return false
-        if (!this.exists()) return false
         return if (this.isFile) {
             this.delete()
-        } else {
+        } else if (this.isDirectory) {
             this.deleteRecursively()
+        } else {
+            false
         }
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
