@@ -33,7 +33,7 @@ fun InputStream?.fUnzipTo(target: File?): Boolean {
                 if (entry.isDirectory) {
                     if (!file.fMakeDirs()) return false
                 } else {
-                    if (!file.fCreateFile()) return false
+                    if (!file.fCreateNewFile()) return false
                     file.outputStream().use { outputStream ->
                         inputStream.copyTo(outputStream)
                     }
@@ -80,7 +80,7 @@ fun Array<File?>?.fZipTo(target: File?): Boolean {
     try {
         if (this.isNullOrEmpty()) return false
         if (target == null) return false
-        if (!target.fCreateFile()) return false
+        if (!target.fCreateNewFile()) return false
         ZipOutputStream(target.outputStream()).use { outputStream ->
             for (item in this) {
                 if (item == null || !item.exists()) continue

@@ -50,7 +50,7 @@ fun File?.fNewFile(ext: String): File? {
         if (file.exists()) {
             continue
         } else {
-            return file.takeIf { it.fCreateFile() }
+            return file.takeIf { it.fCreateNewFile() }
         }
     }
 }
@@ -87,7 +87,7 @@ fun File?.fCopyToFile(target: File?, overwrite: Boolean = true): Boolean {
         if (this.isDirectory) error("this should not be a directory")
         if (this == target) error("this should not be target")
         if (target.exists() && !overwrite) return false
-        if (!target.fCreateFile()) return false
+        if (!target.fCreateNewFile()) return false
         this.copyTo(target, overwrite = true)
         return true
     } catch (e: Exception) {
@@ -105,7 +105,7 @@ fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
         if (this.isDirectory) error("this should not be a directory")
         if (this == target) error("this should not be target")
         if (target.exists() && !overwrite) return false
-        if (!target.fCreateFile()) return false
+        if (!target.fCreateNewFile()) return false
         return this.renameTo(target)
     } catch (e: Exception) {
         return e.libThrowOrReturn { false }
@@ -113,10 +113,10 @@ fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
 }
 
 /**
- * 检查文件是否存在，如果不存在则创建文件，如果已存在则删除原文件后创建文件
+ * 检查文件是否存在，如果不存在则创建文件，如果已存在则删除原文件后创建新文件
  * @return 当前文件是否存在
  */
-fun File?.fCreateFile(): Boolean {
+fun File?.fCreateNewFile(): Boolean {
     try {
         if (this == null) return false
         this.fDelete()

@@ -2,7 +2,7 @@ package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sd.lib.io.fCacheDir
-import com.sd.lib.io.fCreateFile
+import com.sd.lib.io.fCreateNewFile
 import com.sd.lib.io.fDir
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -20,7 +20,7 @@ class TestDir {
     @Test
     fun testGetKeyFile() {
         val file = _dir.getKeyFile("testGetKeyFile.txt")!!
-        assertEquals(true, file.fCreateFile())
+        assertEquals(true, file.fCreateNewFile())
         assertEquals(true, file.exists())
 
         file.writeText("testGetKeyFile")
@@ -33,7 +33,7 @@ class TestDir {
     @Test
     fun testGetKeyTempFile() {
         val file = _dir.getKeyTempFile("testGetKeyTempFile.txt")!!
-        assertEquals(true, file.fCreateFile())
+        assertEquals(true, file.fCreateNewFile())
         assertEquals(true, file.exists())
 
         file.writeText("testGetKeyTempFile")
@@ -46,7 +46,7 @@ class TestDir {
     @Test
     fun testCopyFile() {
         val source = fCacheDir("file_source").resolve("file.txt").apply {
-            this.fCreateFile()
+            this.fCreateNewFile()
             this.writeText("testCopyFile")
         }
 
@@ -68,7 +68,7 @@ class TestDir {
     @Test
     fun testTakeFile() {
         val source = fCacheDir("file_source").resolve("file.txt").apply {
-            this.fCreateFile()
+            this.fCreateNewFile()
             this.writeText("testTakeFile")
         }
 

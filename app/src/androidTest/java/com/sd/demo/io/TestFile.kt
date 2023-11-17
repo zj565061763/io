@@ -6,7 +6,7 @@ import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
 import com.sd.lib.io.fMakeDirs
-import com.sd.lib.io.fCreateFile
+import com.sd.lib.io.fCreateNewFile
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fMoveToFile
 import org.junit.Assert.assertEquals
@@ -26,7 +26,7 @@ class TestFile {
     fun testMakeDirs() {
         val file = _context.externalCacheDir!!.resolve("testMakeDirs").resolve("aaa")
 
-        assertEquals(true, file.fCreateFile())
+        assertEquals(true, file.fCreateNewFile())
         assertEquals(true, file.exists() && file.isFile)
 
         assertEquals(true, file.fMakeDirs())
@@ -40,7 +40,7 @@ class TestFile {
         assertEquals(true, file.fMakeDirs())
         assertEquals(true, file.exists() && file.isDirectory)
 
-        assertEquals(true, file.fCreateFile())
+        assertEquals(true, file.fCreateNewFile())
         assertEquals(true, file.exists() && file.isFile)
     }
 
@@ -52,7 +52,7 @@ class TestFile {
         assertEquals(true, filesDir.exists())
 
         cacheDir.resolve("deep").resolve("deep.txt").apply {
-            this.fCreateFile()
+            this.fCreateNewFile()
             this.writeText("hello world")
         }
 
@@ -72,7 +72,7 @@ class TestFile {
         assertEquals(true, filesDir.exists())
 
         val file = cacheDir.resolve("hello.txt").apply {
-            this.fCreateFile()
+            this.fCreateNewFile()
             this.writeText("hello world")
         }
         val copyFile = filesDir.resolve("copyFile").resolve("hello.txt")
@@ -90,7 +90,7 @@ class TestFile {
         assertEquals(true, filesDir.exists())
 
         val file = cacheDir.resolve("move.txt").apply {
-            this.fCreateFile()
+            this.fCreateNewFile()
             this.writeText("hello world")
         }
         val moveFile = filesDir.resolve("moveFile").resolve("move.txt")

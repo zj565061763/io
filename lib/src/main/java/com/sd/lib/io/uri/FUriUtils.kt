@@ -5,7 +5,7 @@ import android.os.Build
 import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import com.sd.lib.ctx.fContext
-import com.sd.lib.io.fCreateFile
+import com.sd.lib.io.fCreateNewFile
 import com.sd.lib.io.fDirUri
 import com.sd.lib.io.fExt
 import com.sd.lib.io.fExtAddDot
@@ -57,7 +57,7 @@ fun Uri?.fFileName(): String {
 private fun Uri?.saveToFile(file: File): Boolean {
     try {
         if (this == null) return false
-        if (!file.fCreateFile()) return false
+        if (!file.fCreateNewFile()) return false
         val context = fContext
         context.contentResolver.openInputStream(this)?.use { input ->
             file.outputStream().buffered().use { output ->
