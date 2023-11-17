@@ -127,6 +127,23 @@ fun File?.fCreateNewFile(): Boolean {
 }
 
 /**
+ * 确保文件存在，如果不存在则创建，
+ * 如果已存在文件则返回，
+ * 如果已存在文件夹则删除该文件夹后创建文件
+ * @return true-文件存在
+ */
+fun File?.fEnsureFileExist(): Boolean {
+    try {
+        if (this == null) return false
+        if (this.isFile) return true
+        if (this.isDirectory) this.deleteRecursively()
+        return this.parentFile.fMakeDirs() && this.createNewFile()
+    } catch (e: Exception) {
+        return false
+    }
+}
+
+/**
  * 检查文件夹是否存在，如果不存在则创建文件夹，如果已存在并且是文件则删除该文件并创建文件夹
  * @return 当前文件夹是否存在
  */
