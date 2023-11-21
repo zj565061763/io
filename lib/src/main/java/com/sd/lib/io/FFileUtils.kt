@@ -139,7 +139,7 @@ fun File?.fCreateFile(): Boolean {
         if (this.isDirectory) this.deleteRecursively()
         return this.parentFile.fMakeDirs() && this.createNewFile()
     } catch (e: Exception) {
-        return false
+        return e.libThrowOrReturn { false }
     }
 }
 
