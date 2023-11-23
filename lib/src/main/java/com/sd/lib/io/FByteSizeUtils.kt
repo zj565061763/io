@@ -12,14 +12,14 @@ const val FByteTB = 1024L * FByteGB
  * 返回文件或者文件夹的大小（byte）
  */
 fun File?.fSize(): Long {
-    if (this == null || !this.exists()) return 0
+    if (this == null) return 0
     return if (this.isFile) {
         this.length()
-    } else {
+    } else if (this.isDirectory) {
         this.walkBottomUp().fold(0) { acc, it ->
             acc + (if (it.isFile) it.length() else 0)
         }
-    }
+    } else 0
 }
 
 /**
