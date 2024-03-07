@@ -150,14 +150,10 @@ fun File?.fCreateFile(): Boolean {
  * @return 当前文件夹是否存在
  */
 fun File?.fMakeDirs(): Boolean {
-    try {
-        if (this == null) return false
-        if (this.isDirectory) return true
-        if (this.isFile) this.delete()
-        return this.mkdirs()
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
-    }
+    if (this == null) return false
+    if (this.isDirectory) return true
+    if (this.isFile) this.delete()
+    return this.mkdirs()
 }
 
 /**
