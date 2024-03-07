@@ -170,11 +170,11 @@ fun File?.fMakeDirs(): Boolean {
  */
 fun File?.fSize(): Long {
     if (this == null) return 0
-    return if (this.isFile) {
-        this.length()
-    } else if (this.isDirectory) {
-        this.walkBottomUp().fold(0) { acc, it ->
+    if (this.isFile) return this.length()
+    if (this.isDirectory) {
+        return this.walkBottomUp().fold(0) { acc, it ->
             acc + (if (it.isFile) it.length() else 0)
         }
-    } else 0
+    }
+    return 0
 }
