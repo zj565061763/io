@@ -81,33 +81,47 @@ fun File?.fCopyToDir(target: File?): Boolean {
  * 拷贝文件，如果[target]已存在则由[overwrite]决定是否覆盖
  */
 @JvmOverloads
-fun File?.fCopyToFile(target: File?, overwrite: Boolean = true): Boolean {
+fun File?.fCopyToFile(
+    target: File?,
+    overwrite: Boolean = true,
+): Boolean {
     try {
         if (this == null || target == null) return false
         if (!this.exists()) return false
         if (this.isDirectory) error("this should not be a directory")
         if (this == target) error("this should not be target")
-        if (target.exists() && !overwrite) return false
-        if (!target.fCreateNewFile()) return false
-        this.copyTo(target, overwrite = true)
+        if (target.exists()) {
+            if (overwrite) target.deleteRecursively() else return false
+        }
+        target.parentFile?.mkdirs()
+        this.inputStream().use { input ->
+            target.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
         return true
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return false
     }
 }
 
 /**
  * 移动文件，如果[target]已存在则由[overwrite]决定是否覆盖
  */
-fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
+@JvmOverloads
+fun File?.fMoveToFile(
+    target: File?,
+    overwrite: Boolean = true,
+): Boolean {
     if (this == null || target == null) return false
     if (!this.exists()) return false
     if (this.isDirectory) error("this should not be a directory")
     if (this == target) return true
     if (target.exists()) {
-        if (overwrite) target.fDelete() else return false
+        if (overwrite) target.deleteRecursively() else return false
     }
-    target.parentFile.fMakeDirs()
+    target.parentFile?.mkdirs()
     return this.renameTo(target)
 }
 
@@ -116,7 +130,7 @@ fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
  * @return 文件是否存在
  */
 fun File?.fCreateNewFile(): Boolean {
-    this.fDelete()
+    this?.deleteRecursively()
     return this.fCreateFile()
 }
 
@@ -130,7 +144,8 @@ fun File?.fCreateFile(): Boolean {
         if (this == null) return false
         if (this.isFile) return true
         if (this.isDirectory) this.deleteRecursively()
-        return this.parentFile.fMakeDirs() && this.createNewFile()
+        this.parentFile?.mkdirs()
+        return this.createNewFile()
     } catch (e: IOException) {
         e.printStackTrace()
         return false
@@ -154,7 +169,5 @@ fun File?.fMakeDirs(): Boolean {
  */
 fun File?.fDelete(): Boolean {
     if (this == null) return false
-    if (this.isFile) return this.delete()
-    if (this.isDirectory) return this.deleteRecursively()
-    return false
+    return this.deleteRecursively()
 }
