@@ -20,6 +20,7 @@ private const val DefaultImageMimeType = "image/jpeg"
  */
 fun fAlbumSaveImage(file: File?): Uri? {
     if (file == null || !file.exists()) return null
+    if (file.isDirectory) error("file should not be a directory")
 
     val contentValues = ContentValues().apply {
         val uuid = UUID.randomUUID().toString()
@@ -55,6 +56,7 @@ private const val DefaultVideoMimeType = "video/mp4"
  */
 fun fAlbumSaveVideo(file: File?): Uri? {
     if (file == null || !file.exists()) return null
+    if (file.isDirectory) error("file should not be a directory")
 
     val contentValues = ContentValues().apply {
         val uuid = UUID.randomUUID().toString()
