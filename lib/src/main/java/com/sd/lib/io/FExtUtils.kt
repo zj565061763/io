@@ -21,10 +21,10 @@ fun String.fExtRename(name: String?): String {
  */
 @JvmOverloads
 fun String.fExt(defaultExt: String = ""): String {
-    val input = this
-    var ext = MimeTypeMap.getFileExtensionFromUrl(input)
+    val current = this
+    var ext = MimeTypeMap.getFileExtensionFromUrl(current)
     if (ext.isNullOrEmpty()) {
-        ext = input.substringAfterLast(delimiter = Dot, missingDelimiterValue = "")
+        ext = current.substringAfterLast(delimiter = Dot, missingDelimiterValue = "")
         if (ext.isEmpty()) ext = defaultExt
     }
     return ext.fExtRemoveDot()
@@ -34,18 +34,18 @@ fun String.fExt(defaultExt: String = ""): String {
  * mp3 -> .mp3
  */
 fun String.fExtAddDot(): String {
-    val input = this
-    if (input.isEmpty()) return ""
-    return if (input.startsWith(Dot)) input else "${Dot}${input}"
+    val current = this
+    if (current.isEmpty()) return ""
+    return if (current.startsWith(Dot)) current else "${Dot}${current}"
 }
 
 /**
  * .mp3 -> mp3
  */
 fun String.fExtRemoveDot(): String {
-    val input = this
-    if (input.isEmpty()) return ""
-    var ret = input
+    val current = this
+    if (current.isEmpty()) return ""
+    var ret = current
     while (ret.startsWith(Dot)) {
         ret = ret.removePrefix(Dot)
     }
