@@ -2,6 +2,7 @@ package com.sd.lib.io
 
 import java.io.File
 import java.io.FileInputStream
+import java.io.IOException
 import java.io.InputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -14,8 +15,9 @@ fun File?.fUnzipTo(target: File?): Boolean {
     try {
         if (this == null || !this.exists()) return false
         return FileInputStream(this).fUnzipTo(target)
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return false
     }
 }
 
@@ -43,8 +45,9 @@ fun InputStream?.fUnzipTo(target: File?): Boolean {
             }
         }
         return true
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return false
     }
 }
 
@@ -92,8 +95,9 @@ fun Array<File?>?.fZipTo(target: File?): Boolean {
             }
         }
         return true
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return false
     }
 }
 

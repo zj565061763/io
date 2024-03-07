@@ -10,8 +10,8 @@ import com.sd.lib.io.fDirUri
 import com.sd.lib.io.fExt
 import com.sd.lib.io.fExtAddDot
 import com.sd.lib.io.libMD5
-import com.sd.lib.io.libThrowOrReturn
 import java.io.File
+import java.io.IOException
 
 /**
  * 文件转Uri
@@ -65,7 +65,8 @@ private fun Uri?.saveToFile(file: File): Boolean {
             }
         }
         return true
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return false
     }
 }
