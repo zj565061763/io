@@ -100,17 +100,13 @@ fun File?.fCopyToFile(target: File?, overwrite: Boolean = true): Boolean {
  * 移动文件，如果[target]已存在则由[overwrite]决定是否覆盖
  */
 fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
-    try {
-        if (this == null || target == null) return false
-        if (!this.exists()) return false
-        if (this.isDirectory) error("this should not be a directory")
-        if (this == target) error("this should not be target")
-        if (target.exists() && !overwrite) return false
-        if (!target.fCreateNewFile()) return false
-        return this.renameTo(target)
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
-    }
+    if (this == null || target == null) return false
+    if (!this.exists()) return false
+    if (this.isDirectory) error("this should not be a directory")
+    if (this == target) error("this should not be target")
+    if (target.exists() && !overwrite) return false
+    if (!target.fCreateNewFile()) return false
+    return this.renameTo(target)
 }
 
 /**
