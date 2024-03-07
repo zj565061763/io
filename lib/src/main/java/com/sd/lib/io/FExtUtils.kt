@@ -43,8 +43,9 @@ fun String.fExtAddDot(): String {
  * .mp3 -> mp3
  */
 fun String.fExtRemoveDot(): String {
-    if (this.isEmpty()) return ""
-    var ret = this
+    val input = this
+    if (input.isEmpty()) return ""
+    var ret = input
     while (ret.startsWith(Dot)) {
         ret = ret.removePrefix(Dot)
     }
