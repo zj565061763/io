@@ -5,9 +5,10 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCopyToDir
 import com.sd.lib.io.fCopyToFile
-import com.sd.lib.io.fMakeDirs
+import com.sd.lib.io.fCreateFile
 import com.sd.lib.io.fCreateNewFile
 import com.sd.lib.io.fFilesDir
+import com.sd.lib.io.fMakeDirs
 import com.sd.lib.io.fMoveToFile
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -25,12 +26,13 @@ class TestFile {
     @Test
     fun testMakeDirs() {
         val file = _context.externalCacheDir!!.resolve("testMakeDirs").resolve("aaa")
+        assertEquals(false, file.exists())
 
-        assertEquals(true, file.fCreateNewFile())
-        assertEquals(true, file.exists() && file.isFile)
+        assertEquals(true, file.fCreateFile())
+        assertEquals(true, file.isFile)
 
         assertEquals(true, file.fMakeDirs())
-        assertEquals(true, file.exists() && file.isDirectory)
+        assertEquals(true, file.isDirectory)
     }
 
     @Test
