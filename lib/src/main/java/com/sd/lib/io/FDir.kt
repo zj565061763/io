@@ -278,7 +278,7 @@ private class DirImpl private constructor(dir: File) : IDir {
                     if (itemExt == TempExt) continue
                     if (noneDotExt == null || noneDotExt == itemExt) {
                         if (block != null && block(item)) continue
-                        if (item.fDelete()) count++
+                        if (item.deleteRecursively()) count++
                     }
                 }
                 count
@@ -295,7 +295,7 @@ private class DirImpl private constructor(dir: File) : IDir {
                 for (item in files) {
                     if (block != null && block(item)) continue
                     if (item.extension == TempExt) {
-                        if (item.fDelete()) count++
+                        if (item.deleteRecursively()) count++
                     }
                 }
                 count

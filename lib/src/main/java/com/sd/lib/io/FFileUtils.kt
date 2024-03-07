@@ -163,11 +163,3 @@ fun File?.fMakeDirs(): Boolean {
     if (this.isFile) this.delete()
     return this.mkdirs()
 }
-
-/**
- * 删除文件或者目录
- */
-fun File?.fDelete(): Boolean {
-    if (this == null) return false
-    return this.deleteRecursively()
-}
