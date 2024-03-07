@@ -117,13 +117,9 @@ fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
  * @return 文件是否存在
  */
 fun File?.fCreateNewFile(): Boolean {
-    try {
-        if (this == null) return false
-        this.fDelete()
-        return this.parentFile.fMakeDirs() && this.createNewFile()
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
-    }
+    if (this == null) return false
+    this.fDelete()
+    return this.fCreateFile()
 }
 
 /**
