@@ -58,12 +58,18 @@ private fun Uri?.saveToFile(file: File): Boolean {
     try {
         if (this == null) return false
         if (!file.fCreateNewFile()) return false
-        val context = fContext
-        context.contentResolver.openInputStream(this)?.use { input ->
-            file.outputStream().buffered().use { output ->
+
+        fContext.contentResolver.openInputStream(this)?.use { input ->
+            file.outputStream().use { output ->
                 input.copyTo(output)
             }
+        }.let { size ->
+            if (size == null || size <= 0) {
+                file.deleteRecursively()
+                return false
+            }
         }
+
         return true
     } catch (e: IOException) {
         e.printStackTrace()
