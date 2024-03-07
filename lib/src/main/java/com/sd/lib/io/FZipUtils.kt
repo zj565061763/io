@@ -106,6 +106,13 @@ private fun compressFile(
     outputStream: ZipOutputStream,
 ) {
     when {
+        file.isFile -> {
+            outputStream.putNextEntry(ZipEntry(filename))
+            file.inputStream().use { inputStream ->
+                inputStream.copyTo(outputStream)
+            }
+        }
+
         file.isDirectory -> {
             outputStream.putNextEntry(ZipEntry(filename + File.separator))
             file.listFiles()?.forEach { item ->
@@ -114,13 +121,6 @@ private fun compressFile(
                     filename = filename + File.separator + item.name,
                     outputStream = outputStream,
                 )
-            }
-        }
-
-        file.isFile -> {
-            outputStream.putNextEntry(ZipEntry(filename))
-            file.inputStream().use { inputStream ->
-                inputStream.copyTo(outputStream)
             }
         }
     }
