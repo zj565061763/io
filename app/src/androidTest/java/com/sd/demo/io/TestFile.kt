@@ -78,10 +78,12 @@ class TestFile {
             this.fCreateNewFile()
             this.writeText("hello world")
         }
+
         val copyFile = filesDir.resolve("copyFile").resolve("hello.txt")
         val copyResult = file.fCopyToFile(copyFile)
 
         assertEquals(true, copyResult)
+        assertEquals(true, file.exists())
         assertEquals("hello world", copyFile.readText())
     }
 
