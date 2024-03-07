@@ -48,23 +48,22 @@ class TestFile {
     }
 
     @Test
-    fun testCopyToDir() {
+    fun testMoveToFile() {
         val cacheDir = fCacheDir("my_cache")
         val filesDir = fFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
-        cacheDir.resolve("deep").resolve("deep.txt").apply {
+        val file = cacheDir.resolve("move.txt").apply {
             this.fCreateNewFile()
             this.writeText("hello world")
         }
+        val moveFile = filesDir.resolve("moveFile").resolve("move.txt")
+        val moveResult = file.fMoveToFile(moveFile)
 
-        val copyDir = filesDir.resolve("copyToDir")
-        val copyResult = cacheDir.fCopyToDir(copyDir)
-        assertEquals(true, copyResult)
-
-        val copyFile = copyDir.resolve("deep").resolve("deep.txt")
-        assertEquals("hello world", copyFile.readText())
+        assertEquals(true, moveResult)
+        assertEquals(false, file.exists())
+        assertEquals("hello world", moveFile.readText())
     }
 
     @Test
@@ -86,21 +85,22 @@ class TestFile {
     }
 
     @Test
-    fun testMoveToFile() {
+    fun testCopyToDir() {
         val cacheDir = fCacheDir("my_cache")
         val filesDir = fFilesDir("my_files")
         assertEquals(true, cacheDir.exists())
         assertEquals(true, filesDir.exists())
 
-        val file = cacheDir.resolve("move.txt").apply {
+        cacheDir.resolve("deep").resolve("deep.txt").apply {
             this.fCreateNewFile()
             this.writeText("hello world")
         }
-        val moveFile = filesDir.resolve("moveFile").resolve("move.txt")
-        val moveResult = file.fMoveToFile(moveFile)
 
-        assertEquals(true, moveResult)
-        assertEquals(false, file.exists())
-        assertEquals("hello world", moveFile.readText())
+        val copyDir = filesDir.resolve("copyToDir")
+        val copyResult = cacheDir.fCopyToDir(copyDir)
+        assertEquals(true, copyResult)
+
+        val copyFile = copyDir.resolve("deep").resolve("deep.txt")
+        assertEquals("hello world", copyFile.readText())
     }
 }
