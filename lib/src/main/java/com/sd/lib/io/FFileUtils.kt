@@ -144,10 +144,10 @@ fun File?.fCreateFile(): Boolean {
 }
 
 /**
- * 检查文件夹是否存在，
+ * 创建文件夹，
  * 如果不存在则创建文件夹，
  * 如果已存在并且是文件则删除该文件并创建文件夹
- * @return 当前文件夹是否存在
+ * @return 文件夹是否存在
  */
 fun File?.fMakeDirs(): Boolean {
     if (this == null) return false
@@ -160,16 +160,10 @@ fun File?.fMakeDirs(): Boolean {
  * 删除文件或者目录
  */
 fun File?.fDelete(): Boolean {
-    try {
-        if (this == null) return false
-        return if (this.isFile) {
-            this.delete()
-        } else if (this.isDirectory) {
-            this.deleteRecursively()
-        } else {
-            false
-        }
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
+    if (this == null) return false
+    return when {
+        this.isFile -> this.delete()
+        this.isDirectory -> this.deleteRecursively()
+        else -> false
     }
 }
