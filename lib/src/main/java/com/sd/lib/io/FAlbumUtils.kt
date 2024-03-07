@@ -109,9 +109,8 @@ private fun File.saveToUri(uri: Uri, resolver: ContentResolver): Boolean {
                 return input.copyTo(output) > 0
             }
         }
-        return true
     } catch (e: IOException) {
         e.printStackTrace()
-        return false
     }
+    return false
 }
