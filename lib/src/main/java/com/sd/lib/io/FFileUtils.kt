@@ -161,9 +161,7 @@ fun File?.fMakeDirs(): Boolean {
  */
 fun File?.fDelete(): Boolean {
     if (this == null) return false
-    return when {
-        this.isFile -> this.delete()
-        this.isDirectory -> this.deleteRecursively()
-        else -> false
-    }
+    if (this.isFile) return this.delete()
+    if (this.isDirectory) return this.deleteRecursively()
+    return false
 }
