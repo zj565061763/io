@@ -104,8 +104,10 @@ fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
     if (!this.exists()) return false
     if (this.isDirectory) error("this should not be a directory")
     if (this == target) return true
-    if (target.exists() && !overwrite) return false
-    if (!target.fCreateNewFile()) return false
+    if (target.exists()) {
+        if (overwrite) target.fDelete() else return false
+    }
+    target.parentFile.fMakeDirs()
     return this.renameTo(target)
 }
 
