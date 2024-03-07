@@ -164,3 +164,17 @@ fun File?.fMakeDirs(): Boolean {
     if (this.isFile) this.delete()
     return this.mkdirs()
 }
+
+/**
+ * 返回文件或者文件夹的大小（byte）
+ */
+fun File?.fSize(): Long {
+    if (this == null) return 0
+    return if (this.isFile) {
+        this.length()
+    } else if (this.isDirectory) {
+        this.walkBottomUp().fold(0) { acc, it ->
+            acc + (if (it.isFile) it.length() else 0)
+        }
+    } else 0
+}

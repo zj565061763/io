@@ -1,26 +1,11 @@
 package com.sd.lib.io
 
-import java.io.File
 import java.text.DecimalFormat
 
 const val FByteKB = 1024L
 const val FByteMB = FByteKB * FByteKB
 const val FByteGB = FByteKB * FByteMB
 const val FByteTB = FByteKB * FByteGB
-
-/**
- * 返回文件或者文件夹的大小（byte）
- */
-fun File?.fSize(): Long {
-    if (this == null) return 0
-    return if (this.isFile) {
-        this.length()
-    } else if (this.isDirectory) {
-        this.walkBottomUp().fold(0) { acc, it ->
-            acc + (if (it.isFile) it.length() else 0)
-        }
-    } else 0
-}
 
 /**
  * 返回格式化的字符串
