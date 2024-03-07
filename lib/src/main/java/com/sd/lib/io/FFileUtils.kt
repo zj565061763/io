@@ -113,8 +113,8 @@ fun File?.fMoveToFile(target: File?, overwrite: Boolean = true): Boolean {
 }
 
 /**
- * 检查文件是否存在，如果不存在则创建文件，如果已存在则删除原文件后创建新文件
- * @return 当前文件是否存在
+ * 创建新文件，如果已存在文件或者文件夹则删除后创建新文件
+ * @return 文件是否存在
  */
 fun File?.fCreateNewFile(): Boolean {
     try {
