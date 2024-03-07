@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import com.sd.lib.ctx.fContext
 import java.io.File
+import java.io.IOException
 import java.util.UUID
 
 private const val DefaultImageExt = "jpg"
@@ -106,8 +107,9 @@ private fun File.saveToUri(uri: Uri, resolver: ContentResolver): Boolean {
                 return input.copyTo(output) > 0
             }
         }
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
+        return true
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return false
     }
-    return false
 }
