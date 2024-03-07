@@ -51,7 +51,7 @@ fun File?.fNewFile(ext: String): File? {
         if (file.exists()) {
             continue
         } else {
-            return file.takeIf { it.fCreateNewFile() }
+            return file.takeIf { it.fCreateFile() }
         }
     }
 }
