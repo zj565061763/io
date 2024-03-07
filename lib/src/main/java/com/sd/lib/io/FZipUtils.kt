@@ -57,13 +57,12 @@ fun InputStream?.fUnzipTo(target: File?): Boolean {
 @JvmOverloads
 fun File?.fZip(filename: String? = null): File? {
     if (this == null || !this.exists()) return null
-    val parentFile = this.parentFile ?: error("parent file is null, call fZipTo() method instead")
     val zipFilename = if (filename.isNullOrEmpty()) {
         this.name + ".zip"
     } else {
         if (filename.endsWith(".zip")) filename else "$filename.zip"
     }
-    val target = parentFile.resolve(zipFilename)
+    val target = this.resolveSibling(zipFilename)
     return if (fZipTo(target)) target else null
 }
 
