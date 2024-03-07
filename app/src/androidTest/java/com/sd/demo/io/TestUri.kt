@@ -28,11 +28,11 @@ class TestUri {
 
         val fileUri = file.fToUri()
 
-        val expectedString = "content://${fFileProviderAuthority()}/external-cache-path/${dirName}/${filename}"
-        val uriString = fileUri.toString()
-
-        assertEquals(expectedString, uriString)
         assertEquals(filename, fileUri.fFileName())
+        assertEquals(
+            "content://${fFileProviderAuthority()}/external-cache-path/${dirName}/${filename}",
+            fileUri.toString()
+        )
 
         val saveFile = fileUri.fToFile()!!
         assertEquals("hello world", saveFile.readText())
