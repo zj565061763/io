@@ -58,6 +58,7 @@ class TestFile {
             this.fCreateNewFile()
             this.writeText("hello world")
         }
+
         val moveFile = filesDir.resolve("moveFile").resolve("move.txt")
         val moveResult = file.fMoveToFile(moveFile)
 
