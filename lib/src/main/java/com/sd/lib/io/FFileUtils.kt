@@ -127,10 +127,10 @@ fun File?.fCreateNewFile(): Boolean {
 }
 
 /**
- * 检查文件是否存在，如果不存在则创建文件，
- * 如果已存在文件则返回，
- * 如果已存在文件夹则删除该文件夹后创建文件
- * @return true-文件存在
+ * 创建文件，
+ * 如果不存在则创建文件，
+ * 如果已存在并且是文件夹则删除该文件夹并创建文件
+ * @return 文件是否存在
  */
 fun File?.fCreateFile(): Boolean {
     try {
