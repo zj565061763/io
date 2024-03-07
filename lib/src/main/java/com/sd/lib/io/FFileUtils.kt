@@ -3,6 +3,7 @@ package com.sd.lib.io
 import android.content.Context
 import com.sd.lib.ctx.fContext
 import java.io.File
+import java.io.IOException
 import java.util.UUID
 
 /**
@@ -133,8 +134,9 @@ fun File?.fCreateFile(): Boolean {
         if (this.isFile) return true
         if (this.isDirectory) this.deleteRecursively()
         return this.parentFile.fMakeDirs() && this.createNewFile()
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return false
     }
 }
 
