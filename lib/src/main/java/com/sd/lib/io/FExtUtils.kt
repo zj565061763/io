@@ -21,18 +21,13 @@ fun String.fExtRename(name: String?): String {
  */
 @JvmOverloads
 fun String.fExt(defaultExt: String = ""): String {
-    if (this.isEmpty()) return defaultExt.fExtRemoveDot()
-
-    var ext = MimeTypeMap.getFileExtensionFromUrl(this)
+    val input = this
+    var ext = MimeTypeMap.getFileExtensionFromUrl(input)
     if (ext.isNullOrEmpty()) {
-        ext = this.substringAfterLast(delimiter = Dot, missingDelimiterValue = "")
+        ext = input.substringAfterLast(delimiter = Dot, missingDelimiterValue = "")
+        if (ext.isEmpty()) ext = defaultExt
     }
-
-    return if (ext.isEmpty()) {
-        defaultExt.fExtRemoveDot()
-    } else {
-        ext.fExtRemoveDot()
-    }
+    return ext.fExtRemoveDot()
 }
 
 /**
