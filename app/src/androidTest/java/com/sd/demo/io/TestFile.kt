@@ -38,12 +38,13 @@ class TestFile {
     @Test
     fun testCreateFile() {
         val file = _context.externalCacheDir!!.resolve("testCreateFile").resolve("aaa")
+        assertEquals(false, file.exists())
 
         assertEquals(true, file.fMakeDirs())
-        assertEquals(true, file.exists() && file.isDirectory)
+        assertEquals(true, file.isDirectory)
 
-        assertEquals(true, file.fCreateNewFile())
-        assertEquals(true, file.exists() && file.isFile)
+        assertEquals(true, file.fCreateFile())
+        assertEquals(true, file.isFile)
     }
 
     @Test
