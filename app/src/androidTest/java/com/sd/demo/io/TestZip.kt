@@ -2,8 +2,8 @@ package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sd.lib.io.fCacheDir
-import com.sd.lib.io.fMakeDirs
 import com.sd.lib.io.fFilesDir
+import com.sd.lib.io.fMakeDirs
 import com.sd.lib.io.fUnzipTo
 import com.sd.lib.io.fZip
 import org.junit.Assert.assertEquals
@@ -36,6 +36,7 @@ class TestZip {
 
         val zip = cacheDir.fZip()!!
         assertEquals(true, zip.exists())
+        assertEquals(true, zip == cacheDir.resolveSibling("${cacheDir.name}.zip"))
 
         val filesDir = fFilesDir("my_files")
         assertEquals(true, zip.fUnzipTo(filesDir))
