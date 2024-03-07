@@ -72,8 +72,9 @@ fun File?.fCopyToDir(target: File?): Boolean {
             val file = target.resolve(this.name)
             this.fCopyToFile(target = file, overwrite = true)
         }
-    } catch (e: Exception) {
-        return e.libThrowOrReturn { false }
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return false
     }
 }
 
