@@ -6,7 +6,7 @@ import com.sd.lib.io.FDir.Companion.TempExt
 import java.io.File
 
 /**
- * 临时目录
+ * 保存临时文件的目录
  */
 fun fDirTemp(): FDir {
     return fFilesDir("f_dir_temp").fDir()
