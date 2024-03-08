@@ -19,9 +19,7 @@ import java.io.IOException
 fun File?.fToUri(): Uri? {
     if (this == null) return null
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        val context = fContext
-        val authority = fFileProviderAuthority()
-        FileProvider.getUriForFile(context, authority, this)
+        FileProvider.getUriForFile(fContext, fFileProviderAuthority(), this)
     } else {
         Uri.fromFile(this)
     }
@@ -49,9 +47,7 @@ fun Uri?.fToFile(): File? {
  */
 fun Uri?.fFileName(): String {
     if (this == null) return ""
-    val context = fContext
-    val documentFile = DocumentFile.fromSingleUri(context, this)
-    return documentFile?.name ?: ""
+    return DocumentFile.fromSingleUri(fContext, this)?.name ?: ""
 }
 
 private fun Uri?.saveToFile(file: File): Boolean {
