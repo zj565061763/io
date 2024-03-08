@@ -40,11 +40,11 @@ fun fFilesDir(name: String? = null): File {
 
 /**
  * 在当前[File]目录下创建一个扩展名为[ext]的文件并返回，
- * 如果当前[File]是一个文件，则抛出异常[IllegalStateException]
+ * 如果当前[File]是一个文件，则抛出异常[IllegalArgumentException]
  */
 fun File?.fNewFile(ext: String): File? {
     if (this == null) return null
-    if (this.isFile) error("this file should not be a file")
+    if (this.isFile) throw IllegalArgumentException("this file should not be a file")
     val dotExt = ext.fExtAddDot()
     while (true) {
         val filename = UUID.randomUUID().toString() + dotExt
