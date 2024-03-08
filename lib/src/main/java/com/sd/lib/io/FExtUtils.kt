@@ -15,7 +15,7 @@ fun String.fExtRename(name: String?): String {
 }
 
 /**
- * 获取扩展名，不包括"."(例如mp3)，
+ * 获取当前[String]的扩展名，不包括"."(例如mp3)，
  * 如果未获取到到扩展名，则返回[defaultExt]，如果[defaultExt]包括"."则会移除“.”后返回
  */
 @JvmOverloads
