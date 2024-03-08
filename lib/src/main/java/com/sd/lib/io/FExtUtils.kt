@@ -21,11 +21,11 @@ fun String.fExtRename(name: String?): String {
  * 如果未获取到到扩展名，则返回[defaultExt]，如果[defaultExt]包括"."则会移除“.”后返回
  */
 @JvmOverloads
-fun String.fExt(defaultExt: String = ""): String {
-    val current = this
-    var ext = MimeTypeMap.getFileExtensionFromUrl(current)
+fun String?.fExt(defaultExt: String? = null): String {
+    if (this.isNullOrEmpty()) return defaultExt.fExtRemoveDot()
+    var ext = MimeTypeMap.getFileExtensionFromUrl(this)
     if (ext.isNullOrEmpty()) {
-        ext = current.substringAfterLast(delimiter = Dot, missingDelimiterValue = "")
+        ext = this.substringAfterLast(delimiter = Dot, missingDelimiterValue = "")
         if (ext.isEmpty()) ext = defaultExt
     }
     return ext.fExtRemoveDot()
