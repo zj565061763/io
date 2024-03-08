@@ -140,8 +140,8 @@ fun File?.fMoveToFile(
 }
 
 /**
- * 创建新文件，如果已存在文件或者文件夹则删除后创建新文件
- * @return 文件是否存在
+ * 创建新文件，如果已存在文件或者目录则删除后创建新文件
+ * @return true-成功，false-失败
  */
 fun File?.fCreateNewFile(): Boolean {
     this?.deleteRecursively()
