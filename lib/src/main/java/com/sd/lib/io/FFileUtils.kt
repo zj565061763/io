@@ -7,7 +7,7 @@ import java.io.IOException
 import java.util.UUID
 
 /**
- * 获取缓存目录下的[name]目录，如果name为空则获取缓存目录，
+ * 获取缓存目录下的[name]目录，如果[name]为空则获取缓存目录，
  * 缓存目录优先获取[Context.getExternalCacheDir]，如果不存在则获取[Context.getCacheDir]
  */
 @JvmOverloads
@@ -23,7 +23,7 @@ fun fCacheDir(name: String? = null): File {
 }
 
 /**
- * 获取文件目录下的[name]目录，如果name为空则获取文件目录，
+ * 获取文件目录下的[name]目录，如果[name]为空则获取文件目录，
  * 文件目录优先获取[Context.getExternalFilesDir]，如果不存在则获取[Context.getFilesDir]
  */
 @JvmOverloads
@@ -58,7 +58,7 @@ fun File?.fNewFile(ext: String): File? {
 }
 
 /**
- * 把当前[File]拷贝到[target]目录下，如果当前[File]==[target]则抛出[IllegalStateException]，
+ * 把当前[File]拷贝到[target]目录下，如果当前[File]==[target]则抛出异常[IllegalStateException]，
  * 如果当前[File]是文件，则拷贝到[target]目录下，
  * 如果当前[File]是目录，则拷贝目录下的所有文件到[target]目录下
  */
