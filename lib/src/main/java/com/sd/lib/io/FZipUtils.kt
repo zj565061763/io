@@ -69,8 +69,9 @@ fun File?.fZip(filename: String? = null): File? {
 }
 
 /**
- * 压缩当前文件为[target]，
- * 如果当前是文件则把文件压缩为[target]，如果当前是文件夹则把文件夹和文件夹下的所有文件压缩为[target]
+ * 压缩当前[File]为[target]，
+ * 如果当前[File]是文件则把文件压缩为[target]，
+ * 如果当前[File]是目录则把目录以及目录下的所有文件压缩为[target]
  */
 fun File?.fZipTo(target: File?): Boolean {
     if (this == null || !this.exists()) return false
