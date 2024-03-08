@@ -81,7 +81,7 @@ fun File?.fCopyToDir(target: File?): Boolean {
 }
 
 /**
- * 拷贝文件，如果[target]已存在则由[overwrite]决定是否覆盖
+ * 把当前[File]拷贝到[target]，如果[target]已存在则由[overwrite]决定是否覆盖
  */
 @JvmOverloads
 fun File?.fCopyToFile(
