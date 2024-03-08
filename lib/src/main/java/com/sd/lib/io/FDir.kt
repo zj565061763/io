@@ -1,32 +1,32 @@
 package com.sd.lib.io
 
-import com.sd.lib.io.IDir.Companion.TempExt
+import com.sd.lib.closeable.FAutoCloseFactory
+import com.sd.lib.io.FDir.Companion.TempExt
 import java.io.File
-import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * 临时目录
+ * 临时文件夹
  */
-fun fDirTemp(): IDir {
+fun fDirTemp(): FDir {
     return fFilesDir("f_dir_temp").fDir()
 }
 
 /**
- * 保存Uri的目录
+ * 保存Uri的文件夹
  */
-fun fDirUri(): IDir {
+fun fDirUri(): FDir {
     return fFilesDir("f_dir_uri").fDir()
 }
 
 /**
- * [File]转[IDir]
+ * [File]转[FDir]
  */
-fun File.fDir(): IDir {
+fun File.fDir(): FDir {
     if (this.isFile) error("this should not be a file")
-    return DirApi(this)
+    return FDir.get(this)
 }
 
-interface IDir {
+interface FDir {
     /**
      * 返回[key]对应的文件，如果key有扩展名，则返回的文件名包括[key]的扩展名
      */
@@ -38,7 +38,7 @@ interface IDir {
     fun getKeyTempFile(key: String?): File?
 
     /**
-     * 把[file]文件拷贝到当前目录
+     * 把[file]文件拷贝到当前文件夹
      * @param filename 如果不为空-使用该文件名；为空-使用[file]的文件名
      * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖拷贝失败
      * @return 拷贝成功-返回拷贝后的文件；拷贝失败-返回原文件[file]
@@ -50,7 +50,7 @@ interface IDir {
     ): File
 
     /**
-     * 把[file]文件移动到当前目录
+     * 把[file]文件移动到当前文件夹
      * @param filename 如果不为空-使用该文件名；为空-使用[file]的文件名
      * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖移动失败
      * @return 移动成功-返回移动后的文件；移动失败-返回原文件[file]
@@ -63,20 +63,20 @@ interface IDir {
 
     /**
      * 在当前文件夹下创建一个新文件
+     * @param ext 文件扩展名
      */
     fun newFile(ext: String): File?
 
     /**
-     * 删除当前文件夹下的文件（临时文件不会被删除）
-     * @param ext 文件扩展名（例如mp3）null-删除所有文件
-     * @param block 遍历文件，返回true则跳过该文件
+     * 删除当前文件夹下的文件(临时文件[TempExt]不会被删除)
+     * @param block 遍历文件，返回true则删除该文件
      * @return 返回删除的文件数量
      */
-    fun deleteFile(ext: String?, block: ((File) -> Boolean)? = null): Int
+    fun deleteFile(block: ((File) -> Boolean)? = null): Int
 
     /**
-     * 删除临时文件
-     * @param block 遍历临时文件，返回true则跳过该文件
+     * 删除当前文件夹下的临时文件[TempExt]
+     * @param block 遍历临时文件，返回true则删除该文件
      * @return 返回删除的文件数量
      */
     fun deleteTempFile(block: ((File) -> Boolean)? = null): Int
@@ -84,7 +84,7 @@ interface IDir {
     /**
      * 操作当前文件夹的子级
      */
-    fun <T> listFiles(block: (files: Array<File>?) -> T): T
+    fun <T> listFiles(block: (files: Array<File>) -> T): T
 
     /**
      * 当前文件夹下所有文件的大小
@@ -97,116 +97,22 @@ interface IDir {
     fun <T> modify(block: (dir: File?) -> T): T
 
     companion object {
+        /** 临时文件扩展名 */
         const val TempExt = "temp"
-    }
-}
 
-private class DirApi(dir: File) : IDir {
-    private val _dir = dir
-    private val _directory: IDir
-        get() = DirImpl.open(_dir)
+        private val _factory = FAutoCloseFactory(CloseableDir::class.java)
 
-    override fun getKeyFile(key: String?): File? {
-        return _directory.getKeyFile(key)
-    }
-
-    override fun getKeyTempFile(key: String?): File? {
-        return _directory.getKeyTempFile(key)
-    }
-
-    override fun copyFile(
-        file: File,
-        filename: String?,
-        overwrite: Boolean,
-    ): File {
-        return _directory.copyFile(
-            file = file,
-            filename = filename,
-            overwrite = overwrite,
-        )
-    }
-
-    override fun takeFile(
-        file: File,
-        filename: String?,
-        overwrite: Boolean,
-    ): File {
-        return _directory.takeFile(
-            file = file,
-            filename = filename,
-            overwrite = overwrite,
-        )
-    }
-
-    override fun newFile(ext: String): File? {
-        return _directory.newFile(ext)
-    }
-
-    override fun deleteFile(ext: String?, block: ((File) -> Boolean)?): Int {
-        return _directory.deleteFile(ext, block)
-    }
-
-    override fun deleteTempFile(block: ((File) -> Boolean)?): Int {
-        return _directory.deleteTempFile(block)
-    }
-
-    override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
-        return _directory.listFiles(block)
-    }
-
-    override fun size(): Long {
-        return _directory.size()
-    }
-
-    override fun <T> modify(block: (dir: File?) -> T): T {
-        return _directory.modify(block)
-    }
-
-    override fun hashCode(): Int {
-        return _directory.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return if (other is DirApi) _directory == other._directory else false
-    }
-
-    init {
-        addCount(_dir)
-    }
-
-    protected fun finalize() {
-        removeCount(_dir)
-    }
-
-    companion object {
-        private val sCounterHolder: MutableMap<String, AtomicInteger> = hashMapOf()
-
-        private fun addCount(directory: File) {
-            synchronized(DirImpl.Companion) {
-                val path = directory.absolutePath
-                val counter = sCounterHolder[path] ?: AtomicInteger(0).also {
-                    sCounterHolder[path] = it
-                }
-                counter.incrementAndGet()
-            }
-        }
-
-        private fun removeCount(directory: File) {
-            synchronized(DirImpl.Companion) {
-                val path = directory.absolutePath
-                val counter = sCounterHolder[path] ?: error("Directory was not found $path")
-                counter.decrementAndGet().let {
-                    if (it <= 0) {
-                        sCounterHolder.remove(path)
-                        DirImpl.close(directory)
-                    }
-                }
-            }
+        @JvmStatic
+        fun get(directory: File): FDir {
+            val path = directory.absolutePath
+            return _factory.create(path) { DirImpl(directory) }
         }
     }
 }
 
-private class DirImpl private constructor(dir: File) : IDir {
+private interface CloseableDir : FDir, AutoCloseable
+
+private class DirImpl(dir: File) : CloseableDir {
     private val _dir = dir
 
     override fun getKeyFile(key: String?): File? {
@@ -265,49 +171,35 @@ private class DirImpl private constructor(dir: File) : IDir {
         return modify { it.fNewFile(ext) }
     }
 
-    override fun deleteFile(ext: String?, block: ((File) -> Boolean)?): Int {
+    override fun deleteFile(block: ((File) -> Boolean)?): Int {
         return listFiles { files ->
-            if (!files.isNullOrEmpty()) {
-                val noneDotExt = if (ext.isNullOrEmpty()) ext else {
-                    ext.fExtRemoveDot()
+            var count = 0
+            for (item in files) {
+                if (item.extension == TempExt) continue
+                if (block == null || block(item)) {
+                    if (item.deleteRecursively()) count++
                 }
-
-                var count = 0
-                for (item in files) {
-                    val itemExt = item.extension
-                    if (itemExt == TempExt) continue
-                    if (noneDotExt == null || noneDotExt == itemExt) {
-                        if (block != null && block(item)) continue
-                        if (item.deleteRecursively()) count++
-                    }
-                }
-                count
-            } else {
-                0
             }
+            count
         }
     }
 
     override fun deleteTempFile(block: ((File) -> Boolean)?): Int {
         return listFiles { files ->
-            if (!files.isNullOrEmpty()) {
-                var count = 0
-                for (item in files) {
-                    if (block != null && block(item)) continue
-                    if (item.extension == TempExt) {
-                        if (item.deleteRecursively()) count++
-                    }
+            var count = 0
+            for (item in files) {
+                if (item.extension != TempExt) continue
+                if (block == null || block(item)) {
+                    if (item.deleteRecursively()) count++
                 }
-                count
-            } else {
-                0
             }
+            count
         }
     }
 
-    override fun <T> listFiles(block: (files: Array<File>?) -> T): T {
+    override fun <T> listFiles(block: (files: Array<File>) -> T): T {
         return modify {
-            val files = it?.listFiles()
+            val files = it?.listFiles() ?: emptyArray()
             block(files)
         }
     }
@@ -337,31 +229,6 @@ private class DirImpl private constructor(dir: File) : IDir {
         }
     }
 
-    override fun hashCode(): Int {
-        return _dir.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return if (other is DirImpl) _dir == other._dir else false
-    }
-
-    companion object {
-        private val sInstanceHolder: MutableMap<String, DirImpl> = hashMapOf()
-
-        fun open(directory: File): IDir {
-            return synchronized(this@Companion) {
-                val path = directory.absolutePath
-                sInstanceHolder[path] ?: DirImpl(directory).also {
-                    sInstanceHolder[path] = it
-                }
-            }
-        }
-
-        fun close(directory: File) {
-            synchronized(this@Companion) {
-                val path = directory.absolutePath
-                sInstanceHolder.remove(path)
-            }
-        }
+    override fun close() {
     }
 }
