@@ -8,7 +8,8 @@ import java.util.UUID
 
 /**
  * 获取缓存目录下的[name]目录，如果[name]为空则获取缓存目录，
- * 缓存目录优先获取[Context.getExternalCacheDir]，如果不存在则获取[Context.getCacheDir]
+ * 缓存目录优先获取[Context.getExternalCacheDir]，如果不存在则获取[Context.getCacheDir]，
+ * 如果获取失败则抛出异常[IllegalStateException]
  */
 @JvmOverloads
 fun fCacheDir(name: String? = null): File {
@@ -24,7 +25,8 @@ fun fCacheDir(name: String? = null): File {
 
 /**
  * 获取文件目录下的[name]目录，如果[name]为空则获取文件目录，
- * 文件目录优先获取[Context.getExternalFilesDir]，如果不存在则获取[Context.getFilesDir]
+ * 文件目录优先获取[Context.getExternalFilesDir]，如果不存在则获取[Context.getFilesDir]，
+ * 如果获取失败则抛出异常[IllegalStateException]
  */
 @JvmOverloads
 fun fFilesDir(name: String? = null): File {
