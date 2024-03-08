@@ -23,7 +23,8 @@ fun File?.fUnzipTo(target: File?): Boolean {
 }
 
 /**
- * 解压到[target]目录下
+ * 把当前[InputStream]解压到[target]目录下
+ * @return true-成功；false-失败
  */
 fun InputStream?.fUnzipTo(target: File?): Boolean {
     try {
