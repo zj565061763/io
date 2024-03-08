@@ -218,7 +218,7 @@ private class DirImpl(dir: File) : CloseableDir {
         key: String,
         ext: String,
     ): File? {
-        if (key.isEmpty()) return null
+        require(key.isNotEmpty()) { "key is empty" }
         return modify { dir ->
             if (dir != null) {
                 val filename = libMD5(key) + ext.fExtAddDot()
