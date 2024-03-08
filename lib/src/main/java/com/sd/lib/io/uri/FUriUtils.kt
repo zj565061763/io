@@ -43,7 +43,7 @@ fun Uri?.fToFile(): File? {
 }
 
 /**
- * Uri对应的文件名
+ * 获取当前[Uri]的文件名
  */
 fun Uri?.fFileName(): String {
     if (this == null) return ""
