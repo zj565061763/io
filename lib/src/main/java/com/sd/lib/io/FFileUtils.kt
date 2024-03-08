@@ -41,6 +41,7 @@ fun fFilesDir(name: String? = null): File {
 /**
  * 在当前[File]目录下创建一个扩展名为[ext]的文件并返回，
  * 如果当前[File]是文件，则抛出异常[IllegalArgumentException]
+ * @return 创建的文件，null-创建失败
  */
 fun File?.fNewFile(ext: String): File? {
     if (this == null) return null
