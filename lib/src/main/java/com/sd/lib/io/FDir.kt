@@ -74,7 +74,7 @@ interface FDir {
     fun deleteFile(block: ((File) -> Boolean)? = null): Int
 
     /**
-     * 删除当前目录下的临时文件[TempExt]
+     * 删除当前目录下的临时文件(扩展名为[TempExt])
      * @param block 遍历临时文件，返回true则删除该文件
      * @return 返回删除的文件数量
      */
