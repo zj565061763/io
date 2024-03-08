@@ -65,7 +65,7 @@ fun File?.fNewFile(ext: String): File? {
  * 如果当前[File]==[target]则抛出异常[IllegalArgumentException]，
  * 如果当前[File]是文件，则拷贝到[target]目录下，
  * 如果当前[File]是目录，则拷贝目录下的所有文件到[target]目录下
- * @return true-成功，false-失败
+ * @return true-成功；false-失败
  */
 @JvmOverloads
 fun File?.fCopyToDir(
@@ -93,7 +93,7 @@ fun File?.fCopyToDir(
  * 把当前[File]拷贝到[target]，由[overwrite]决定是否覆盖，
  * 如果当前[File]是目录则抛出异常[IllegalArgumentException]，
  * 如果当前[File]==[target]则抛出异常[IllegalArgumentException]
- * @return true-成功，false-失败
+ * @return true-成功；false-失败
  */
 @JvmOverloads
 fun File?.fCopyToFile(
@@ -124,7 +124,7 @@ fun File?.fCopyToFile(
 /**
  * 把当前[File]移动到[target]，由[overwrite]决定是否覆盖，
  * 如果当前[File]是目录则抛出异常[IllegalArgumentException]
- * @return true-成功，false-失败
+ * @return true-成功；false-失败
  */
 @JvmOverloads
 fun File?.fMoveToFile(
