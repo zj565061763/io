@@ -22,7 +22,6 @@ fun fDirUri(): FDir {
  * [File]转[FDir]
  */
 fun File.fDir(): FDir {
-    if (this.isFile) error("this should not be a file")
     return FDir.get(this)
 }
 
@@ -102,8 +101,12 @@ interface FDir {
 
         private val _factory = FAutoCloseFactory(CloseableDir::class.java)
 
+        /**
+         * [directory]转[FDir]，如果[directory]是一个文件，则抛出异常[IllegalArgumentException]
+         */
         @JvmStatic
         fun get(directory: File): FDir {
+            if (directory.isFile) throw IllegalArgumentException("directory should not be a file")
             val path = directory.absolutePath
             return _factory.create(path) { DirImpl(directory) }
         }
