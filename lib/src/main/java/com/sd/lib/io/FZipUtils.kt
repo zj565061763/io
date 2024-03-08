@@ -54,7 +54,7 @@ fun InputStream?.fUnzipTo(target: File?): Boolean {
 }
 
 /**
- * 压缩当前文件并返回压缩后的文件
+ * 压缩当前[File]并返回压缩后的文件，压缩后的文件名为：当前文件名.zip
  */
 @JvmOverloads
 fun File?.fZip(filename: String? = null): File? {
