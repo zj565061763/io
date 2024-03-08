@@ -1,7 +1,5 @@
 package com.sd.lib.io
 
-import android.webkit.MimeTypeMap
-
 private const val Dot = "."
 
 /**
@@ -22,9 +20,8 @@ fun String.fExtRename(name: String?): String {
  */
 @JvmOverloads
 fun String?.fExt(defaultExt: String? = null): String {
-    if (this.isNullOrEmpty()) return defaultExt.fExtRemoveDot()
-    val ext = MimeTypeMap.getFileExtensionFromUrl(this).takeUnless { it.isNullOrEmpty() }
-        ?: this.substringAfterLast(delimiter = Dot, missingDelimiterValue = "").takeUnless { it.isEmpty() }
+    val ext = this?.substringAfterLast(Dot, "")
+        ?.takeUnless { it.isEmpty() }
         ?: defaultExt
     return ext.fExtRemoveDot()
 }
