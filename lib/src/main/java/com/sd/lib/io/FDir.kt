@@ -5,14 +5,14 @@ import com.sd.lib.io.FDir.Companion.TempExt
 import java.io.File
 
 /**
- * 临时文件夹
+ * 临时目录
  */
 fun fDirTemp(): FDir {
     return fFilesDir("f_dir_temp").fDir()
 }
 
 /**
- * 保存Uri的文件夹
+ * 保存Uri的目录
  */
 fun fDirUri(): FDir {
     return fFilesDir("f_dir_uri").fDir()
@@ -38,7 +38,7 @@ interface FDir {
     fun getKeyTempFile(key: String?): File?
 
     /**
-     * 把[file]文件拷贝到当前文件夹
+     * 把[file]文件拷贝到当前目录
      * @param filename 如果不为空-使用该文件名；为空-使用[file]的文件名
      * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖拷贝失败
      * @return 拷贝成功-返回拷贝后的文件；拷贝失败-返回原文件[file]
@@ -50,7 +50,7 @@ interface FDir {
     ): File
 
     /**
-     * 把[file]文件移动到当前文件夹
+     * 把[file]文件移动到当前目录
      * @param filename 如果不为空-使用该文件名；为空-使用[file]的文件名
      * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖移动失败
      * @return 移动成功-返回移动后的文件；移动失败-返回原文件[file]
@@ -62,37 +62,37 @@ interface FDir {
     ): File
 
     /**
-     * 在当前文件夹下创建一个新文件
+     * 在当前目录下创建一个新文件
      * @param ext 文件扩展名
      */
     fun newFile(ext: String): File?
 
     /**
-     * 删除当前文件夹下的文件(临时文件[TempExt]不会被删除)
+     * 删除当前目录下的文件(临时文件[TempExt]不会被删除)
      * @param block 遍历文件，返回true则删除该文件
      * @return 返回删除的文件数量
      */
     fun deleteFile(block: ((File) -> Boolean)? = null): Int
 
     /**
-     * 删除当前文件夹下的临时文件[TempExt]
+     * 删除当前目录下的临时文件[TempExt]
      * @param block 遍历临时文件，返回true则删除该文件
      * @return 返回删除的文件数量
      */
     fun deleteTempFile(block: ((File) -> Boolean)? = null): Int
 
     /**
-     * 操作当前文件夹的子级
+     * 操作当前目录的子级
      */
     fun <T> listFiles(block: (files: Array<File>) -> T): T
 
     /**
-     * 当前文件夹下所有文件的大小
+     * 当前目录下所有文件的大小
      */
     fun size(): Long
 
     /**
-     * 操作当前文件夹
+     * 操作当前目录
      */
     fun <T> modify(block: (dir: File?) -> T): T
 
