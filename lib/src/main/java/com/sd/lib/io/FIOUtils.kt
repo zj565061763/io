@@ -4,6 +4,11 @@ import java.io.Closeable
 import java.io.InputStream
 import java.io.OutputStream
 
+/**
+ * 把当前[InputStream]的内容拷贝到[out]并返回拷贝的数量(byte)
+ * @param bufferSize 缓冲区大小
+ * @param callback 每次拷贝之后回调，返回true停止拷贝
+ */
 @JvmOverloads
 fun InputStream.fCopyTo(
     out: OutputStream,
