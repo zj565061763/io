@@ -16,11 +16,12 @@ private const val DefaultImageExt = "jpg"
 private const val DefaultImageMimeType = "image/jpeg"
 
 /**
- * 保存图片到相册
+ * 保存[file]图片到相册，并返回该图片对应的[Uri]，
+ * 如果[file]是目录则抛出异常[IllegalArgumentException]
  */
 fun fAlbumSaveImage(file: File?): Uri? {
     if (file == null || !file.exists()) return null
-    if (file.isDirectory) error("file should not be a directory")
+    if (file.isDirectory) throw IllegalArgumentException("file should not be a directory")
 
     val contentValues = ContentValues().apply {
         val uuid = UUID.randomUUID().toString()
