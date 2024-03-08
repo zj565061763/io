@@ -14,7 +14,7 @@ import java.io.File
 import java.io.IOException
 
 /**
- * 文件转Uri
+ * 把当前[File]转为[Uri]
  */
 fun File?.fToUri(): Uri? {
     if (this == null) return null
@@ -28,7 +28,7 @@ fun File?.fToUri(): Uri? {
 }
 
 /**
- * 读取Uri的内容并保存为文件到[fDirUri]目录下
+ * 读取当前[Uri]的内容保存到[fDirUri]目录下并返回保存的文件
  */
 fun Uri?.fToFile(): File? {
     if (this == null) return null
