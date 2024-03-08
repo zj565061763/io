@@ -141,7 +141,7 @@ fun File?.fMoveToFile(
 
 /**
  * 创建新文件，如果已存在文件或者目录则删除后创建新文件
- * @return true-成功，false-失败
+ * @return 文件是否存在
  */
 fun File?.fCreateNewFile(): Boolean {
     this?.deleteRecursively()
@@ -149,8 +149,8 @@ fun File?.fCreateNewFile(): Boolean {
 }
 
 /**
- * 创建文件，如果已存在文件则直接返回，如果不存在则创建文件，
- * 如果已存在并且是文件夹则删除该文件夹并创建文件
+ * 创建文件，如果已存在文件则直接返回true，如果不存在则创建文件，
+ * 如果已存在并且是目录则删除该目录后创建新文件
  * @return 文件是否存在
  */
 fun File?.fCreateFile(): Boolean {
