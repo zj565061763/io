@@ -53,11 +53,12 @@ private const val DefaultVideoExt = "mp4"
 private const val DefaultVideoMimeType = "video/mp4"
 
 /**
- * 保存视频到相册
+ * 保存[file]视频到相册，并返回视频对应的[Uri]，
+ * 如果[file]是目录则抛出异常[IllegalArgumentException]
  */
 fun fAlbumSaveVideo(file: File?): Uri? {
     if (file == null || !file.exists()) return null
-    if (file.isDirectory) error("file should not be a directory")
+    if (file.isDirectory) throw IllegalArgumentException("file should not be a directory")
 
     val contentValues = ContentValues().apply {
         val uuid = UUID.randomUUID().toString()
