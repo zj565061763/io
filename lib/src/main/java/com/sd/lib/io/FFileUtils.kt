@@ -58,8 +58,9 @@ fun File?.fNewFile(ext: String): File? {
 }
 
 /**
- * 如果是文件，则拷贝到[target]目录下，
- * 如果是目录，则拷贝目录下的所有文件到[target]目录下
+ * 把当前[File]拷贝到[target]目录下，
+ * 如果当前[File]是文件，则拷贝到[target]目录下，
+ * 如果当前[File]是目录，则拷贝目录下的所有文件到[target]目录下
  */
 fun File?.fCopyToDir(target: File?): Boolean {
     try {
