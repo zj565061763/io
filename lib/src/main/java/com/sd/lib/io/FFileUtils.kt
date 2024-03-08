@@ -182,7 +182,7 @@ fun File?.fMakeDirs(): Boolean {
 }
 
 /**
- * 返回文件或者目录的大小(byte)
+ * 当前文件或者目录的大小(byte)
  */
 fun File?.fSize(): Long {
     if (this == null) return 0

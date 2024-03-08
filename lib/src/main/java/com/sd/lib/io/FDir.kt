@@ -28,12 +28,12 @@ fun File.fDir(): FDir {
 
 interface FDir {
     /**
-     * 返回[key]对应的文件，如果key有扩展名，则返回的文件名包括[key]的扩展名
+     * 获取[key]对应的文件，如果key有扩展名，则返回的文件名包括[key]的扩展名
      */
     fun getKeyFile(key: String?): File?
 
     /**
-     * 返回[key]对应的临时文件，扩展名[TempExt]
+     * 获取[key]对应的临时文件，扩展名[TempExt]
      */
     fun getKeyTempFile(key: String?): File?
 
