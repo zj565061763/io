@@ -58,21 +58,25 @@ fun File?.fNewFile(ext: String): File? {
 }
 
 /**
- * 把当前[File]拷贝到[target]目录下，如果当前[File]==[target]则抛出异常[IllegalArgumentException]，
+ * 把当前[File]拷贝到[target]目录下，由[overwrite]决定是否覆盖，
+ * 如果当前[File]==[target]则抛出异常[IllegalArgumentException]，
  * 如果当前[File]是文件，则拷贝到[target]目录下，
  * 如果当前[File]是目录，则拷贝目录下的所有文件到[target]目录下
  */
-fun File?.fCopyToDir(target: File?): Boolean {
+fun File?.fCopyToDir(
+    target: File?,
+    overwrite: Boolean = true,
+): Boolean {
     try {
         if (this == null || target == null) return false
         if (!this.exists()) return false
         if (this == target) throw IllegalArgumentException("this should not be target")
         if (!target.fMakeDirs()) return false
         return if (this.isDirectory) {
-            this.copyRecursively(target = target, overwrite = true)
+            this.copyRecursively(target = target, overwrite = overwrite)
         } else {
             val file = target.resolve(this.name)
-            this.fCopyToFile(target = file, overwrite = true)
+            this.fCopyToFile(target = file, overwrite = overwrite)
         }
     } catch (e: IOException) {
         e.printStackTrace()
@@ -81,7 +85,9 @@ fun File?.fCopyToDir(target: File?): Boolean {
 }
 
 /**
- * 把当前[File]拷贝到[target]，如果[target]已存在则由[overwrite]决定是否覆盖
+ * 把当前[File]拷贝到[target]，由[overwrite]决定是否覆盖，
+ * 如果当前[File]是目录则抛出异常[IllegalArgumentException]，
+ * 如果当前[File]==[target]则抛出异常[IllegalArgumentException]
  */
 @JvmOverloads
 fun File?.fCopyToFile(
@@ -91,7 +97,7 @@ fun File?.fCopyToFile(
     try {
         if (this == null || target == null) return false
         if (!this.exists()) return false
-        if (this.isDirectory) error("this should not be a directory")
+        if (this.isDirectory) throw IllegalArgumentException("this should not be a directory")
         if (this == target) error("this should not be target")
         if (target.exists()) {
             if (overwrite) target.deleteRecursively() else return false
