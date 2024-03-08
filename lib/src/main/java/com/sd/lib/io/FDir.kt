@@ -28,7 +28,7 @@ fun File.fDir(): IDir {
 
 interface IDir {
     /**
-     * 返回[key]对应的文件，如果key包括扩展名，则会使用[key]的扩展名
+     * 返回[key]对应的文件，如果key有扩展名，则返回的文件名包括[key]的扩展名
      */
     fun getKeyFile(key: String?): File?
 
