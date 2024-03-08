@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCreateNewFile
 import com.sd.lib.io.fDir
+import com.sd.lib.io.fExt
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -92,25 +93,28 @@ class TestDir {
 
     @Test
     fun testDeleteFile() {
-        _dir.deleteFile(null)
+        _dir.deleteFile()
 
         kotlin.run {
             repeat(10) {
-                _dir.newFile("txt")!!.also { assertEquals(true, it.exists()) }
+                _dir.newFile("aaa")!!.also { assertEquals(true, it.isFile) }
+                _dir.newFile("bbb")!!.also { assertEquals(true, it.isFile) }
             }
-            _dir.deleteFile("txt").also { assertEquals(10, it) }
+            _dir.deleteFile { it.name.fExt() == "aaa" }.also { assertEquals(10, it) }
+            _dir.deleteFile { it.name.fExt() == "bbb" }.also { assertEquals(10, it) }
         }
 
         kotlin.run {
-            repeat(5) {
-                _dir.newFile("mp$it")!!.also { assertEquals(true, it.exists()) }
+            repeat(5) { index ->
+                _dir.newFile("mp$index")!!.also { assertEquals(true, it.isFile) }
             }
+            _dir.deleteFile().also { assertEquals(5, it) }
+        }
 
-            _dir.newFile("")!!.also { assertEquals(true, it.exists()) }
-            _dir.newFile("")!!.also { assertEquals(true, it.exists()) }
-
-            _dir.deleteFile("").also { assertEquals(2, it) }
-            _dir.deleteFile(null).also { assertEquals(5, it) }
+        kotlin.run {
+            _dir.newFile("")!!.also { assertEquals(true, it.isFile) }
+            _dir.newFile("")!!.also { assertEquals(true, it.isFile) }
+            _dir.deleteFile { it.name.fExt() == "" }.also { assertEquals(2, it) }
         }
     }
 }
