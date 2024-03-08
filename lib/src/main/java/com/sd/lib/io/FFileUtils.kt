@@ -98,7 +98,7 @@ fun File?.fCopyToFile(
         if (this == null || target == null) return false
         if (!this.exists()) return false
         if (this.isDirectory) throw IllegalArgumentException("this should not be a directory")
-        if (this == target) error("this should not be target")
+        if (this == target) throw IllegalArgumentException("this should not be target")
         if (target.exists()) {
             if (overwrite) target.deleteRecursively() else return false
         }
@@ -116,7 +116,8 @@ fun File?.fCopyToFile(
 }
 
 /**
- * 移动文件，如果[target]已存在则由[overwrite]决定是否覆盖
+ * 把当前[File]移动到[target]，由[overwrite]决定是否覆盖，
+ * 如果当前[File]是目录则抛出异常[IllegalArgumentException]
  */
 @JvmOverloads
 fun File?.fMoveToFile(
@@ -125,7 +126,7 @@ fun File?.fMoveToFile(
 ): Boolean {
     if (this == null || target == null) return false
     if (!this.exists()) return false
-    if (this.isDirectory) error("this should not be a directory")
+    if (this.isDirectory) throw IllegalArgumentException("this should not be a directory")
     if (this == target) return true
     if (target.exists()) {
         if (overwrite) target.deleteRecursively() else return false
