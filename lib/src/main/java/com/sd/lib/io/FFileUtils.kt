@@ -58,7 +58,7 @@ fun File?.fNewFile(ext: String): File? {
 }
 
 /**
- * 把当前[File]拷贝到[target]目录下，如果当前[File]==[target]则抛出异常[IllegalStateException]，
+ * 把当前[File]拷贝到[target]目录下，如果当前[File]==[target]则抛出异常[IllegalArgumentException]，
  * 如果当前[File]是文件，则拷贝到[target]目录下，
  * 如果当前[File]是目录，则拷贝目录下的所有文件到[target]目录下
  */
@@ -66,7 +66,7 @@ fun File?.fCopyToDir(target: File?): Boolean {
     try {
         if (this == null || target == null) return false
         if (!this.exists()) return false
-        if (this == target) error("this should not be target")
+        if (this == target) throw IllegalArgumentException("this should not be target")
         if (!target.fMakeDirs()) return false
         return if (this.isDirectory) {
             this.copyRecursively(target = target, overwrite = true)
