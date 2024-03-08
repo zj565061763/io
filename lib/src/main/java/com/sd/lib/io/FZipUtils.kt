@@ -69,9 +69,10 @@ fun File?.fZip(filename: String? = null): File? {
 }
 
 /**
- * 压缩当前[File]为[target]，
+ * 把当前[File]压缩为[target]，
  * 如果当前[File]是文件则把文件压缩为[target]，
  * 如果当前[File]是目录则把目录以及目录下的所有文件压缩为[target]
+ * @return true-成功；false-失败
  */
 fun File?.fZipTo(target: File?): Boolean {
     if (this == null || !this.exists()) return false
@@ -79,7 +80,8 @@ fun File?.fZipTo(target: File?): Boolean {
 }
 
 /**
- * 压缩当前文件列表为[target]
+ * 把当前[File]列表压缩为[target]
+ * @return true-成功；false-失败
  */
 fun Array<File?>?.fZipTo(target: File?): Boolean {
     try {
