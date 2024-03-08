@@ -38,7 +38,7 @@ interface FDir {
     fun getKeyTempFile(key: String?): File?
 
     /**
-     * 把[file]文件拷贝到当前目录，如果[file]是目录则抛出异常[IllegalStateException]
+     * 把[file]文件拷贝到当前目录，如果[file]是目录则抛出异常[IllegalArgumentException]
      * @param filename 如果不为空-使用该文件名；为空-使用[file]的文件名
      * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖拷贝失败
      * @return 拷贝成功-返回拷贝后的文件；拷贝失败-返回原文件[file]
@@ -50,7 +50,7 @@ interface FDir {
     ): File
 
     /**
-     * 把[file]文件移动到当前目录，如果[file]是目录则抛出异常[IllegalStateException]
+     * 把[file]文件移动到当前目录，如果[file]是目录则抛出异常[IllegalArgumentException]
      * @param filename 如果不为空-使用该文件名；为空-使用[file]的文件名
      * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖移动失败
      * @return 移动成功-返回移动后的文件；移动失败-返回原文件[file]
@@ -136,7 +136,7 @@ private class DirImpl(dir: File) : CloseableDir {
         filename: String?,
         overwrite: Boolean,
     ): File {
-        if (file.isDirectory) error("file should not be a directory")
+        if (file.isDirectory) throw IllegalArgumentException("file should not be a directory")
         return modify { dir ->
             if (dir != null && file.isFile) {
                 val name = file.name.fExtRename(filename)
@@ -154,7 +154,7 @@ private class DirImpl(dir: File) : CloseableDir {
         filename: String?,
         overwrite: Boolean,
     ): File {
-        if (file.isDirectory) error("file should not be a directory")
+        if (file.isDirectory) throw IllegalArgumentException("file should not be a directory")
         return modify { dir ->
             if (dir != null && file.isFile) {
                 val name = file.name.fExtRename(filename)
