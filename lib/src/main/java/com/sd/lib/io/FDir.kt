@@ -33,7 +33,7 @@ interface FDir {
     fun getKeyFile(key: String?): File?
 
     /**
-     * 返回[key]对应的临时文件，扩展名：[TempExt]
+     * 返回[key]对应的临时文件，扩展名[TempExt]
      */
     fun getKeyTempFile(key: String?): File?
 
