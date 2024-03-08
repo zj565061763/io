@@ -3,7 +3,7 @@ package com.sd.lib.io
 private const val Dot = "."
 
 /**
- * 把当前字符串重命名为[name]，
+ * 把当前[String]重命名为[name]，
  * 如果[name]包含扩展名则返回[name]，
  * 如果[name]不包含扩展名则返回[name].原扩展名
  */
