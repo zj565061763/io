@@ -154,9 +154,9 @@ private class DirImpl(dir: File) : CloseableDir {
         filename: String?,
         overwrite: Boolean,
     ): File {
+        if (file.isDirectory) error("file should not be a directory")
         return modify { dir ->
-            if (dir != null && file.exists()) {
-                if (file.isDirectory) error("file should not be a directory")
+            if (dir != null && file.isFile) {
                 val name = file.name.fExtRename(filename)
                 val target = dir.resolve(name)
                 val success = file.fMoveToFile(target = target, overwrite = overwrite)
