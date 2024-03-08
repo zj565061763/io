@@ -167,9 +167,9 @@ fun File?.fCreateFile(): Boolean {
 }
 
 /**
- * 创建文件夹，如果已存在文件夹则直接返回，如果不存在则创建文件夹，
- * 如果已存在并且是文件则删除该文件并创建文件夹
- * @return 文件夹是否存在
+ * 创建目录，如果已存在目录则直接返回true，如果不存在则创建目录，
+ * 如果已存在并且是文件则删除该文件后创建新目录
+ * @return 目录是否存在
  */
 fun File?.fMakeDirs(): Boolean {
     if (this == null) return false
@@ -179,7 +179,7 @@ fun File?.fMakeDirs(): Boolean {
 }
 
 /**
- * 返回文件或者文件夹的大小（byte）
+ * 返回文件或者目录的大小(byte)
  */
 fun File?.fSize(): Long {
     if (this == null) return 0
