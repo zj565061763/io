@@ -1,5 +1,6 @@
 package com.sd.lib.io
 
+import android.net.Uri
 import com.sd.lib.closeable.FAutoCloseFactory
 import com.sd.lib.io.FDir.Companion.TempExt
 import java.io.File
@@ -12,7 +13,7 @@ fun fDirTemp(): FDir {
 }
 
 /**
- * 保存Uri的目录
+ * 保存[Uri]的目录
  */
 fun fDirUri(): FDir {
     return fFilesDir("f_dir_uri").fDir()
