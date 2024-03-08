@@ -102,7 +102,7 @@ interface FDir {
         private val _factory = FAutoCloseFactory(CloseableDir::class.java)
 
         /**
-         * [directory]转[FDir]，如果[directory]是一个文件，则抛出异常[IllegalArgumentException]
+         * [directory]转[FDir]，如果[directory]是一个文件则抛出异常[IllegalArgumentException]
          */
         @JvmStatic
         fun get(directory: File): FDir {
