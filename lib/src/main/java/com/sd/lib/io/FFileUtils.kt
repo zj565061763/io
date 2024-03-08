@@ -58,7 +58,7 @@ fun File?.fNewFile(ext: String): File? {
 }
 
 /**
- * 把当前[File]拷贝到[target]目录下，
+ * 把当前[File]拷贝到[target]目录下，如果当前[File]==[target]则抛出[IllegalStateException]，
  * 如果当前[File]是文件，则拷贝到[target]目录下，
  * 如果当前[File]是目录，则拷贝目录下的所有文件到[target]目录下
  */
