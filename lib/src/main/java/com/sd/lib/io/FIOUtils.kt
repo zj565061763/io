@@ -29,6 +29,9 @@ fun InputStream.fCopyTo(
     return bytesCopied
 }
 
+/**
+ * 关闭当前[Closeable]忽略关闭异常
+ */
 fun Closeable?.fClose() {
     try {
         this?.close()
