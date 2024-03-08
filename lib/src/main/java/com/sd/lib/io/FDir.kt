@@ -52,7 +52,7 @@ interface IDir {
     /**
      * 把[file]文件移动到当前目录
      * @param filename 如果不为空-使用该文件名；为空-使用[file]的文件名
-     * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖拷贝失败
+     * @param overwrite true-如果目标文件存在则覆盖该文件；false-不覆盖移动失败
      * @return 移动成功-返回移动后的文件；移动失败-返回原文件[file]
      */
     fun takeFile(
