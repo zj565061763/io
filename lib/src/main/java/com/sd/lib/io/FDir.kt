@@ -67,7 +67,7 @@ interface FDir {
     fun newFile(ext: String): File?
 
     /**
-     * 删除当前目录下的文件(临时文件[TempExt]不会被删除)
+     * 删除当前目录下的文件，临时文件(扩展名为[TempExt])不会被删除
      * @param block 遍历文件，返回true则删除该文件
      * @return 返回删除的文件数量
      */
