@@ -34,10 +34,9 @@ fun String.fExt(defaultExt: String = ""): String {
 /**
  * mp3 -> .mp3
  */
-fun String.fExtAddDot(): String {
-    val current = this
-    if (current.isEmpty()) return ""
-    return if (current.startsWith(Dot)) current else "${Dot}${current}"
+fun String?.fExtAddDot(): String {
+    if (this.isNullOrEmpty()) return ""
+    return if (this.startsWith(Dot)) this else "${Dot}${this}"
 }
 
 /**
