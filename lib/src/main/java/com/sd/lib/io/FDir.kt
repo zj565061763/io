@@ -77,16 +77,16 @@ interface FDir {
         /** 临时文件扩展名 */
         const val TempExt = "temp"
 
-        private val _factory = FAutoCloseFactory(CloseableDir::class.java)
+        private val sFactory = FAutoCloseFactory(CloseableDir::class.java)
 
         /**
-         * [directory]转[FDir]，如果[directory]是一个文件则抛出异常[IllegalArgumentException]
+         * 返回[directory]对应的[FDir]，如果[directory]是一个文件则抛出异常[IllegalArgumentException]
          */
         @JvmStatic
         fun get(directory: File): FDir {
             if (directory.isFile) throw IllegalArgumentException("directory should not be a file")
             val path = directory.absolutePath
-            return _factory.create(path) { DirImpl(directory) }
+            return sFactory.create(path) { DirImpl(directory) }
         }
     }
 }
