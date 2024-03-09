@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class TestDir {
-    private val _dir get() = FDir.get(fCacheDir("test_dir"))
+    private val _dir by lazy { FDir.get(fCacheDir("test_dir")) }
 
     @Before
     fun setUp() {
