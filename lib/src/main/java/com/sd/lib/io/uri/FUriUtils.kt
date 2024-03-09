@@ -6,10 +6,9 @@ import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import com.sd.lib.ctx.fContext
 import com.sd.lib.io.fCreateNewFile
-import com.sd.lib.io.fDirUri
 import com.sd.lib.io.fExt
-import com.sd.lib.io.fExtAddDot
-import com.sd.lib.io.libMD5
+import com.sd.lib.io.fFilesDir
+import com.sd.lib.io.fNewFile
 import java.io.File
 import java.io.IOException
 
@@ -26,20 +25,13 @@ fun File?.fToUri(): Uri? {
 }
 
 /**
- * 读取当前[Uri]的内容保存到[fDirUri]目录下并返回保存的文件
+ * 读取当前[Uri]的内容并保存为文件返回
  */
 fun Uri?.fToFile(): File? {
     if (this == null) return null
-    return fDirUri().modify { dir ->
-        if (dir != null) {
-            val name = libMD5(this.toString())
-            val dotExt = this.fFileName().fExt().fExtAddDot()
-            val file = dir.resolve(name + dotExt)
-            if (this.saveToFile(file)) file else null
-        } else {
-            null
-        }
-    }
+    val ext = this.fFileName().fExt()
+    val file = fFilesDir("f_dir_uri").fNewFile(ext) ?: return null
+    return if (this.saveToFile(file)) file else null
 }
 
 /**

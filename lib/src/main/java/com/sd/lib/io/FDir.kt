@@ -1,30 +1,8 @@
 package com.sd.lib.io
 
-import android.net.Uri
 import com.sd.lib.closeable.FAutoCloseFactory
 import com.sd.lib.io.FDir.Companion.TempExt
 import java.io.File
-
-/**
- * 保存临时文件的目录
- */
-fun fDirTemp(): FDir {
-    return fFilesDir("f_dir_temp").fDir()
-}
-
-/**
- * 保存[Uri]的目录
- */
-fun fDirUri(): FDir {
-    return fFilesDir("f_dir_uri").fDir()
-}
-
-/**
- * [File]转[FDir]
- */
-fun File.fDir(): FDir {
-    return FDir.get(this)
-}
 
 interface FDir {
     /**

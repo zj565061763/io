@@ -1,11 +1,17 @@
 package com.sd.demo.io
 
+import android.os.Looper
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.sd.lib.io.FDir
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCreateNewFile
-import com.sd.lib.io.fDir
 import com.sd.lib.io.fExt
+import io.mockk.every
+import io.mockk.mockkStatic
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -16,7 +22,18 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class TestDir {
-    private val _dir = fCacheDir("test_dir").fDir()
+    private val _dir get() = FDir.get(fCacheDir("test_dir"))
+
+    @Before
+    fun setUp() {
+        mockkStatic(Looper::class)
+        every { Looper.myLooper() } returns Looper.getMainLooper()
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
+    }
 
     @Test
     fun testGetKeyFile() {
