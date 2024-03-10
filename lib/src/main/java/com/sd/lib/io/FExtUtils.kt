@@ -8,10 +8,9 @@ private const val Dot = "."
  * 如果[name]不包含扩展名则返回[name].原扩展名
  */
 fun String.fExtRename(name: String?): String {
-    val current = this
-    if (name.isNullOrEmpty()) return current
+    if (name.isNullOrEmpty()) return this
     if (name.fExt().isNotEmpty()) return name
-    return name + current.fExt().fExtAddDot()
+    return name + this.fExt().fExtAddDot()
 }
 
 /**
