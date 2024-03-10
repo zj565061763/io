@@ -19,14 +19,20 @@ class TestExt {
     @Test
     fun testExt() {
         assertEquals("mp3", "hello.mp3".fExt())
-        assertEquals("mp3", ".mp3".fExt())
+        assertEquals("mp3", "hello.hello.mp3".fExt())
+        assertEquals("mp3", "..mp3".fExt())
 
         assertEquals("", "mp3".fExt())
         assertEquals("", "".fExt())
+        assertEquals("", null.fExt())
 
         assertEquals("mp3", "".fExt("mp3"))
         assertEquals("mp3", "".fExt(".mp3"))
         assertEquals("mp3", "".fExt("...mp3"))
+
+        assertEquals("mp3", null.fExt("mp3"))
+        assertEquals("mp3", null.fExt(".mp3"))
+        assertEquals("mp3", null.fExt("...mp3"))
     }
 
     @Test
@@ -34,6 +40,7 @@ class TestExt {
         assertEquals(".mp3", "mp3".fExtAddDot())
         assertEquals(".mp3", ".mp3".fExtAddDot())
         assertEquals("", "".fExtAddDot())
+        assertEquals("", null.fExtAddDot())
     }
 
     @Test
