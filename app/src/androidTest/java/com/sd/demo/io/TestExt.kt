@@ -49,6 +49,7 @@ class TestExt {
         assertEquals("mp3", ".mp3".fExtRemoveDot())
         assertEquals("mp3", "...mp3".fExtRemoveDot())
         assertEquals("", "".fExtRemoveDot())
+        assertEquals("", null.fExtRemoveDot())
     }
 
     @Test
