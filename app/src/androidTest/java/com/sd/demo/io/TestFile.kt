@@ -49,22 +49,18 @@ class TestFile {
 
     @Test
     fun testMoveToFile() {
-        val cacheDir = fCacheDir("my_cache")
-        val filesDir = fFilesDir("my_files")
-        assertEquals(true, cacheDir.exists())
-        assertEquals(true, filesDir.exists())
-
-        val file = cacheDir.resolve("move.txt").apply {
+        val fromFile = fCacheDir("my_cache").resolve("move.txt").apply {
             this.fCreateNewFile()
             this.writeText("hello world")
+            assertEquals(true, this.isFile)
         }
 
-        val moveFile = filesDir.resolve("moveFile").resolve("move.txt")
-        val moveResult = file.fMoveToFile(moveFile)
+        val toFile = fFilesDir("my_files").resolve("moveFile").resolve("move.txt")
+        assertEquals(true, fromFile.fMoveToFile(toFile))
 
-        assertEquals(true, moveResult)
-        assertEquals(false, file.exists())
-        assertEquals("hello world", moveFile.readText())
+        assertEquals(false, fromFile.exists())
+        assertEquals(true, toFile.isFile)
+        assertEquals("hello world", toFile.readText())
     }
 
     @Test
