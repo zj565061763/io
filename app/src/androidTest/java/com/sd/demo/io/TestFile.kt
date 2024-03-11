@@ -81,21 +81,17 @@ class TestFile {
 
     @Test
     fun testCopyToDir() {
-        val cacheDir = fCacheDir("my_cache")
-        val filesDir = fFilesDir("my_files")
-        assertEquals(true, cacheDir.exists())
-        assertEquals(true, filesDir.exists())
-
-        cacheDir.resolve("deep").resolve("deep.txt").apply {
+        val fromDir = fCacheDir("my_cache")
+        fromDir.resolve("deep").resolve("deep.txt").apply {
             this.fCreateNewFile()
             this.writeText("hello world")
         }
 
-        val copyDir = filesDir.resolve("copyToDir")
-        val copyResult = cacheDir.fCopyToDir(copyDir)
-        assertEquals(true, copyResult)
+        val toDir = fFilesDir("my_files").resolve("copyToDir")
+        assertEquals(true, fromDir.fCopyToDir(toDir))
 
-        val copyFile = copyDir.resolve("deep").resolve("deep.txt")
-        assertEquals("hello world", copyFile.readText())
+        val file = toDir.resolve("deep").resolve("deep.txt")
+        assertEquals(true, file.isFile)
+        assertEquals("hello world", file.readText())
     }
 }
