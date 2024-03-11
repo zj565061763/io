@@ -1,7 +1,7 @@
 package com.sd.lib.io
 
 import com.sd.lib.closeable.FAutoCloseFactory
-import com.sd.lib.io.FDir.Companion.TempExt
+import com.sd.lib.io.FDir.Companion.TEMP_EXT
 import java.io.File
 import java.security.MessageDigest
 
@@ -12,7 +12,7 @@ interface FDir {
     fun getKeyFile(key: String?): File?
 
     /**
-     * 获取[key]对应的临时文件，扩展名[TempExt]
+     * 获取[key]对应的临时文件，扩展名[TEMP_EXT]
      */
     fun getKeyTempFile(key: String?): File?
 
@@ -46,14 +46,14 @@ interface FDir {
     fun newFile(ext: String): File?
 
     /**
-     * 删除当前目录下的文件，临时文件(扩展名为[TempExt])不会被删除
+     * 删除当前目录下的文件，临时文件(扩展名为[TEMP_EXT])不会被删除
      * @param block 遍历文件，返回true则删除该文件
      * @return 返回删除的文件数量
      */
     fun deleteFile(block: ((File) -> Boolean)? = null): Int
 
     /**
-     * 删除当前目录下的临时文件(扩展名为[TempExt])
+     * 删除当前目录下的临时文件(扩展名为[TEMP_EXT])
      * @param block 遍历临时文件，返回true则删除该文件
      * @return 返回删除的文件数量
      */
@@ -76,7 +76,7 @@ interface FDir {
 
     companion object {
         /** 临时文件扩展名 */
-        const val TempExt = "temp"
+        const val TEMP_EXT = "temp"
 
         private val sFactory = FAutoCloseFactory(CloseableDir::class.java)
 
@@ -109,7 +109,7 @@ private class DirImpl(dir: File) : CloseableDir {
         if (key.isNullOrEmpty()) return null
         return createKeyFile(
             key = key,
-            ext = TempExt,
+            ext = TEMP_EXT,
         )
     }
 
@@ -157,7 +157,7 @@ private class DirImpl(dir: File) : CloseableDir {
         return listFiles { files ->
             var count = 0
             for (item in files) {
-                if (item.extension == TempExt) continue
+                if (item.extension == TEMP_EXT) continue
                 if (block == null || block(item)) {
                     if (item.deleteRecursively()) count++
                 }
@@ -170,7 +170,7 @@ private class DirImpl(dir: File) : CloseableDir {
         return listFiles { files ->
             var count = 0
             for (item in files) {
-                if (item.extension != TempExt) continue
+                if (item.extension != TEMP_EXT) continue
                 if (block == null || block(item)) {
                     if (item.deleteRecursively()) count++
                 }
