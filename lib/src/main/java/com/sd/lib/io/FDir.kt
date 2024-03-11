@@ -3,6 +3,7 @@ package com.sd.lib.io
 import com.sd.lib.closeable.FAutoCloseFactory
 import com.sd.lib.io.FDir.Companion.TempExt
 import java.io.File
+import java.security.MessageDigest
 
 interface FDir {
     /**
@@ -202,7 +203,7 @@ private class DirImpl(dir: File) : CloseableDir {
         require(key.isNotEmpty()) { "key is empty" }
         return modify { dir ->
             if (dir != null) {
-                val filename = libMD5(key) + ext.fExtAddDot()
+                val filename = md5(key) + ext.fExtAddDot()
                 dir.resolve(filename)
             } else {
                 null
@@ -212,4 +213,10 @@ private class DirImpl(dir: File) : CloseableDir {
 
     override fun close() {
     }
+}
+
+private fun md5(value: String): String {
+    return MessageDigest.getInstance("MD5")
+        .digest(value.toByteArray())
+        .joinToString("") { "%02X".format(it) }
 }
