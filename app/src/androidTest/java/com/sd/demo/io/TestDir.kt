@@ -1,17 +1,11 @@
 package com.sd.demo.io
 
-import android.os.Looper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sd.lib.io.FDir
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCreateNewFile
 import com.sd.lib.io.fExt
-import io.mockk.every
-import io.mockk.mockkStatic
-import io.mockk.unmockkAll
-import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -24,28 +18,16 @@ import org.junit.runner.RunWith
 class TestDir {
     private val _dir by lazy { FDir.get(fCacheDir("test_dir")) }
 
-    @Before
-    fun setUp() {
-        mockkStatic(Looper::class)
-        every { Looper.myLooper() } returns Looper.getMainLooper()
-    }
-
-    @After
-    fun tearDown() {
-        unmockkAll()
-    }
-
     @Test
     fun testGetKeyFile() {
-        val file = _dir.getKeyFile("testGetKeyFile.txt")
-        assertEquals(true, file.fCreateNewFile())
-        assertEquals(true, file.exists())
-
-        file.writeText("testGetKeyFile")
-        assertEquals("testGetKeyFile", file.readText())
-
-        assertEquals(true, file.delete())
-        assertEquals(false, file.exists())
+        _dir.getKeyFile("testGetKeyFile.txt").let { file ->
+            assertEquals(true, file.fCreateNewFile())
+            assertEquals(true, file.isFile)
+            file.writeText("testGetKeyFile")
+        }
+        _dir.getKeyFile("testGetKeyFile.txt").let { file ->
+            assertEquals("testGetKeyFile", file.readText())
+        }
     }
 
     @Test
