@@ -5,6 +5,7 @@ import com.sd.lib.io.FDir
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCreateNewFile
 import com.sd.lib.io.fExt
+import com.sd.lib.io.fNewFile
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,20 +33,19 @@ class TestDir {
 
     @Test
     fun testCopyFile() {
-        val source = fCacheDir("file_source").resolve("file.txt").apply {
-            this.fCreateNewFile()
+        val source = fCacheDir("file_source").fNewFile("txt")!!.apply {
             this.writeText("testCopyFile")
         }
 
         _dir.copyFile(source).let { file ->
-            assertEquals(true, file.exists())
-            assertEquals("file.txt", file.name)
+            assertEquals(true, file.isFile)
+            assertEquals(source.name, file.name)
             assertEquals(false, file == source)
             assertEquals("testCopyFile", file.readText())
         }
 
         _dir.copyFile(source, "copy_file").let { file ->
-            assertEquals(true, file.exists())
+            assertEquals(true, file.isFile)
             assertEquals("copy_file.txt", file.name)
             assertEquals(false, file == source)
             assertEquals("testCopyFile", file.readText())
