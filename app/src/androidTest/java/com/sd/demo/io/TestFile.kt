@@ -71,13 +71,11 @@ class TestFile {
 
     @Test
     fun testCopyToFile() {
-        val fromFile = fCacheDir("my_cache").resolve("hello.txt").apply {
-            this.fCreateNewFile()
+        val fromFile = fCacheDir("my_cache").fNewFile("txt")!!.apply {
             this.writeText("hello world")
-            assertEquals(true, this.isFile)
         }
 
-        val toFile = fFilesDir("my_files").resolve("copyFile").resolve("hello.txt")
+        val toFile = fFilesDir("my_files").resolve("copyFile").fNewFile("txt")!!
         assertEquals(true, fromFile.fCopyToFile(toFile))
 
         assertEquals(true, fromFile.isFile)
