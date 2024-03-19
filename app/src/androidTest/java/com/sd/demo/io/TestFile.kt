@@ -57,13 +57,11 @@ class TestFile {
 
     @Test
     fun testMoveToFile() {
-        val fromFile = fCacheDir("my_cache").resolve("move.txt").apply {
-            this.fCreateNewFile()
+        val fromFile = fCacheDir("my_cache").fNewFile("txt")!!.apply {
             this.writeText("hello world")
-            assertEquals(true, this.isFile)
         }
 
-        val toFile = fFilesDir("my_files").resolve("moveFile").resolve("move.txt")
+        val toFile = fFilesDir("my_files").resolve("moveFile").fNewFile("txt")!!
         assertEquals(true, fromFile.fMoveToFile(toFile))
 
         assertEquals(false, fromFile.exists())
