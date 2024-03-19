@@ -54,16 +54,26 @@ class TestDir {
 
     @Test
     fun testTakeFile() {
-        val source = fCacheDir("file_source").resolve("file.txt").apply {
-            this.fCreateNewFile()
+        fCacheDir("file_source").fNewFile("txt")!!.apply {
             this.writeText("testTakeFile")
+        }.let { source ->
+            _dir.takeFile(source).let { file ->
+                assertEquals(true, file.isFile)
+                assertEquals(source.name, file.name)
+                assertEquals(false, file == source)
+                assertEquals("testTakeFile", file.readText())
+            }
         }
 
-        _dir.takeFile(source).let { file ->
-            assertEquals(true, file.exists())
-            assertEquals("file.txt", file.name)
-            assertEquals(false, file == source)
-            assertEquals("testTakeFile", file.readText())
+        fCacheDir("file_source").fNewFile("txt")!!.apply {
+            this.writeText("testTakeFile")
+        }.let { source ->
+            _dir.takeFile(source, "take_file").let { file ->
+                assertEquals(true, file.isFile)
+                assertEquals("take_file.txt", file.name)
+                assertEquals(false, file == source)
+                assertEquals("testTakeFile", file.readText())
+            }
         }
     }
 
@@ -73,7 +83,6 @@ class TestDir {
             assertEquals(true, it.exists())
             it.writeText("testNewFile")
         }
-
         assertEquals("testNewFile", file.readText())
     }
 
