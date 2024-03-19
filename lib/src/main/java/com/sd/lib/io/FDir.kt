@@ -6,6 +6,11 @@ import com.sd.lib.io.uri.fSaveToFile
 import java.io.File
 import java.security.MessageDigest
 
+/**
+ * [FDir.get]
+ */
+fun File.fDir(): FDir = FDir.get(this)
+
 interface FDir {
     /**
      * 获取[key]对应的文件，如果key有扩展名，则返回的文件名包括[key]的扩展名

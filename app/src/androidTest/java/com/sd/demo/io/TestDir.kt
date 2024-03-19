@@ -1,9 +1,9 @@
 package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.sd.lib.io.FDir
 import com.sd.lib.io.fCacheDir
 import com.sd.lib.io.fCreateNewFile
+import com.sd.lib.io.fDir
 import com.sd.lib.io.fExt
 import com.sd.lib.io.fNewFile
 import org.junit.Assert.assertEquals
@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class TestDir {
-    private val _dir by lazy { FDir.get(fCacheDir("test_dir")) }
+    private val _dir by lazy { fCacheDir("test_dir").fDir() }
 
     @Test
     fun testGetKeyFile() {
