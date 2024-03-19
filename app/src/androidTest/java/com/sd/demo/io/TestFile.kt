@@ -10,6 +10,7 @@ import com.sd.lib.io.fCreateNewFile
 import com.sd.lib.io.fFilesDir
 import com.sd.lib.io.fMakeDirs
 import com.sd.lib.io.fMoveToFile
+import com.sd.lib.io.fNewFile
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,6 +46,13 @@ class TestFile {
 
         assertEquals(true, file.fCreateFile())
         assertEquals(true, file.isFile)
+    }
+
+    @Test
+    fun testNewFile() {
+        val file = fCacheDir("my_cache").fNewFile("txt")!!
+        assertEquals(true, file.isFile)
+        assertEquals("txt", file.extension)
     }
 
     @Test
