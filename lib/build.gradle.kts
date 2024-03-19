@@ -34,7 +34,6 @@ dependencies {
     implementation(libs.androidx.documentfile)
     implementation(libs.androidx.core)
     implementation(libs.sd.ctx)
-    implementation(libs.sd.closeable)
 }
 
 publishing {

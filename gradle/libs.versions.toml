@@ -12,7 +12,6 @@ androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
 androidx-core = "androidx.core:core:1.12.0"
 androidx-documentfile = "androidx.documentfile:documentfile:1.0.1"
 sd-ctx = "com.github.zj565061763:ctx:latest.release"
-sd-closeable = "com.github.zj565061763:closeable:1.1.0"
 
 junit = "junit:junit:4.13.2"
 androidx-test-ext-junit = "androidx.test.ext:junit:1.1.5"

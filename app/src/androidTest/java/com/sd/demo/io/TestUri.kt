@@ -2,9 +2,10 @@ package com.sd.demo.io
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.sd.lib.io.fCacheDir
+import com.sd.lib.io.fNewFile
 import com.sd.lib.io.uri.fFileName
 import com.sd.lib.io.uri.fFileProviderAuthority
-import com.sd.lib.io.uri.fToFile
+import com.sd.lib.io.uri.fSaveToFile
 import com.sd.lib.io.uri.fToUri
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -34,7 +35,8 @@ class TestUri {
             fileUri.toString()
         )
 
-        val saveFile = fileUri.fToFile()!!
-        assertEquals("hello world", saveFile.readText())
+        val saveFile = fCacheDir(dirName).fNewFile("txt")
+        assertEquals(true, fileUri.fSaveToFile(saveFile))
+        assertEquals("hello world", saveFile!!.readText())
     }
 }

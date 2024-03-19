@@ -1,7 +1,8 @@
 package com.sd.lib.io
 
-import com.sd.lib.closeable.FAutoCloseFactory
-import com.sd.lib.io.FDir.Companion.TEMP_EXT
+import android.net.Uri
+import com.sd.lib.io.uri.fFileName
+import com.sd.lib.io.uri.fSaveToFile
 import java.io.File
 import java.security.MessageDigest
 
@@ -9,12 +10,7 @@ interface FDir {
     /**
      * 获取[key]对应的文件，如果key有扩展名，则返回的文件名包括[key]的扩展名
      */
-    fun getKeyFile(key: String?): File?
-
-    /**
-     * 获取[key]对应的临时文件，扩展名[TEMP_EXT]
-     */
-    fun getKeyTempFile(key: String?): File?
+    fun getKeyFile(key: String): File
 
     /**
      * 把[file]文件拷贝到当前目录，如果[file]是目录则抛出异常[IllegalArgumentException]
@@ -46,18 +42,16 @@ interface FDir {
     fun newFile(ext: String): File?
 
     /**
-     * 删除当前目录下的文件，临时文件(扩展名为[TEMP_EXT])不会被删除
+     * 保存[uri]的内容，并返回对应的文件
+     */
+    fun saveUri(uri: Uri?): File?
+
+    /**
+     * 删除当前目录下的文件
      * @param block 遍历文件，返回true则删除该文件
      * @return 返回删除的文件数量
      */
     fun deleteFile(block: ((File) -> Boolean)? = null): Int
-
-    /**
-     * 删除当前目录下的临时文件(扩展名为[TEMP_EXT])
-     * @param block 遍历临时文件，返回true则删除该文件
-     * @return 返回删除的文件数量
-     */
-    fun deleteTempFile(block: ((File) -> Boolean)? = null): Int
 
     /**
      * 操作当前目录的子级
@@ -72,45 +66,28 @@ interface FDir {
     /**
      * 操作当前目录
      */
-    fun <T> modify(block: (dir: File?) -> T): T
+    fun <T> modify(block: (dir: File) -> T): T
 
     companion object {
-        /** 临时文件扩展名 */
-        const val TEMP_EXT = "temp"
-
-        private val sFactory = FAutoCloseFactory(CloseableDir::class.java)
-
         /**
          * 返回[directory]对应的[FDir]，如果[directory]是一个文件则抛出异常[IllegalArgumentException]
          */
         @JvmStatic
         fun get(directory: File): FDir {
             if (directory.isFile) throw IllegalArgumentException("directory should not be a file")
-            val path = directory.absolutePath
-            return sFactory.create(path) { DirImpl(directory) }
+            return DirImpl(directory)
         }
     }
 }
 
-private interface CloseableDir : FDir, AutoCloseable
-
-private class DirImpl(dir: File) : CloseableDir {
+private class DirImpl(dir: File) : FDir {
     private val _dir = dir
 
-    override fun getKeyFile(key: String?): File? {
-        if (key.isNullOrEmpty()) return null
-        return createKeyFile(
-            key = key,
-            ext = key.fExt(),
-        )
-    }
-
-    override fun getKeyTempFile(key: String?): File? {
-        if (key.isNullOrEmpty()) return null
-        return createKeyFile(
-            key = key,
-            ext = TEMP_EXT,
-        )
+    override fun getKeyFile(key: String): File {
+        val ext = key.fExt()
+        return modify { dir ->
+            dir.resolve(fMd5(key) + ext.fExtAddDot())
+        }
     }
 
     override fun copyFile(
@@ -120,7 +97,7 @@ private class DirImpl(dir: File) : CloseableDir {
     ): File {
         if (file.isDirectory) throw IllegalArgumentException("file should not be a directory")
         return modify { dir ->
-            if (dir != null && file.isFile) {
+            if (file.isFile) {
                 val name = file.name.fExtRename(filename)
                 val target = dir.resolve(name)
                 val success = file.fCopyToFile(target = target, overwrite = overwrite)
@@ -138,7 +115,7 @@ private class DirImpl(dir: File) : CloseableDir {
     ): File {
         if (file.isDirectory) throw IllegalArgumentException("file should not be a directory")
         return modify { dir ->
-            if (dir != null && file.isFile) {
+            if (file.isFile) {
                 val name = file.name.fExtRename(filename)
                 val target = dir.resolve(name)
                 val success = file.fMoveToFile(target = target, overwrite = overwrite)
@@ -150,27 +127,21 @@ private class DirImpl(dir: File) : CloseableDir {
     }
 
     override fun newFile(ext: String): File? {
-        return modify { it.fNewFile(ext) }
+        return modify { dir -> dir.fNewFile(ext) }
+    }
+
+    override fun saveUri(uri: Uri?): File? {
+        if (uri == null) return null
+        val ext = uri.fFileName().fExt()
+        return modify { dir ->
+            dir.fNewFile(ext).takeIf { uri.fSaveToFile(it) }
+        }
     }
 
     override fun deleteFile(block: ((File) -> Boolean)?): Int {
         return listFiles { files ->
             var count = 0
             for (item in files) {
-                if (item.extension == TEMP_EXT) continue
-                if (block == null || block(item)) {
-                    if (item.deleteRecursively()) count++
-                }
-            }
-            count
-        }
-    }
-
-    override fun deleteTempFile(block: ((File) -> Boolean)?): Int {
-        return listFiles { files ->
-            var count = 0
-            for (item in files) {
-                if (item.extension != TEMP_EXT) continue
                 if (block == null || block(item)) {
                     if (item.deleteRecursively()) count++
                 }
@@ -180,43 +151,29 @@ private class DirImpl(dir: File) : CloseableDir {
     }
 
     override fun <T> listFiles(block: (files: Array<File>) -> T): T {
-        return modify {
-            val files = it?.listFiles() ?: emptyArray()
+        return modify { dir ->
+            val files = dir.listFiles() ?: emptyArray()
             block(files)
         }
     }
 
     override fun size(): Long {
-        return modify { it.fSize() }
+        return modify { dir -> dir.fSize() }
     }
 
-    @Synchronized
-    override fun <T> modify(block: (dir: File?) -> T): T {
-        val directory = if (_dir.fMakeDirs()) _dir else null
-        return block(directory)
-    }
-
-    private fun createKeyFile(
-        key: String,
-        ext: String,
-    ): File? {
-        require(key.isNotEmpty()) { "key is empty" }
-        return modify { dir ->
-            if (dir != null) {
-                val filename = md5(key) + ext.fExtAddDot()
-                dir.resolve(filename)
-            } else {
-                null
-            }
-        }
-    }
-
-    override fun close() {
+    override fun <T> modify(block: (dir: File) -> T): T {
+        _dir.fMakeDirs()
+        return block(_dir)
     }
 }
 
-private fun md5(value: String): String {
-    return MessageDigest.getInstance("MD5")
-        .digest(value.toByteArray())
-        .joinToString("") { "%02X".format(it) }
+private fun fMd5(input: String): String {
+    val md5Bytes = MessageDigest.getInstance("MD5").digest(input.toByteArray())
+    return buildString {
+        for (byte in md5Bytes) {
+            val hex = Integer.toHexString(0xff and byte.toInt())
+            if (hex.length == 1) append("0")
+            append(hex)
+        }
+    }
 }
