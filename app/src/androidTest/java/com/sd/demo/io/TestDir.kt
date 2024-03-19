@@ -103,7 +103,10 @@ class TestDir {
             repeat(5) { index ->
                 _dir.newFile("mp$index")!!.also { assertEquals(true, it.isFile) }
             }
-            _dir.deleteFile().also { assertEquals(5, it) }
+            repeat(5) {
+                _dir.newFile("")!!.also { assertEquals(true, it.isFile) }
+            }
+            _dir.deleteFile().also { assertEquals(10, it) }
         }
 
         kotlin.run {
